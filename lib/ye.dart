@@ -15,13 +15,19 @@ class _YeState extends State<Ye> {
 
   @override
   void switchScreens({required String nextScreen}) {
-    actualScreen = nextScreen;
+    setState(() {
+      actualScreen = nextScreen;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget screenWidget = AuthBackground();
+    Widget screenWidget = AuthBackground('login');
     return MaterialApp(
+      routes: {
+        '/login': (context) => AuthBackground('login'),
+        '/forgot_password': (context) => AuthBackground('forgot_password')
+      },
       home: Scaffold(
         body: Stack(children: [
           Container(

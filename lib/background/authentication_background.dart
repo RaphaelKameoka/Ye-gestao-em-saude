@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ye_project/forgot_password.dart';
 import 'package:ye_project/login_screen.dart';
 
 class AuthBackground extends StatefulWidget {
-  const AuthBackground({super.key});
+  AuthBackground(this.nextScreen, {super.key});
 
+  String nextScreen;
   @override
   State<AuthBackground> createState() {
     return _AuthBackgroundState();
@@ -13,16 +15,23 @@ class AuthBackground extends StatefulWidget {
 }
 
 class _AuthBackgroundState extends State<AuthBackground> {
-  var actualAuthScreen = "login-page";
-
-  @override
-  void switchAuthScreens({required String nextScreen}) {
-    actualAuthScreen = nextScreen;
-  }
+  Widget actualAuthScreen = LoginScreen();
 
   @override
   Widget build(BuildContext context) {
-    Widget actualLoginScreen = LoginScreen();
+
+    switch(widget.nextScreen){
+      case 'login':
+        setState(() {
+          actualAuthScreen = LoginScreen();
+        });
+
+        break;
+      case 'forgot_password':
+        setState(() {
+          actualAuthScreen = ForgotPassword();
+        });
+    }
 
     return Container(
       width: double.infinity,
@@ -34,7 +43,7 @@ class _AuthBackgroundState extends State<AuthBackground> {
           topRight: Radius.circular(90),
         ),
       ),
-      child: actualLoginScreen,
+      child: actualAuthScreen,
       );
   }
 }

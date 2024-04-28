@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ye_project/background/authentication_background.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
   @override
-  State<LoginScreen> createState() {
+  State<LoginScreen> createState(){
     return _LoginScreenState();
   }
 }
+
 
 class _LoginScreenState extends State<LoginScreen> {
   @override
@@ -95,7 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     )),
                 SizedBox(height: 20),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: (){
+                      Navigator.pushNamed(context, '/forgot_password');
+                    },
                     child: Text(
                       "Esqueceu a senha?",
                       style: GoogleFonts.montserrat(
