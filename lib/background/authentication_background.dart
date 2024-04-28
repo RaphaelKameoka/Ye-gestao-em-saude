@@ -19,8 +19,7 @@ class _AuthBackgroundState extends State<AuthBackground> {
 
   @override
   Widget build(BuildContext context) {
-
-    switch(widget.nextScreen){
+    switch (widget.nextScreen) {
       case 'login':
         setState(() {
           actualAuthScreen = LoginScreen();
@@ -33,17 +32,59 @@ class _AuthBackgroundState extends State<AuthBackground> {
         });
     }
 
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.only(top: 20),
-      height: (MediaQuery.of(context).size.height - 295),
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(255,241,241,234),
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(90),
+    return Scaffold(
+      body: Stack(children: [
+        Container(
+          decoration: const BoxDecoration(
+            color: Color(0xFF6B9683),
+          ),
         ),
-      ),
-      child: actualAuthScreen,
-      );
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/ye_logo.png'),
+              fit: BoxFit.none,
+              repeat: ImageRepeat.repeat,
+              alignment: Alignment.bottomCenter,
+              scale: 1.5,
+            ),
+          ),
+        ),
+        Column(
+          children: [
+            SizedBox(height: 35),
+            Center(
+              child: Container(
+                width: 225,
+                height: 225,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                child: ClipOval(
+                  child: Image.asset(
+                    'assets/images/ye_logo_with_name.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 35),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.only(top: 20),
+              height: (MediaQuery.of(context).size.height - 295),
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 241, 241, 234),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(90),
+                ),
+              ),
+              child: actualAuthScreen,
+            )
+          ],
+        )
+      ]),
+    );
   }
 }
