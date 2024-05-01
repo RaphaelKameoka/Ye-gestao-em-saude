@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ye_project/change_password.dart';
 import 'package:ye_project/create_account.dart';
 import 'package:ye_project/forgot_password.dart';
 import 'package:ye_project/login_screen.dart';
@@ -40,6 +41,10 @@ class _AuthBackgroundState extends State<AuthBackground> {
       case 'password_code':
         setState(() {
           actualAuthScreen = const PasswordCode();
+        });
+      case 'change_password':
+        setState(() {
+          actualAuthScreen = const ChangePassword();
         });
     }
 
