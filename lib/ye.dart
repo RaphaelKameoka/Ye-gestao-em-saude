@@ -14,7 +14,7 @@ class _YeState extends State<Ye> {
 
   @override
   Widget build(BuildContext context) {
-    Widget screenWidget = AuthBackground('create_account');
+    Widget screenWidget = AuthBackground('login');
     return MaterialApp(
       home: screenWidget,
       routes: {

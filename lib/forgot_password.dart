@@ -48,7 +48,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 SizedBox(
                   width: 250,
                   height: 40,
-                  child: TextField(
+                  child: TextFormField(
                     textAlignVertical: TextAlignVertical.top,
                     decoration: InputDecoration(
                       filled: true,

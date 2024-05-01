@@ -12,6 +12,8 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
+  bool obscureTextPassword = true;
+  bool obscureTextConfirmation = true;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,7 +50,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 SizedBox(
                   width: 250,
                   height: 40,
-                  child: TextField(
+                  child: TextFormField(
                     textAlignVertical: TextAlignVertical.top,
                     decoration: InputDecoration(
                       filled: true,
@@ -71,9 +73,21 @@ class _CreateAccountState extends State<CreateAccount> {
                       SizedBox(
                         width: 250,
                         height: 40,
-                        child: TextField(
+                        child: TextFormField(
                           textAlignVertical: TextAlignVertical.top,
+                          obscureText: obscureTextPassword,
                           decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                obscureTextPassword ? Icons.visibility_off : Icons.visibility,
+                                color: Colors.grey,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  obscureTextPassword = !obscureTextPassword;
+                                });
+                              },
+                            ),
                             filled: true,
                             fillColor: Colors.grey[350],
                             border: OutlineInputBorder(
@@ -95,9 +109,21 @@ class _CreateAccountState extends State<CreateAccount> {
                       SizedBox(
                         width: 250,
                         height: 40,
-                        child: TextField(
+                        child: TextFormField(
                           textAlignVertical: TextAlignVertical.top,
+                          obscureText: obscureTextConfirmation,
                           decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                obscureTextConfirmation ? Icons.visibility_off : Icons.visibility,
+                                color: Colors.grey,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  obscureTextConfirmation = !obscureTextConfirmation;
+                                });
+                              },
+                            ),
                             filled: true,
                             fillColor: Colors.grey[350],
                             border: OutlineInputBorder(

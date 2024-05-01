@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState(){
+  State<LoginScreen> createState() {
     return _LoginScreenState();
   }
 }
 
-
 class _LoginScreenState extends State<LoginScreen> {
+  bool obscureText = true;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   width: 250,
                   height: 40,
-                  child: TextField(
+                  child: TextFormField(
                     textAlignVertical: TextAlignVertical.top,
                     decoration: InputDecoration(
                       filled: true,
@@ -61,13 +61,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   width: 250,
                   height: 40,
-                  child: TextField(
+                  child: TextFormField(
                     textAlignVertical: TextAlignVertical.top,
-                    obscureText: true,
+                    obscureText: obscureText,
                     decoration: InputDecoration(
-                      suffixIcon: const Icon(
-                        Icons.remove_red_eye_outlined,
-                        color: Colors.grey,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          obscureText ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            obscureText = !obscureText;
+                          });
+                        },
                       ),
                       filled: true,
                       fillColor: Colors.grey[350],
@@ -98,23 +105,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     )),
                 SizedBox(height: 20),
                 TextButton(
-                    onPressed: (){
-                      Navigator.pushNamed(context, '/forgot_password');
-                    },
-                    child: Text(
-                      "Esqueceu a senha?",
-                      style: GoogleFonts.montserrat(
-                          color: Colors.blue, fontSize: 17),
-                    ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/forgot_password');
+                  },
+                  child: Text(
+                    "Esqueceu a senha?",
+                    style: GoogleFonts.montserrat(
+                        color: Colors.blue, fontSize: 17),
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextButton(onPressed: (){
-                      Navigator.pushNamed(context, '/create_account');
-                    },
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/create_account');
+                        },
                         child: RichText(
-                            text: TextSpan(
+                          text: TextSpan(
                               text: "Não tem uma conta?",
                               style: GoogleFonts.montserrat(
                                   color: Colors.black, fontSize: 15),
@@ -124,10 +132,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: GoogleFonts.montserrat(
                                       color: Colors.blue, fontSize: 15),
                                 )
-                              ]
-                            ),
-                        )
-                    )
+                              ]),
+                        ))
                   ],
                 )
               ],
