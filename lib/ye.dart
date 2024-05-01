@@ -20,7 +20,8 @@ class _YeState extends State<Ye> {
       routes: {
         '/login': (context) => AuthBackground('login'),
         '/forgot_password': (context) => AuthBackground('forgot_password'),
-        '/create_account': (context) => AuthBackground('create_account')
+        '/create_account': (context) => AuthBackground('create_account'),
+        '/password_code': (context) => AuthBackground('password_code'),
       },
     );
   }

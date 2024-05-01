@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
+class PasswordCode extends StatefulWidget {
+  const PasswordCode({super.key});
 
   @override
-  State<ForgotPassword> createState() {
-    return _ForgotPasswordState();
+  State<PasswordCode> createState() {
+    return _PasswordCodeState();
   }
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
+class _PasswordCodeState extends State<PasswordCode> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,13 +22,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         Column(
           children: [
             Text(
-              "Redefinir senha",
+              "Código de confirmação",
+              textAlign: TextAlign.center,
               style: GoogleFonts.montserrat(fontSize: 40),
             ),
             SizedBox(
               width: 200,
               child: Text(
-                "Enviaremos um código para o seu email",
+                "Insira o código que foi enviado em seu email",
                 textAlign: TextAlign.center,
                 softWrap: true,
                 maxLines: 2,
@@ -41,7 +42,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Email",
+                  "Código",
                   style: GoogleFonts.montserrat(
                       color: Colors.grey, fontWeight: FontWeight.bold),
                 ),
@@ -72,11 +73,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       backgroundColor: MaterialStateColor.resolveWith(
                           (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/password_code');
-                    },
+                    onPressed: () {},
                     child: Text(
-                      "Enviar código",
+                      "Confirmar",
                       style: GoogleFonts.montserrat(
                           color: Colors.white, fontSize: 25),
                     )),

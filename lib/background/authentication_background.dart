@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:ye_project/create_account.dart';
 import 'package:ye_project/forgot_password.dart';
 import 'package:ye_project/login_screen.dart';
+import 'package:ye_project/password_code.dart';
 
 class AuthBackground extends StatefulWidget {
   AuthBackground(this.nextScreen, {super.key});
@@ -35,6 +36,10 @@ class _AuthBackgroundState extends State<AuthBackground> {
       case 'create_account':
         setState(() {
           actualAuthScreen = const CreateAccount();
+        });
+      case 'password_code':
+        setState(() {
+          actualAuthScreen = const PasswordCode();
         });
     }
 

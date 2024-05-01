@@ -150,7 +150,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                     onPressed: () {},
                     child: Text(
-                      "Enviar código",
+                      "Entrar",
                       style: GoogleFonts.montserrat(
                           color: Colors.white, fontSize: 25),
                     )),
