@@ -110,7 +110,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextButton(onPressed: (){},
+                    TextButton(onPressed: (){
+                      Navigator.pushNamed(context, '/create_account');
+                    },
                         child: RichText(
                             text: TextSpan(
                               text: "Não tem uma conta?",
