@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'api.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,6 +14,23 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool obscureText = true;
+  final ApiClient apiClient = ApiClient();
+
+Future<void> _handleEntrarPressed() async {
+  try {
+    final http.Response response = await apiClient.get('/check_connection');
+
+    if (response.statusCode == 200) {
+      Navigator.pushNamed(context, '/forgot_password');
+    } else {
+      print('Error: ${response.statusCode}');
+      // Handle other status codes here
+    }
+  } catch (e) {
+    print('Error: $e');
+    // Handle other errors here
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       backgroundColor: MaterialStateColor.resolveWith(
                           (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
-                    onPressed: () {},
+                    onPressed: _handleEntrarPressed,
                     child: Text(
                       "Entrar",
                       style: GoogleFonts.montserrat(
