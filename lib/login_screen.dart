@@ -16,21 +16,19 @@ class _LoginScreenState extends State<LoginScreen> {
   bool obscureText = true;
   final ApiClient apiClient = ApiClient();
 
-Future<void> _handleEntrarPressed() async {
-  try {
-    final http.Response response = await apiClient.get('/check_connection');
-
-    if (response.statusCode == 200) {
-      Navigator.pushNamed(context, '/forgot_password');
-    } else {
-      print('Error: ${response.statusCode}');
-      // Handle other status codes here
+  Future<void> _handleEntrarPressed() async {
+    try {
+      final http.Response response = await apiClient.get('/check_connection');
+  
+      if (response.statusCode == 200) {
+        Navigator.pushNamed(context, '/forgot_password');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
     }
-  } catch (e) {
-    print('Error: $e');
-    // Handle other errors here
   }
-}
 
   @override
   Widget build(BuildContext context) {
