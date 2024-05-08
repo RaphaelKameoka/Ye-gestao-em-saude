@@ -27,8 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
       final String senha = senhaController.text;
 
       final http.Response response = await apiClient.post('/login',{
-        'email': email,
-        'password': senha
+        'email': "email",
+        'password': "senha"
       });
 
       if (response.statusCode == 200) {
