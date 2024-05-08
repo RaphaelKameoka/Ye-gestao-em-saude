@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'api.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -12,6 +14,28 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  final ApiClient apiClient = ApiClient();
+  TextEditingController emailController = TextEditingController();
+
+  Future<void> _handleEnviarCodigoPressed() async {
+    try {
+
+      final String email = emailController.text;
+
+      final http.Response response = await apiClient.post('/gen_code',{
+        'email': email,
+      });
+
+      if (response.statusCode == 200) {
+        Navigator.pushNamed(context, '/login');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -49,6 +73,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   width: 250,
                   height: 40,
                   child: TextFormField(
+                    controller: emailController,
                     textAlignVertical: TextAlignVertical.top,
                     decoration: InputDecoration(
                       filled: true,
@@ -73,7 +98,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/password_code');
+                      _handleEnviarCodigoPressed();
                     },
                     child: Text(
                       "Enviar código",
@@ -83,7 +108,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 SizedBox(height: 30),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/login');
+                    Navigator.pushNamed(context, '/forgot_password');
                   },
                   style: ButtonStyle(
                       padding: MaterialStateProperty.all(
