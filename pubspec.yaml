@@ -30,7 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: 1.2.1
+  http: ^1.2.1
+  flutter_dotenv: ^5.0.0 
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -64,6 +65,7 @@ flutter:
   assets:
     - assets/images/ye_logo.png
     - assets/images/ye_logo_with_name.png
+    - .env
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

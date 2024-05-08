@@ -13,13 +13,24 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   bool obscureText = true;
   final ApiClient apiClient = ApiClient();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
+
 
   Future<void> _handleEntrarPressed() async {
     try {
-      final http.Response response = await apiClient.get('/check_connection');
-  
+
+      final String email = emailController.text;
+      final String senha = senhaController.text;
+
+      final http.Response response = await apiClient.post('/login',{
+        'email': email,
+        'password': senha
+      });
+
       if (response.statusCode == 200) {
         Navigator.pushNamed(context, '/forgot_password');
       } else {
@@ -59,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: 250,
                   height: 40,
                   child: TextFormField(
+                    controller: emailController,
                     textAlignVertical: TextAlignVertical.top,
                     decoration: InputDecoration(
                       filled: true,
@@ -79,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: 250,
                   height: 40,
                   child: TextFormField(
+                    controller: senhaController,
                     textAlignVertical: TextAlignVertical.top,
                     obscureText: obscureText,
                     decoration: InputDecoration(
