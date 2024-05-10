@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'api.dart';
+import 'package:http/http.dart' as http;
 
 class AuthCodeScreen extends StatefulWidget {
   const AuthCodeScreen({super.key});
@@ -11,6 +13,29 @@ class AuthCodeScreen extends StatefulWidget {
 }
 
 class _AuthCodeScreenState extends State<AuthCodeScreen> {
+  final ApiClient apiClient = ApiClient();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController authCodeController = TextEditingController();
+  
+  Future<void> _handleVerificarCodigoPressed() async {
+    try {
+      final String email = emailController.text;
+      final String code = authCodeController.text;
+
+      final http.Response response = await apiClient.post('/check_code',{
+        'email': "teste",
+        'confirmation_code': "812038",
+      });
+
+      if (response.statusCode == 200) {
+        Navigator.pushNamed(context, '/forgot_password');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +78,7 @@ class _AuthCodeScreenState extends State<AuthCodeScreen> {
                   width: 250,
                   height: 40,
                   child: TextFormField(
+                    controller: emailController,
                     textAlignVertical: TextAlignVertical.top,
                     decoration: InputDecoration(
                       filled: true,
@@ -73,6 +99,7 @@ class _AuthCodeScreenState extends State<AuthCodeScreen> {
                   width: 250,
                   height: 40,
                   child: TextFormField(
+                    controller: authCodeController,
                     textAlignVertical: TextAlignVertical.top,
                     decoration: InputDecoration(
                       filled: true,
@@ -99,14 +126,14 @@ class _AuthCodeScreenState extends State<AuthCodeScreen> {
                     onPressed: () {
                     },
                     child: Text(
-                      "Enviar código",
+                      "Verificar código",
                       style: GoogleFonts.montserrat(
                           color: Colors.white, fontSize: 25),
                     )),
                 SizedBox(height: 20),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/login');
+                    _handleVerificarCodigoPressed;
                   },
                   style: ButtonStyle(
                       padding: MaterialStateProperty.all(
