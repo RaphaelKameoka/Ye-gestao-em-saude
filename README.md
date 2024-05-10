@@ -12,5 +12,5 @@ Possui todas as telas programadas em Dart utilizando o Framework Flutter e vári
 
 ## Repositório <a href="https://github.com/leonardocardenuto/yee_api">yee_api</a>
 
-Assim como o outro repositório possui variáveis chave encapsuladas em um arquivo ".env". Esse desse modo é resposnável por toda lógica de consulta a dados externos e disparo de e-mails.
+Assim como o outro repositório possui variáveis chave encapsuladas em um arquivo ".env". Esse desse modo é responsável por toda lógica de consulta a dados externos e disparo de e-mails.
 
