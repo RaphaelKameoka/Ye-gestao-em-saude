@@ -19,39 +19,39 @@ class AuthBackground extends StatefulWidget {
 }
 
 class _AuthBackgroundState extends State<AuthBackground> {
-  Widget actualAuthScreen = AuthCodeScreen();
+  Widget actualAuthScreen = LoginScreen();
 
   @override
   Widget build(BuildContext context) {
-    // switch (widget.nextScreen) {
-    //   case 'login':
-    //     setState(() {
-    //       actualAuthScreen = const LoginScreen();
-    //     },);
-    //
-    //     break;
-    //   case 'forgot_password':
-    //     setState(() {
-    //       actualAuthScreen = const ForgotPassword();
-    //     });
-    //     break;
-    //   case 'create_account':
-    //     setState(() {
-    //       actualAuthScreen = const CreateAccount();
-    //     });
-    //   case 'password_code':
-    //     setState(() {
-    //       actualAuthScreen = const PasswordCode();
-    //     });
-    //   case 'change_password':
-    //     setState(() {
-    //       actualAuthScreen = const ChangePassword();
-    //     });
-    //   case 'authentication_code':
-    //     setState(() {
-    //       actualAuthScreen = const AuthCodeScreen();
-    //     });
-    // }
+    switch (widget.nextScreen) {
+      case 'login':
+        setState(() {
+          actualAuthScreen = const LoginScreen();
+        },);
+
+        break;
+      case 'forgot_password':
+        setState(() {
+          actualAuthScreen = const ForgotPassword();
+        });
+        break;
+      case 'create_account':
+        setState(() {
+          actualAuthScreen = const CreateAccount();
+        });
+      case 'password_code':
+        setState(() {
+          actualAuthScreen = const PasswordCode();
+        });
+      case 'change_password':
+        setState(() {
+          actualAuthScreen = const ChangePassword();
+        });
+      case 'authentication_code':
+        setState(() {
+          actualAuthScreen = const AuthCodeScreen();
+        });
+    }
 
     return Scaffold(
       body: Stack(children: [
