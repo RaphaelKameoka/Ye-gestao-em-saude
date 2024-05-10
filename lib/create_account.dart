@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'api.dart';
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key});
@@ -14,6 +15,36 @@ class CreateAccount extends StatefulWidget {
 class _CreateAccountState extends State<CreateAccount> {
   bool obscureTextPassword = true;
   bool obscureTextConfirmation = true;
+  final ApiClient apiClient = ApiClient();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
+  TextEditingController confirmarsenhaController = TextEditingController();
+
+
+  Future<void> _handleCriarPressed() async {
+
+    try {
+
+      final String email = emailController.text;
+      final String senha = senhaController.text;
+      final String confirmarsenha = confirmarsenhaController.text;
+
+      final http.Response response = await apiClient.post('/login',{
+        'email': email,
+        'password': senha,
+        'confirme_password': confirmarsenha;
+
+      });
+
+      if (response.statusCode == 200) {
+        Navigator.pushNamed(context, '/forgot_password');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,6 +53,7 @@ class _CreateAccountState extends State<CreateAccount> {
           height: 35,
         ),
         Column(
+          onpressed:_handleCriarPressed,
           children: [
             Text(
               "Criar conta",
@@ -51,6 +83,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   width: 250,
                   height: 40,
                   child: TextFormField(
+                    controller:emailController
                     textAlignVertical: TextAlignVertical.top,
                     decoration: InputDecoration(
                       filled: true,
@@ -74,6 +107,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         width: 250,
                         height: 40,
                         child: TextFormField(
+                          controller:senhaController,
                           textAlignVertical: TextAlignVertical.top,
                           obscureText: obscureTextPassword,
                           decoration: InputDecoration(
@@ -110,6 +144,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         width: 250,
                         height: 40,
                         child: TextFormField(
+                          controller:confirmarsenhaController,
                           textAlignVertical: TextAlignVertical.top,
                           obscureText: obscureTextConfirmation,
                           decoration: InputDecoration(
