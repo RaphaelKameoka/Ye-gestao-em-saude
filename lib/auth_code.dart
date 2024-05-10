@@ -1,41 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ChangePassword extends StatefulWidget {
-  const ChangePassword({super.key});
+class AuthCodeScreen extends StatefulWidget {
+  const AuthCodeScreen({super.key});
 
   @override
-  State<ChangePassword> createState() {
-    return _ChangePasswordState();
+  State<AuthCodeScreen> createState() {
+    return _AuthCodeScreenState();
   }
 }
 
-class _ChangePasswordState extends State<ChangePassword> {
-  bool passwordObscureText = true;
-  bool newPasswordObscureText = true;
+class _AuthCodeScreenState extends State<AuthCodeScreen> {
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         const SizedBox(
-          height: 30,
+          height: 15,
         ),
         Column(
           children: [
-            Text(
-              "Redefinir senha",
-              style: GoogleFonts.montserrat(fontSize: 40),
+            SizedBox(
+              width: 300,
+              child: Text(
+                "Código de autenticação",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(fontSize: 40),
+              ),
             ),
-            Text("Insira sua nova senha",
+            SizedBox(
+              width: 200,
+              child: Text(
+                "Coloque o código de 6 digitos enviado no seu email",
+                textAlign: TextAlign.center,
+                softWrap: true,
+                maxLines: 2,
                 style: GoogleFonts.montserrat(
-                    fontSize: 15, color: Colors.grey, height: 0.2)),
+                    fontSize: 15, color: Colors.grey, height: 1),
+              ),
+            ),
             const SizedBox(height: 25),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Nova senha",
+                  "Email",
                   style: GoogleFonts.montserrat(
                       color: Colors.grey, fontWeight: FontWeight.bold),
                 ),
@@ -44,19 +54,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   height: 40,
                   child: TextFormField(
                     textAlignVertical: TextAlignVertical.top,
-                    obscureText: passwordObscureText,
                     decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          passwordObscureText ? Icons.visibility_off : Icons.visibility,
-                          color: Colors.grey,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            passwordObscureText = !passwordObscureText;
-                          });
-                        },
-                      ),
                       filled: true,
                       fillColor: Colors.grey[350],
                       border: OutlineInputBorder(
@@ -65,9 +63,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 10),
                 Text(
-                  "Confirmar nova senha",
+                  "Código",
                   style: GoogleFonts.montserrat(
                       color: Colors.grey, fontWeight: FontWeight.bold),
                 ),
@@ -76,19 +74,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   height: 40,
                   child: TextFormField(
                     textAlignVertical: TextAlignVertical.top,
-                    obscureText: newPasswordObscureText,
                     decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          newPasswordObscureText ? Icons.visibility_off : Icons.visibility,
-                          color: Colors.grey,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            newPasswordObscureText = !newPasswordObscureText;
-                          });
-                        },
-                      ),
                       filled: true,
                       fillColor: Colors.grey[350],
                       border: OutlineInputBorder(
@@ -97,12 +83,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                   ),
                 ),
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 FilledButton(
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(
                           EdgeInsetsDirectional.symmetric(
-                              horizontal: 60, vertical: 10)),
+                              horizontal: 20, vertical: 14)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5))),
@@ -110,9 +96,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                       backgroundColor: MaterialStateColor.resolveWith(
                               (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                    },
                     child: Text(
-                      "Confirmar",
+                      "Enviar código",
                       style: GoogleFonts.montserrat(
                           color: Colors.white, fontSize: 25),
                     )),
