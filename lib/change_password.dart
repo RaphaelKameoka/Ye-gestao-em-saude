@@ -14,7 +14,7 @@ class ChangePassword extends StatefulWidget {
 
 class _ChangePasswordState extends State<ChangePassword> {
   bool passwordObscureText = true;
-  bool newPasswordObscuretText = true;
+  bool newPasswordObscureText = true;
   final ApiClient apiClient = ApiClient();
 
   TextEditingController passwordController = TextEditingController();
