@@ -46,10 +46,10 @@ class _CreateAccountState extends State<CreateAccount> {
     }
   }
 
-<<<<<<< HEAD
-  
-=======
->>>>>>> 548a3a8cd67bf07ffe06c9b3963d49a4a9ba1220
+// <<<<<<< HEAD
+//
+// =======
+// >>>>>>> 548a3a8cd67bf07ffe06c9b3963d49a4a9ba1220
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -150,11 +150,11 @@ class _CreateAccountState extends State<CreateAccount> {
                         width: 250,
                         height: 40,
                         child: TextFormField(
-<<<<<<< HEAD
+// <<<<<<< HEAD
                           controller: confirmController,
-=======
-                          controller: confirmarsenhaController,
->>>>>>> 548a3a8cd67bf07ffe06c9b3963d49a4a9ba1220
+// =======
+
+// >>>>>>> 548a3a8cd67bf07ffe06c9b3963d49a4a9ba1220
                           textAlignVertical: TextAlignVertical.top,
                           obscureText: obscureTextConfirmation,
                           decoration: InputDecoration(
