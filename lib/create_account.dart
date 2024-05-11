@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'api.dart';
 
-
 class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key});
 
@@ -47,7 +46,10 @@ class _CreateAccountState extends State<CreateAccount> {
     }
   }
 
+<<<<<<< HEAD
   
+=======
+>>>>>>> 548a3a8cd67bf07ffe06c9b3963d49a4a9ba1220
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -115,7 +117,9 @@ class _CreateAccountState extends State<CreateAccount> {
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
                               icon: Icon(
-                                obscureTextPassword ? Icons.visibility_off : Icons.visibility,
+                                obscureTextPassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 color: Colors.grey,
                               ),
                               onPressed: () {
@@ -146,18 +150,25 @@ class _CreateAccountState extends State<CreateAccount> {
                         width: 250,
                         height: 40,
                         child: TextFormField(
+<<<<<<< HEAD
                           controller: confirmController,
+=======
+                          controller: confirmarsenhaController,
+>>>>>>> 548a3a8cd67bf07ffe06c9b3963d49a4a9ba1220
                           textAlignVertical: TextAlignVertical.top,
                           obscureText: obscureTextConfirmation,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
                               icon: Icon(
-                                obscureTextConfirmation ? Icons.visibility_off : Icons.visibility,
+                                obscureTextConfirmation
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 color: Colors.grey,
                               ),
                               onPressed: () {
                                 setState(() {
-                                  obscureTextConfirmation = !obscureTextConfirmation;
+                                  obscureTextConfirmation =
+                                      !obscureTextConfirmation;
                                 });
                               },
                             ),
@@ -196,7 +207,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/login');
+                    _handleCriarPressed();
                   },
                   style: ButtonStyle(
                     padding: MaterialStateProperty.all(

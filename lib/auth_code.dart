@@ -1,55 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'api.dart';
+import 'package:http/http.dart' as http;
 
-class ChangePassword extends StatefulWidget {
-  const ChangePassword({super.key});
+class AuthCodeScreen extends StatefulWidget {
+  const AuthCodeScreen({super.key});
 
   @override
-  State<ChangePassword> createState() {
-    return _ChangePasswordState();
+  State<AuthCodeScreen> createState() {
+    return _AuthCodeScreenState();
   }
 }
 
-class _ChangePasswordState extends State<ChangePassword> {
-  bool passwordObscureText = true;
-  bool newPasswordObscuretText = true;
+class _AuthCodeScreenState extends State<AuthCodeScreen> {
   final ApiClient apiClient = ApiClient();
-
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmController = TextEditingController();
-
-
-  Future<void> _handleTrocarPressed() async {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController authCodeController = TextEditingController();
+  
+  Future<void> _handleVerificarCodigoPressed() async {
     try {
-      final ModalRoute? modalRoute = ModalRoute.of(context);
-      if (modalRoute != null) {
-        final Map<String, dynamic>? args = modalRoute.settings.arguments as Map<String, dynamic>?;
-        if (args != null) {
-          final String email = args['email'] as String;
-          final String password = passwordController.text;
-          final String confirm_password = confirmController.text;
+      final String email = emailController.text;
+      final String code = authCodeController.text;
 
-          final http.Response response = await apiClient.post('/change_pass',{
-            'email': email,
-            'password': password,
-            'confirm_password': confirm_password,
-          });
+      final http.Response response = await apiClient.post('/check_code',{
+        'email': "teste",
+        'confirmation_code': "812038",
+      });
 
-          if (response.statusCode == 200) {
-            Navigator.pushNamed(
-              context, 
-              '/login'
-            );
-          } else {
-            print('Error: ${response.statusCode}');
-          }
-        } else {
-          print('No arguments provided.');
-        }
+      if (response.statusCode == 200) {
+        Navigator.pushNamed(context, '/forgot_password');
       } else {
-        print('No modal route found.');
+        print('Error: ${response.statusCode}');
       }
     } catch (e) {
       print('Error: $e');
@@ -61,23 +42,35 @@ class _ChangePasswordState extends State<ChangePassword> {
     return Column(
       children: [
         const SizedBox(
-          height: 30,
+          height: 15,
         ),
         Column(
           children: [
-            Text(
-              "Redefinir senha",
-              style: GoogleFonts.montserrat(fontSize: 40),
+            SizedBox(
+              width: 300,
+              child: Text(
+                "Código de autenticação",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(fontSize: 40),
+              ),
             ),
-            Text("Insira sua nova senha",
+            SizedBox(
+              width: 200,
+              child: Text(
+                "Coloque o código de 6 digitos enviado no seu email",
+                textAlign: TextAlign.center,
+                softWrap: true,
+                maxLines: 2,
                 style: GoogleFonts.montserrat(
-                    fontSize: 15, color: Colors.grey, height: 0.2)),
+                    fontSize: 15, color: Colors.grey, height: 1),
+              ),
+            ),
             const SizedBox(height: 25),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Nova senha",
+                  "Email",
                   style: GoogleFonts.montserrat(
                       color: Colors.grey, fontWeight: FontWeight.bold),
                 ),
@@ -85,21 +78,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                   width: 250,
                   height: 40,
                   child: TextFormField(
-                    controller: passwordController,
+                    controller: emailController,
                     textAlignVertical: TextAlignVertical.top,
-                    obscureText: passwordObscureText,
                     decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          passwordObscureText ? Icons.visibility_off : Icons.visibility,
-                          color: Colors.grey,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            passwordObscureText = !passwordObscureText;
-                          });
-                        },
-                      ),
                       filled: true,
                       fillColor: Colors.grey[350],
                       border: OutlineInputBorder(
@@ -108,9 +89,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 10),
                 Text(
-                  "Confirmar nova senha",
+                  "Código",
                   style: GoogleFonts.montserrat(
                       color: Colors.grey, fontWeight: FontWeight.bold),
                 ),
@@ -118,21 +99,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                   width: 250,
                   height: 40,
                   child: TextFormField(
-                    controller: confirmController,
+                    controller: authCodeController,
                     textAlignVertical: TextAlignVertical.top,
-                    obscureText: newPasswordObscureText,
                     decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          newPasswordObscureText ? Icons.visibility_off : Icons.visibility,
-                          color: Colors.grey,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            newPasswordObscureText = !newPasswordObscureText;
-                          });
-                        },
-                      ),
                       filled: true,
                       fillColor: Colors.grey[350],
                       border: OutlineInputBorder(
@@ -141,12 +110,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                   ),
                 ),
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 FilledButton(
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(
                           EdgeInsetsDirectional.symmetric(
-                              horizontal: 60, vertical: 10)),
+                              horizontal: 20, vertical: 14)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5))),
@@ -155,17 +124,16 @@ class _ChangePasswordState extends State<ChangePassword> {
                               (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
                     onPressed: () {
-                      _handleTrocarPressed();
                     },
                     child: Text(
-                      "Confirmar",
+                      "Verificar código",
                       style: GoogleFonts.montserrat(
                           color: Colors.white, fontSize: 25),
                     )),
                 SizedBox(height: 20),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/login');
+                    _handleVerificarCodigoPressed;
                   },
                   style: ButtonStyle(
                       padding: MaterialStateProperty.all(

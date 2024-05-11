@@ -1,16 +1,16 @@
-# ye_project
+# Projeto Ye
 
-A new Flutter project.
+O projeto consiste no desenvolvimento de uma aplicação voltada para área da saúde voltada a pacientes, principalmente.
 
-## Getting Started
+<br>
 
-This project is a starting point for a Flutter application.
+## Repositório Ye-gestao-em-saude
 
-A few resources to get you started if this is your first Flutter project:
+Possui todas as telas programadas em Dart utilizando o Framework Flutter e váriaveis sensitive são armazenadas localmente em um arquivo ".env". A consulta de dados do banco, envio de emails e consultas a Inteligência artificial não são processados no código referente a esse repositório. 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+> OBS: Somente envia requisições ao servidor onde está hospedado a API em python.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Repositório <a href="https://github.com/leonardocardenuto/yee_api">yee_api</a>
+
+Assim como o outro repositório possui variáveis chave encapsuladas em um arquivo ".env". Esse desse modo é responsável por toda lógica de consulta a dados externos e disparo de e-mails.
+
