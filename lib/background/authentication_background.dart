@@ -19,7 +19,7 @@ class AuthBackground extends StatefulWidget {
 }
 
 class _AuthBackgroundState extends State<AuthBackground> {
-  Widget actualAuthScreen = LoginScreen();
+  Widget actualAuthScreen = AuthCodeScreen();
 
   @override
   Widget build(BuildContext context) {

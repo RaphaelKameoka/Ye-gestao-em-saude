@@ -23,12 +23,12 @@ class _AuthCodeScreenState extends State<AuthCodeScreen> {
       final String code = authCodeController.text;
 
       final http.Response response = await apiClient.post('/check_code',{
-        'email': "teste",
-        'confirmation_code': "812038",
+        'email': email,
+        'confirmation_code': code,
       });
 
       if (response.statusCode == 200) {
-        Navigator.pushNamed(context, '/forgot_password');
+        Navigator.pushNamed(context, '/change_password');
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -124,6 +124,7 @@ class _AuthCodeScreenState extends State<AuthCodeScreen> {
                               (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
                     onPressed: () {
+                      _handleVerificarCodigoPressed();
                     },
                     child: Text(
                       "Verificar código",
@@ -133,7 +134,7 @@ class _AuthCodeScreenState extends State<AuthCodeScreen> {
                 SizedBox(height: 20),
                 TextButton(
                   onPressed: () {
-                    _handleVerificarCodigoPressed;
+                    Navigator.pushNamed(context, '/login');
                   },
                   style: ButtonStyle(
                       padding: MaterialStateProperty.all(
