@@ -29,20 +29,27 @@ class _PasswordCodeState extends State<PasswordCode> {
           final String email = args['email'] as String;
           final String code = codeController.text;
 
-          final http.Response response = await apiClient.post('/check_code',{
-            'email': email,
-            'confirmation_code': code
-          });
+          try {
+            final http.Response response = await apiClient.post('/check_code',{
+              'email': email,
+              'confirmation_code': code,
+            });
 
-          if (response.statusCode == 200) {
-            Navigator.pushNamed(
-              context, 
-              '/change_password',
-              arguments: {'email': email},
-            );
-          } else {
-            print('Error: ${response.statusCode}');
+            if (response.statusCode == 200) {
+              Navigator.pushNamed(context, '/change_password', arguments: {'email':email});
+            } else {
+              print('Error: ${response.statusCode}');
+            }
+          } catch (e) {
+            print('Error: $e');
           }
+
+
+          // final http.Response response = await apiClient.post('/check_code',{
+          //   'email': email,
+          //   'confirmation_code': code
+          // });
+
         } else {
           print('No arguments provided.');
         }

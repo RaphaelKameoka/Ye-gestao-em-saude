@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ye_project/background/authentication_background.dart';
-import 'package:ye_project/login_screen.dart';
 
 class Ye extends StatefulWidget {
   @override
