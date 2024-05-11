@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'api.dart';
+
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key});
@@ -14,6 +17,37 @@ class CreateAccount extends StatefulWidget {
 class _CreateAccountState extends State<CreateAccount> {
   bool obscureTextPassword = true;
   bool obscureTextConfirmation = true;
+
+  final ApiClient apiClient = ApiClient();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
+  TextEditingController confirmController = TextEditingController();
+  Future<void> _handleCriarPressed() async {
+
+    try {
+
+      final String email = emailController.text;
+      final String senha = senhaController.text;
+      final String confirm_password = confirmController.text;
+
+
+      final http.Response response = await apiClient.post('/create_user',{
+        'email': email,
+        'password': senha,
+        'confirm_password': confirm_password
+      });
+
+      if (response.statusCode == 200) {
+        Navigator.pushNamed(context, '/login');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,6 +85,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   width: 250,
                   height: 40,
                   child: TextFormField(
+                    controller: emailController,
                     textAlignVertical: TextAlignVertical.top,
                     decoration: InputDecoration(
                       filled: true,
@@ -74,6 +109,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         width: 250,
                         height: 40,
                         child: TextFormField(
+                          controller: senhaController,
                           textAlignVertical: TextAlignVertical.top,
                           obscureText: obscureTextPassword,
                           decoration: InputDecoration(
@@ -110,6 +146,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         width: 250,
                         height: 40,
                         child: TextFormField(
+                          controller: confirmController,
                           textAlignVertical: TextAlignVertical.top,
                           obscureText: obscureTextConfirmation,
                           decoration: InputDecoration(
@@ -148,9 +185,11 @@ class _CreateAccountState extends State<CreateAccount> {
                       backgroundColor: MaterialStateColor.resolveWith(
                           (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _handleCriarPressed();
+                    },
                     child: Text(
-                      "Entrar",
+                      "Criar",
                       style: GoogleFonts.montserrat(
                           color: Colors.white, fontSize: 25),
                     )),

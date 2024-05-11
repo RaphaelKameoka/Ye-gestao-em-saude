@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'api.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -13,6 +15,46 @@ class ChangePassword extends StatefulWidget {
 class _ChangePasswordState extends State<ChangePassword> {
   bool passwordObscureText = true;
   bool newPasswordObscuretText = true;
+  final ApiClient apiClient = ApiClient();
+
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmController = TextEditingController();
+
+
+  Future<void> _handleTrocarPressed() async {
+    try {
+      final ModalRoute? modalRoute = ModalRoute.of(context);
+      if (modalRoute != null) {
+        final Map<String, dynamic>? args = modalRoute.settings.arguments as Map<String, dynamic>?;
+        if (args != null) {
+          final String email = args['email'] as String;
+          final String password = passwordController.text;
+          final String confirm_password = confirmController.text;
+
+          final http.Response response = await apiClient.post('/change_pass',{
+            'email': email,
+            'password': password,
+            'confirm_password': confirm_password,
+          });
+
+          if (response.statusCode == 200) {
+            Navigator.pushNamed(
+              context, 
+              '/login'
+            );
+          } else {
+            print('Error: ${response.statusCode}');
+          }
+        } else {
+          print('No arguments provided.');
+        }
+      } else {
+        print('No modal route found.');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +85,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   width: 250,
                   height: 40,
                   child: TextFormField(
+                    controller: passwordController,
                     textAlignVertical: TextAlignVertical.top,
                     obscureText: passwordObscureText,
                     decoration: InputDecoration(
@@ -75,6 +118,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   width: 250,
                   height: 40,
                   child: TextFormField(
+                    controller: confirmController,
                     textAlignVertical: TextAlignVertical.top,
                     obscureText: newPasswordObscuretText,
                     decoration: InputDecoration(
@@ -110,7 +154,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                       backgroundColor: MaterialStateColor.resolveWith(
                               (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _handleTrocarPressed();
+                    },
                     child: Text(
                       "Confirmar",
                       style: GoogleFonts.montserrat(

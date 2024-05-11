@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'api.dart';
 
 class PasswordCode extends StatefulWidget {
   const PasswordCode({super.key});
@@ -12,6 +14,46 @@ class PasswordCode extends StatefulWidget {
 }
 
 class _PasswordCodeState extends State<PasswordCode> {
+  
+  bool obscureText = true;
+  final ApiClient apiClient = ApiClient();
+
+  TextEditingController codeController = TextEditingController();
+
+  Future<void> _handleEnviarPressed() async {
+    try {
+      final ModalRoute? modalRoute = ModalRoute.of(context);
+      if (modalRoute != null) {
+        final Map<String, dynamic>? args = modalRoute.settings.arguments as Map<String, dynamic>?;
+        if (args != null) {
+          final String email = args['email'] as String;
+          final String code = codeController.text;
+
+          final http.Response response = await apiClient.post('/check_code',{
+            'email': email,
+            'confirmation_code': code
+          });
+
+          if (response.statusCode == 200) {
+            Navigator.pushNamed(
+              context, 
+              '/change_password',
+              arguments: {'email': email},
+            );
+          } else {
+            print('Error: ${response.statusCode}');
+          }
+        } else {
+          print('No arguments provided.');
+        }
+      } else {
+        print('No modal route found.');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,6 +92,7 @@ class _PasswordCodeState extends State<PasswordCode> {
                   width: 250,
                   height: 40,
                   child: TextFormField(
+                    controller: codeController,
                     textAlignVertical: TextAlignVertical.top,
                     decoration: InputDecoration(
                       filled: true,
@@ -74,7 +117,7 @@ class _PasswordCodeState extends State<PasswordCode> {
                           (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/change_password');
+                      _handleEnviarPressed();
                     },
                     child: Text(
                       "Confirmar",
