@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ye_project/auth_code.dart';
 import 'package:ye_project/change_password.dart';
 import 'package:ye_project/create_account.dart';
 import 'package:ye_project/forgot_password.dart';
@@ -19,7 +18,7 @@ class AuthBackground extends StatefulWidget {
 }
 
 class _AuthBackgroundState extends State<AuthBackground> {
-  Widget actualAuthScreen = AuthCodeScreen();
+  Widget actualAuthScreen = LoginScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +45,6 @@ class _AuthBackgroundState extends State<AuthBackground> {
       case 'change_password':
         setState(() {
           actualAuthScreen = const ChangePassword();
-        });
-      case 'authentication_code':
-        setState(() {
-          actualAuthScreen = const AuthCodeScreen();
         });
     }
 

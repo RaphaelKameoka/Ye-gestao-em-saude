@@ -207,7 +207,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
-                    _handleCriarPressed();
+                    Navigator.pushNamed(context, '/login');
                   },
                   style: ButtonStyle(
                     padding: MaterialStateProperty.all(
