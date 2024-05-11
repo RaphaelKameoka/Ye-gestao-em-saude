@@ -16,25 +16,28 @@ class CreateAccount extends StatefulWidget {
 class _CreateAccountState extends State<CreateAccount> {
   bool obscureTextPassword = true;
   bool obscureTextConfirmation = true;
+
   final ApiClient apiClient = ApiClient();
   TextEditingController emailController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
-  TextEditingController confirmarsenhaController = TextEditingController();
-
+  TextEditingController confirmController = TextEditingController();
   Future<void> _handleCriarPressed() async {
+
     try {
+
       final String email = emailController.text;
       final String senha = senhaController.text;
-      final String confirmarsenha = confirmarsenhaController.text;
+      final String confirm_password = confirmController.text;
 
-      final http.Response response = await apiClient.post('/create_user', {
+
+      final http.Response response = await apiClient.post('/create_user',{
         'email': email,
         'password': senha,
-        'confirm_password': confirmarsenha
+        'confirm_password': confirm_password
       });
 
       if (response.statusCode == 200) {
-        Navigator.pushNamed(context, '/forgot_password');
+        Navigator.pushNamed(context, '/login');
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -43,6 +46,10 @@ class _CreateAccountState extends State<CreateAccount> {
     }
   }
 
+<<<<<<< HEAD
+  
+=======
+>>>>>>> 548a3a8cd67bf07ffe06c9b3963d49a4a9ba1220
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -143,7 +150,11 @@ class _CreateAccountState extends State<CreateAccount> {
                         width: 250,
                         height: 40,
                         child: TextFormField(
+<<<<<<< HEAD
+                          controller: confirmController,
+=======
                           controller: confirmarsenhaController,
+>>>>>>> 548a3a8cd67bf07ffe06c9b3963d49a4a9ba1220
                           textAlignVertical: TextAlignVertical.top,
                           obscureText: obscureTextConfirmation,
                           decoration: InputDecoration(
@@ -185,9 +196,11 @@ class _CreateAccountState extends State<CreateAccount> {
                       backgroundColor: MaterialStateColor.resolveWith(
                           (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _handleCriarPressed();
+                    },
                     child: Text(
-                      "Entrar",
+                      "Criar",
                       style: GoogleFonts.montserrat(
                           color: Colors.white, fontSize: 25),
                     )),

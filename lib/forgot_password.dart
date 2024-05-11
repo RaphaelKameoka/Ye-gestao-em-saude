@@ -27,7 +27,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       });
 
       if (response.statusCode == 200) {
-        Navigator.pushNamed(context, '/authentication_code');
+        Navigator.pushNamed(context, '/password_code',
+        arguments: {'email': email});
       } else {
         print('Error: ${response.statusCode}');
       }
