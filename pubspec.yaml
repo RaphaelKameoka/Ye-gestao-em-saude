@@ -65,6 +65,7 @@ flutter:
   assets:
     - assets/images/ye_logo.png
     - assets/images/ye_logo_with_name.png
+    - assets/png/
     - .env
 
   #   - images/a_dot_burr.jpeg

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ye_project/background/authentication_background.dart';
+import 'package:ye_project/background/home_background.dart';
 
 class Ye extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class _YeState extends State<Ye> {
 
   @override
   Widget build(BuildContext context) {
+    // Widget screenWidget = HomeBackground('login');
     Widget screenWidget = AuthBackground('login');
     return MaterialApp(
       home: screenWidget,
