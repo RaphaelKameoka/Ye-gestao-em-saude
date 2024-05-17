@@ -14,8 +14,8 @@ class _YeState extends State<Ye> {
 
   @override
   Widget build(BuildContext context) {
-    // Widget screenWidget = HomeBackground('login');
-    Widget screenWidget = AuthBackground('login');
+    Widget screenWidget = HomeBackground('login');
+    // Widget screenWidget = AuthBackground('login');
     return MaterialApp(
       home: screenWidget,
       routes: {

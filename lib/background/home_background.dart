@@ -28,13 +28,14 @@ class _HomeBackgroundState extends State<HomeBackground> {
       ),
       bottomNavigationBar: Container(
         color: Color.fromARGB(255, 241, 241, 234),
-        height: 85,
+        height: 80,
         width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Container(
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300),
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                 decoration: BoxDecoration(
                   color: consultaCor,
@@ -53,12 +54,12 @@ class _HomeBackgroundState extends State<HomeBackground> {
                   icon: Column(
                     children: <Widget>[
                       Image.asset(
-                        'assets/png/medical_appointment.png',
-                        width: 80,
-                        height: 50,
+                        'assets/png/profile.png',
+                        width: 70,
+                        height: 40,
                       ),
                       Text(
-                        "Consultas",
+                        "Perfil",
                         style: GoogleFonts.montserrat(
                           color: Color(0xFF6B9683),
                           fontWeight: FontWeight.bold,
@@ -66,14 +67,16 @@ class _HomeBackgroundState extends State<HomeBackground> {
                       ),
                     ],
                   ),
+                  highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                 ),
               ),
             ]),
-            SizedBox(width: 5),
+            SizedBox(width: 17),
             Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Container(
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300),
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                 decoration: BoxDecoration(
                   color: examCor,
@@ -93,8 +96,8 @@ class _HomeBackgroundState extends State<HomeBackground> {
                     children: <Widget>[
                       Image.asset(
                         'assets/png/medical_exam.png',
-                        width: 80,
-                        height: 50,
+                        width: 70,
+                        height: 40,
                       ),
                       Text(
                         "Exames",
@@ -105,14 +108,16 @@ class _HomeBackgroundState extends State<HomeBackground> {
                       ),
                     ],
                   ),
+                  highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                 ),
               ),
             ]),
-            SizedBox(width: 5),
+            SizedBox(width: 17),
             Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Container(
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300),
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                 decoration: BoxDecoration(
                   color: medicationCor,
@@ -131,12 +136,12 @@ class _HomeBackgroundState extends State<HomeBackground> {
                   icon: Column(
                     children: <Widget>[
                       Image.asset(
-                        'assets/png/medication.png',
-                        width: 80,
-                        height: 50,
+                        'assets/png/bell.png',
+                        width: 70,
+                        height: 40,
                       ),
                       Text(
-                        "Medicação",
+                        "Lembretes",
                         style: GoogleFonts.montserrat(
                           color: Color(0xFF6B9683),
                           fontWeight: FontWeight.bold,
@@ -144,6 +149,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
                       ),
                     ],
                   ),
+                  highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                 ),
