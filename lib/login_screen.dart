@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'api.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,27 +21,45 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController senhaController = TextEditingController();
 
 
-  Future<void> _handleEntrarPressed() async {
+Future<void> _handleEntrarPressed() async {
+  try {
+    final String email = emailController.text;
+    final String senha = senhaController.text;
 
-    try {
+    final http.Response response = await apiClient.post('/login', {
+      'email': email,
+      'password': senha,
+    });
 
-      final String email = emailController.text;
-      final String senha = senhaController.text;
+    if (response.statusCode == 200) {
+      final List<dynamic> responseData = json.decode(response.body);
 
-      final http.Response response = await apiClient.post('/login',{
-        'email': email,
-        'password': senha
-      });
+      if (responseData.isNotEmpty) {
+        final List<List<dynamic>> usersData = List<List<dynamic>>.from(responseData);
 
-      if (response.statusCode == 200) {
-        Navigator.pushNamed(context, '/forgot_password');
+        // For simplicity, let's just use the data of the first user
+        final String? firstUserUserName = usersData[0][0] as String?;
+        final String? firstUserAvatar = usersData[0][1] as String?;
+
+        Navigator.pushNamed(
+          context, 
+          '/home', 
+          arguments: {
+            'email': email,
+            'avatar': firstUserAvatar,
+            'user_name': firstUserUserName,
+          },
+        );
       } else {
-        print('Error: ${response.statusCode}');
+        print('User not found or incorrect credentials.');
       }
-    } catch (e) {
-      print('Error: $e');
+    } else {
+      print('Error: ${response.statusCode}');
     }
+  } catch (e) {
+    print('Error: $e');
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Email",
+                  "Email ou Nome do Usuário",
                   style: GoogleFonts.montserrat(
                       color: Colors.grey, fontWeight: FontWeight.bold),
                 ),
