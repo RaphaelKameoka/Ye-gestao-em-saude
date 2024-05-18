@@ -36,8 +36,6 @@ Future<void> _handleEntrarPressed() async {
 
       if (responseData.isNotEmpty) {
         final List<List<dynamic>> usersData = List<List<dynamic>>.from(responseData);
-
-        // For simplicity, let's just use the data of the first user
         final String? firstUserUserName = usersData[0][0] as String?;
         final String? firstUserAvatar = usersData[0][1] as String?;
 
