@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ye_project/profile.dart';
 import 'package:ye_project/chat.dart';
 
-
 class HomeBackground extends StatefulWidget {
   HomeBackground(this.nextScreen, {Key? key}) : super(key: key);
 
@@ -52,17 +51,14 @@ class _HomeBackgroundState extends State<HomeBackground> {
 
   @override
   Widget build(BuildContext context) {
-    Widget actualHomeScreen =
-        ProfileScreen(userName: userName, avatar: avatar);
+    Widget actualHomeScreen = ProfileScreen(userName: userName, avatar: avatar);
 
     switch (widget.nextScreen) {
       case 'login':
-        actualHomeScreen =
-            ProfileScreen(userName: userName, avatar: avatar);
+        actualHomeScreen = ProfileScreen(userName: userName, avatar: avatar);
         break;
       case 'chat_with_ai':
-        actualHomeScreen =
-            ChatScreen();
+        actualHomeScreen = ChatScreen();
         break;
     }
 
@@ -75,30 +71,34 @@ class _HomeBackgroundState extends State<HomeBackground> {
             ),
           ),
           Positioned.fill(child: actualHomeScreen),
-          Positioned(
-            bottom: 60,
-            right: 20,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/chat_with_ai');
-              },
-              child: Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color.fromARGB(255, 46, 100, 180),
-                ),
-                child: Center(
-                  child: Image.asset(
-                    'assets/png/ai-stars.png',
-                    width: 60,
-                    height: 70,
+          if (widget.nextScreen != "chat_with_ai")
+            Positioned(
+              bottom: 60,
+              right: 20,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/chat_with_ai', arguments: {
+                    'user_name': userName,
+                    'avatar': avatar
+                  });
+                },
+                child: Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color.fromARGB(255, 46, 100, 180),
+                  ),
+                  child: Center(
+                    child: Image.asset(
+                      'assets/png/ai-stars.png',
+                      width: 60,
+                      height: 70,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
         ],
       ),
       bottomNavigationBar: Container(
@@ -119,28 +119,28 @@ class _HomeBackgroundState extends State<HomeBackground> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/profile' ,arguments: {
-                    'user_name': userName,
-                    'avatar': avatar
-                  });
-                  },
-                  icon: Column(
-                    children: <Widget>[
-                      Image.asset(
-                        'assets/png/profile.png',
-                        width: 70,
-                        height: 40,
-                      ),
-                      Text(
-                        "Perfil",
-                        style: GoogleFonts.montserrat(
-                          color: const Color(0xFF6B9683),
-                          fontWeight: FontWeight.bold,
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/profile', arguments: {
+                        'user_name': userName,
+                        'avatar': avatar
+                      });
+                    },
+                    icon: Column(
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/png/profile.png',
+                          width: 70,
+                          height: 40,
                         ),
-                      ),
-                    ],
-                  ),
+                        Text(
+                          "Perfil",
+                          style: GoogleFonts.montserrat(
+                            color: const Color(0xFF6B9683),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     padding: EdgeInsets.zero,
