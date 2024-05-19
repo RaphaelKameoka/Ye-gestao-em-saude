@@ -85,7 +85,7 @@ void _sendMessage() async {
       } else {
         setState(() {
           _messages.add(Message(
-            text: "Houve um erro de comunicação com o servidor",
+            text: "A IA não está preparada para esse tipo de interação.",
             username: 'AI',
             avatar: null, 
             isUser: false,
