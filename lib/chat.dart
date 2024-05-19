@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:typed_data'; 
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
-import 'package:permission_handler/permission_handler.dart';
 import 'api.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -28,17 +27,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _getFromArguments();
-    _requestLocationPermission();
   }
-
-void _requestLocationPermission() async {
-  var status = await Permission.location.request();
-  if (status.isGranted) {
-    print('granted');
-  } else {
-    print('denied');
-  }
-}
 
   void _getFromArguments() {
     final ModalRoute? modalRoute = ModalRoute.of(context);
@@ -84,7 +73,7 @@ void _sendMessage() async {
 
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = jsonDecode(response.body);
-        String aiResponse = responseData['response'];
+        String aiResponse = responseData['message'];
         setState(() {
           _messages.add(Message(
             text: aiResponse,
@@ -94,7 +83,14 @@ void _sendMessage() async {
           ));
         });
       } else {
-        print('Failed to fetch response from AI');
+        setState(() {
+          _messages.add(Message(
+            text: "Houve um erro de comunicação com o servidor",
+            username: 'AI',
+            avatar: null, 
+            isUser: false,
+          ));
+        });
       }
     } catch (e) {
       print('Error fetching location: $e');
@@ -193,11 +189,12 @@ class ChatBubble extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            backgroundImage: message.avatar != null
-                ? MemoryImage(message.avatar!)
-                : AssetImage('assets/default_avatar.png') as ImageProvider,
-          ),
+        CircleAvatar(
+          backgroundImage: message.avatar != null
+              ? MemoryImage(message.avatar!)
+              : null,
+          child: message.avatar == null ? Icon(Icons.person) : null,
+        ),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
