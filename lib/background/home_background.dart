@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ye_project/exam.dart';
 import 'package:ye_project/profile.dart';
 
 class HomeBackground extends StatefulWidget {
@@ -54,6 +55,12 @@ class _HomeBackgroundState extends State<HomeBackground> {
           actualHomeScreen = ProfileScreen(userName: userName);
         });
         break;
+      case "exam":
+        setState(() {
+          actualHomeScreen = ExamScreen();
+        });
+        break;
+
     }
     return Scaffold(
       body: Stack(
