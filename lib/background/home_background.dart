@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ye_project/exam.dart';
 import 'package:ye_project/profile.dart';
+import 'package:ye_project/chat.dart';
 
 class HomeBackground extends StatefulWidget {
-  HomeBackground(this.nextScreen, {super.key});
+  HomeBackground(this.nextScreen, {Key? key}) : super(key: key);
 
   final String nextScreen;
 
@@ -20,26 +21,30 @@ class _HomeBackgroundState extends State<HomeBackground> {
   Color medicationCor = Colors.transparent;
 
   late String userName;
+  late String avatar;
 
   @override
   void initState() {
     super.initState();
     userName = '';
+    avatar = '';
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _getUserNameFromArguments();
+    _getFromArguments();
   }
 
-  void _getUserNameFromArguments() {
+  void _getFromArguments() {
     final ModalRoute? modalRoute = ModalRoute.of(context);
     if (modalRoute != null) {
-      final Map<String, dynamic>? args = modalRoute.settings.arguments as Map<String, dynamic>?;
+      final Map<String, dynamic>? args =
+          modalRoute.settings.arguments as Map<String, dynamic>?;
       if (args != null) {
         setState(() {
-          userName = args['user_name'] as String;
+          userName = args['user_name'] as String? ?? '';
+          avatar = args['avatar'] as String? ?? '';
         });
       }
     }
@@ -47,13 +52,14 @@ class _HomeBackgroundState extends State<HomeBackground> {
 
   @override
   Widget build(BuildContext context) {
-    Widget actualHomeScreen = ProfileScreen(userName: userName);
+    Widget actualHomeScreen = ProfileScreen(userName: userName, avatar: avatar);
 
     switch (widget.nextScreen) {
-      case 'profile':
-        setState(() {
-          actualHomeScreen = ProfileScreen(userName: userName);
-        });
+      case 'login':
+        actualHomeScreen = ProfileScreen(userName: userName, avatar: avatar);
+        break;
+      case 'chat_with_ai':
+        actualHomeScreen = ChatScreen();
         break;
       case "exam":
         setState(() {
@@ -62,6 +68,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
         break;
 
     }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -71,6 +78,34 @@ class _HomeBackgroundState extends State<HomeBackground> {
             ),
           ),
           Positioned.fill(child: actualHomeScreen),
+          if (widget.nextScreen != "chat_with_ai")
+            Positioned(
+              bottom: 60,
+              right: 20,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/chat_with_ai', arguments: {
+                    'user_name': userName,
+                    'avatar': avatar
+                  });
+                },
+                child: Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color.fromARGB(255, 46, 100, 180),
+                  ),
+                  child: Center(
+                    child: Image.asset(
+                      'assets/png/ai-stars.png',
+                      width: 60,
+                      height: 70,
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
       bottomNavigationBar: Container(
@@ -92,10 +127,9 @@ class _HomeBackgroundState extends State<HomeBackground> {
                   ),
                   child: IconButton(
                     onPressed: () {
-                      setState(() {
-                        consultaCor = Colors.grey[350] ?? Colors.grey;
-                        examCor = Colors.transparent;
-                        medicationCor = Colors.transparent;
+                      Navigator.pushNamed(context, '/profile', arguments: {
+                        'user_name': userName,
+                        'avatar': avatar
                       });
                     },
                     icon: Column(
