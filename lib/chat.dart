@@ -18,6 +18,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final ApiClient apiClient = ApiClient();
   final TextEditingController _controller = TextEditingController();
   final List<Message> _messages = [];
+  final ScrollController _scrollController = ScrollController(); 
 
   late String userName;
   late String avatar;
@@ -46,59 +47,73 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-void _sendMessage() async {
-  String messageText = _controller.text;
-  if (messageText.isNotEmpty) {
-    setState(() {
-      _messages.add(Message(
-        text: messageText,
-        username: userName,
-        avatar: avatarDecoded,
-        isUser: true,
-      ));
-      _controller.clear();
-    });
-
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-      double latitude = position.latitude;
-      double longitude = position.longitude;
-
-      final http.Response response = await apiClient.post('/ask_ai', {
-        'question': messageText,
-        'latitude': latitude,
-        'longitude': longitude,
+  void _sendMessage() async {
+    String messageText = _controller.text;
+    if (messageText.isNotEmpty) {
+      setState(() {
+        _messages.add(Message(
+          text: messageText,
+          username: userName,
+          avatar: avatarDecoded,
+          isUser: true,
+        ));
+        _controller.clear();
       });
 
-      if (response.statusCode == 200) {
-        Map<String, dynamic> responseData = jsonDecode(response.body);
-        String aiResponse = responseData['message'];
-        setState(() {
-          _messages.add(Message(
-            text: aiResponse,
-            username: 'AI',
-            avatar: null, 
-            isUser: false,
-          ));
+      _scrollToBottom();
+
+      try {
+        Position position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+        double latitude = position.latitude;
+        double longitude = position.longitude;
+
+        final http.Response response = await apiClient.post('/ask_ai', {
+          'question': messageText,
+          'latitude': latitude,
+          'longitude': longitude,
         });
-      } else {
-        setState(() {
-          _messages.add(Message(
-            text: "A IA não está preparada para esse tipo de interação.",
-            username: 'AI',
-            avatar: null, 
-            isUser: false,
-          ));
-        });
+
+        if (response.statusCode == 200) {
+          Map<String, dynamic> responseData = jsonDecode(response.body);
+          String aiResponse = responseData['message'];
+          setState(() {
+            _messages.add(Message(
+              text: aiResponse,
+              username: 'AI',
+              avatar: null, 
+              isUser: false,
+            ));
+          });
+
+          _scrollToBottom();
+        } else {
+          setState(() {
+            _messages.add(Message(
+              text: "A IA não está preparada para esse tipo de interação.",
+              username: 'AI',
+              avatar: null, 
+              isUser: false,
+            ));
+          });
+
+          _scrollToBottom();
+        }
+      } catch (e) {
+        print('Error fetching location: $e');
       }
-    } catch (e) {
-      print('Error fetching location: $e');
     }
   }
-}
 
-
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +131,7 @@ void _sendMessage() async {
                 const SizedBox(height: 40),
                 Expanded(
                   child: ListView.builder(
+                    controller: _scrollController,
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     itemCount: _messages.length,
                     itemBuilder: (context, index) {
@@ -162,6 +178,7 @@ void _sendMessage() async {
     );
   }
 }
+
 
 class Message {
   final String text;
