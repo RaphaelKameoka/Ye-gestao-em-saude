@@ -1,10 +1,19 @@
+import 'dart:ffi';
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'api.dart';
+import 'dart:math';
+
 
 class ExamScreen extends StatefulWidget {
+  final String userName;
+
+
+  const ExamScreen ({Key? key, required this.userName})
+      : super(key: key);
   @override
   _ExamScreenState createState() => _ExamScreenState();
 }
@@ -12,15 +21,46 @@ class ExamScreen extends StatefulWidget {
 class _ExamScreenState extends State<ExamScreen> {
   final List<Item> _data = generateItems(1);
   final ApiClient apiClient = ApiClient();
+  String peso = "";
+  String altura = "";
+  String pressao = "";
+  String glicemia = "";
+  String imc = "";
+
+  Future<void> _getExams() async {
+    try {
+      final http.Response response = await apiClient.post('/get_exams', {
+        'user_name': widget.userName,
+      });
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        peso = data['peso'];
+        altura = data['altura'];
+        pressao = data['pressao'];
+        glicemia = data['glicemia'];
+        double calcIMC = int.parse(peso) / pow((int.parse(altura) / 100), 2);
+        imc = calcIMC.round().toString();
+        // imc = String
+        setState(() {
+          _getExams();
+        });
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   void _expand() {
     setState(() {
       _data.forEach((item) {
+        _getExams();
         item.isExpanded = !item.isExpanded;
       });
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -83,7 +123,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                           fontSize: 20)),
                                 ),
                               ),
-                              Text("12/8",
+                              Text(pressao,
                                   style: GoogleFonts.montserrat(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -110,7 +150,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                           fontSize: 20)),
                                 ),
                               ),
-                              Text("70 mg/dl",
+                              Text(glicemia,
                                   style: GoogleFonts.montserrat(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -137,7 +177,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                           fontSize: 20)),
                                 ),
                               ),
-                              Text("75 kg",
+                              Text(peso,
                                   style: GoogleFonts.montserrat(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -164,7 +204,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                           fontSize: 20)),
                                 ),
                               ),
-                              Text("20.0",
+                              Text(imc,
                                   style: GoogleFonts.montserrat(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,

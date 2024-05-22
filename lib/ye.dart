@@ -25,7 +25,8 @@ class _YeState extends State<Ye> {
         '/change_password': (context) => AuthBackground('change_password'),
         '/home': (context) => HomeBackground('login'),
         '/profile': (context) => HomeBackground('login'),
-        '/chat_with_ai': (context) => HomeBackground('chat_with_ai')
+        '/chat_with_ai': (context) => HomeBackground('chat_with_ai'),
+        '/exam': (context) => HomeBackground('exam'),
       },
     );
   }

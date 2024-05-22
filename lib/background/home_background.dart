@@ -40,7 +40,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
     final ModalRoute? modalRoute = ModalRoute.of(context);
     if (modalRoute != null) {
       final Map<String, dynamic>? args =
-          modalRoute.settings.arguments as Map<String, dynamic>?;
+      modalRoute.settings.arguments as Map<String, dynamic>?;
       if (args != null) {
         setState(() {
           userName = args['user_name'] as String? ?? '';
@@ -48,6 +48,13 @@ class _HomeBackgroundState extends State<HomeBackground> {
         });
       }
     }
+  }
+
+  void _navigateTo(String routeName) {
+    Navigator.pushNamed(context, routeName, arguments: {
+      'user_name': userName,
+      'avatar': avatar,
+    });
   }
 
   @override
@@ -62,11 +69,8 @@ class _HomeBackgroundState extends State<HomeBackground> {
         actualHomeScreen = ChatScreen();
         break;
       case "exam":
-        setState(() {
-          actualHomeScreen = ExamScreen();
-        });
+        actualHomeScreen = ExamScreen(userName: userName);
         break;
-
     }
 
     return Scaffold(
@@ -84,10 +88,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
               right: 20,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/chat_with_ai', arguments: {
-                    'user_name': userName,
-                    'avatar': avatar
-                  });
+                  _navigateTo('/chat_with_ai');
                 },
                 child: Container(
                   width: 70,
@@ -132,10 +133,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
                         examCor = Colors.transparent;
                         notificationsCor = Colors.transparent;
                       });
-                      Navigator.pushNamed(context, '/profile', arguments: {
-                        'user_name': userName,
-                        'avatar': avatar
-                      });
+                      _navigateTo('/profile');
                     },
                     icon: Column(
                       children: <Widget>[
@@ -178,6 +176,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
                         profileCor = Colors.transparent;
                         notificationsCor = Colors.transparent;
                       });
+                      _navigateTo('/exam');
                     },
                     icon: Column(
                       children: <Widget>[
