@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'api.dart';
 
 class ExamScreen extends StatefulWidget {
@@ -10,6 +11,7 @@ class ExamScreen extends StatefulWidget {
 
 class _ExamScreenState extends State<ExamScreen> {
   final List<Item> _data = generateItems(1);
+  final ApiClient apiClient = ApiClient();
 
   void _expand() {
     setState(() {
@@ -18,7 +20,7 @@ class _ExamScreenState extends State<ExamScreen> {
       });
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -16,9 +16,9 @@ class HomeBackground extends StatefulWidget {
 }
 
 class _HomeBackgroundState extends State<HomeBackground> {
-  Color consultaCor = Colors.transparent;
+  Color profileCor = Colors.grey[350] ?? Colors.grey;
   Color examCor = Colors.transparent;
-  Color medicationCor = Colors.transparent;
+  Color notificationsCor = Colors.transparent;
 
   late String userName;
   late String avatar;
@@ -122,11 +122,16 @@ class _HomeBackgroundState extends State<HomeBackground> {
                   duration: const Duration(milliseconds: 300),
                   padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                   decoration: BoxDecoration(
-                    color: consultaCor,
+                    color: profileCor,
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: IconButton(
                     onPressed: () {
+                      setState(() {
+                        profileCor = Colors.grey[350] ?? Colors.grey;
+                        examCor = Colors.transparent;
+                        notificationsCor = Colors.transparent;
+                      });
                       Navigator.pushNamed(context, '/profile', arguments: {
                         'user_name': userName,
                         'avatar': avatar
@@ -170,8 +175,8 @@ class _HomeBackgroundState extends State<HomeBackground> {
                     onPressed: () {
                       setState(() {
                         examCor = Colors.grey[350] ?? Colors.grey;
-                        consultaCor = Colors.transparent;
-                        medicationCor = Colors.transparent;
+                        profileCor = Colors.transparent;
+                        notificationsCor = Colors.transparent;
                       });
                     },
                     icon: Column(
@@ -205,14 +210,14 @@ class _HomeBackgroundState extends State<HomeBackground> {
                   duration: const Duration(milliseconds: 300),
                   padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                   decoration: BoxDecoration(
-                    color: medicationCor,
+                    color: notificationsCor,
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: IconButton(
                     onPressed: () {
                       setState(() {
-                        medicationCor = Colors.grey[350] ?? Colors.grey;
-                        consultaCor = Colors.transparent;
+                        notificationsCor = Colors.grey[350] ?? Colors.grey;
+                        profileCor = Colors.transparent;
                         examCor = Colors.transparent;
                       });
                     },
