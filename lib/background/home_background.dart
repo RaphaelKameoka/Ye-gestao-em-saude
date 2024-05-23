@@ -131,12 +131,11 @@ class _HomeBackgroundState extends State<HomeBackground> {
                         examCor = Colors.transparent;
                         notificationsCor = Colors.transparent;
                       });
-                      _navigateTo('/profile');
                     },
                     icon: Column(
                       children: <Widget>[
                         Image.asset(
-                          'assets/png/profile.png',
+                          'assets/png/history.png',
                           width: 70,
                           height: 40,
                         ),
@@ -225,7 +224,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
                     icon: Column(
                       children: <Widget>[
                         Image.asset(
-                          'assets/png/bell.png',
+                          'assets/png/medication.png',
                           width: 70,
                           height: 40,
                         ),
