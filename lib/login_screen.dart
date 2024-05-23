@@ -41,7 +41,7 @@ Future<void> _handleEntrarPressed() async {
 
         Navigator.pushNamed(
           context, 
-          '/home',
+          '/exam',
           arguments: {
             'email': email,
             'avatar': firstUserAvatar,

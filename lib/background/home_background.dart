@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ye_project/exam.dart';
-import 'package:ye_project/profile.dart';
 import 'package:ye_project/chat.dart';
 
 class HomeBackground extends StatefulWidget {
@@ -16,8 +15,8 @@ class HomeBackground extends StatefulWidget {
 }
 
 class _HomeBackgroundState extends State<HomeBackground> {
-  Color profileCor = Colors.grey[350] ?? Colors.grey;
-  Color examCor = Colors.transparent;
+  Color profileCor = Colors.transparent;
+  Color examCor = Colors.grey[350] ?? Colors.grey;
   Color notificationsCor = Colors.transparent;
 
   late String userName;
@@ -59,17 +58,14 @@ class _HomeBackgroundState extends State<HomeBackground> {
 
   @override
   Widget build(BuildContext context) {
-    Widget actualHomeScreen = ProfileScreen(userName: userName, avatar: avatar);
+    Widget actualHomeScreen = ExamScreen(userName: userName, avatar: avatar);
 
     switch (widget.nextScreen) {
-      case 'login':
-        actualHomeScreen = ProfileScreen(userName: userName, avatar: avatar);
-        break;
       case 'chat_with_ai':
         actualHomeScreen = ChatScreen();
         break;
       case "exam":
-        actualHomeScreen = ExamScreen(userName: userName);
+        actualHomeScreen = ExamScreen(userName: userName, avatar: avatar,);
         break;
     }
 
@@ -114,6 +110,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
         height: 80,
         width: double.infinity,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
@@ -144,7 +141,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
                           height: 40,
                         ),
                         Text(
-                          "Perfil",
+                          "Histórico",
                           style: GoogleFonts.montserrat(
                             color: const Color(0xFF6B9683),
                             fontWeight: FontWeight.bold,
@@ -233,7 +230,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
                           height: 40,
                         ),
                         Text(
-                          "Lembretes",
+                          "Medicação",
                           style: GoogleFonts.montserrat(
                             color: const Color(0xFF6B9683),
                             fontWeight: FontWeight.bold,
