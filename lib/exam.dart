@@ -3,6 +3,8 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'api.dart';
+import 'custom_expansion_panel.dart';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:math';
@@ -73,14 +75,14 @@ class _ExamScreenState extends State<ExamScreen> {
           margin: EdgeInsets.symmetric(horizontal: 20),
           child: SingleChildScrollView(
             child: Container(
-              child: ExpansionPanelList(
+              child: CustomExpansionPanelList(
                 expansionCallback: (int index, bool isExpanded) {
                   setState(() {
                     _data[index].isExpanded = !isExpanded;
                   });
                 },
-                children: _data.map<ExpansionPanel>((Item item) {
-                  return ExpansionPanel(
+                children: _data.map<CustomExpansionPanel>((Item item) {
+                  return CustomExpansionPanel(
                     hasIcon: false,
                     backgroundColor: Color.fromARGB(255, 241, 241, 234),
                     headerBuilder: (BuildContext context, bool isExpanded) {
@@ -102,7 +104,6 @@ class _ExamScreenState extends State<ExamScreen> {
                         ],
                       );
                     },
-
                     body: Column(
                       children: [
                         Container(
