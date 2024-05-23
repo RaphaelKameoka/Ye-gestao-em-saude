@@ -40,7 +40,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
     final ModalRoute? modalRoute = ModalRoute.of(context);
     if (modalRoute != null) {
       final Map<String, dynamic>? args =
-      modalRoute.settings.arguments as Map<String, dynamic>?;
+          modalRoute.settings.arguments as Map<String, dynamic>?;
       if (args != null) {
         setState(() {
           userName = args['user_name'] as String? ?? '';
@@ -121,7 +121,8 @@ class _HomeBackgroundState extends State<HomeBackground> {
               children: [
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                   decoration: BoxDecoration(
                     color: profileCor,
                     borderRadius: BorderRadius.circular(50),
@@ -164,7 +165,8 @@ class _HomeBackgroundState extends State<HomeBackground> {
               children: [
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                   decoration: BoxDecoration(
                     color: examCor,
                     borderRadius: BorderRadius.circular(50),
@@ -176,7 +178,9 @@ class _HomeBackgroundState extends State<HomeBackground> {
                         profileCor = Colors.transparent;
                         notificationsCor = Colors.transparent;
                       });
-                      _navigateTo('/exam');
+                      Future.delayed(const Duration(milliseconds: 50), () {
+                        _navigateTo('/exam');
+                      });
                     },
                     icon: Column(
                       children: <Widget>[
@@ -207,7 +211,8 @@ class _HomeBackgroundState extends State<HomeBackground> {
               children: [
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                   decoration: BoxDecoration(
                     color: notificationsCor,
                     borderRadius: BorderRadius.circular(50),

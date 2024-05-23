@@ -13,9 +13,8 @@ import 'dart:math';
 class ExamScreen extends StatefulWidget {
   final String userName;
 
+  const ExamScreen({required this.userName, super.key});
 
-  const ExamScreen ({Key? key, required this.userName})
-      : super(key: key);
   @override
   _ExamScreenState createState() => _ExamScreenState();
 }
@@ -151,7 +150,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                           fontSize: 20)),
                                 ),
                               ),
-                              Text(glicemia,
+                              Text(glicemia + " mg/dL",
                                   style: GoogleFonts.montserrat(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -163,10 +162,10 @@ class _ExamScreenState extends State<ExamScreen> {
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 217, 217, 217),
+                            color: const Color.fromARGB(255, 217, 217, 217),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                             children: [
                               Expanded(
@@ -178,7 +177,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                           fontSize: 20)),
                                 ),
                               ),
-                              Text(peso,
+                              Text(peso + " kg",
                                   style: GoogleFonts.montserrat(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
