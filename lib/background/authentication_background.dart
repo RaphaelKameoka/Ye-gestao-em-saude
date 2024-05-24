@@ -49,6 +49,7 @@ class _AuthBackgroundState extends State<AuthBackground> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(children: [
         Container(
           decoration: const BoxDecoration(
