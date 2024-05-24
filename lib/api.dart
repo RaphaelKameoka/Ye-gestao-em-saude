@@ -4,9 +4,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiClient {
   late final String _baseUrl;
+  late final Future<void> _baseInit;
 
   ApiClient() {
-    initializeBaseUrl();
+    _baseInit = initializeBaseUrl();
   }
 
   Future<void> initializeBaseUrl() async {
@@ -17,11 +18,13 @@ class ApiClient {
   }
 
   Future<http.Response> get(String route) async {
+    await _baseInit;
     final response = await http.get(Uri.parse('$_baseUrl$route'));
     return response;
   }
 
   Future<http.Response> post(String route, dynamic body) async {
+    await _baseInit;
     final response = await http.post(
       Uri.parse('$_baseUrl$route'),
       headers: {'Content-Type': 'application/json'},
