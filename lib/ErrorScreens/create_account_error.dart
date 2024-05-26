@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'api.dart';
+import 'package:ye_project/api.dart';
 
-class CreateAccount extends StatefulWidget {
-  const CreateAccount({super.key});
+class CreateAccountError extends StatefulWidget {
+  final String error;
+  const CreateAccountError({required this.error, super.key});
 
   @override
-  State<CreateAccount> createState() {
-    return _CreateAccountState();
+  State<CreateAccountError> createState() {
+    return _CreateAccountErrorState();
   }
 }
 
-class _CreateAccountState extends State<CreateAccount> {
+class _CreateAccountErrorState extends State<CreateAccountError> {
   bool obscureTextPassword = true;
   bool obscureTextConfirmation = true;
 
@@ -38,15 +39,7 @@ class _CreateAccountState extends State<CreateAccount> {
 
       if (response.statusCode == 200) {
         Navigator.pushNamed(context, '/login');
-      } else if (response.statusCode == 400){
-        Navigator.pushNamed(context, '/create_account_error', arguments: {'error': 'É necessário preencher todos os campos'});
-      }
-      else if (response.statusCode == 401){
-        Navigator.pushNamed(context, '/create_account_error', arguments: {'error': 'As senhas não coincidem'});
-      }else if (response.statusCode == 409){
-        Navigator.pushNamed(context, '/create_account_error', arguments: {'error': 'Um usuário com esse email já existe'});
-      }
-      else {
+      } else {
         print('Error: ${response.statusCode}');
       }
     } catch (e) {
@@ -100,6 +93,18 @@ class _CreateAccountState extends State<CreateAccount> {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            color: Colors.red,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            color: Colors.red,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -121,6 +126,18 @@ class _CreateAccountState extends State<CreateAccount> {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            color: Colors.red,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            color: Colors.red,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -159,6 +176,18 @@ class _CreateAccountState extends State<CreateAccount> {
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                  color: Colors.red,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                  color: Colors.red,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -190,7 +219,7 @@ class _CreateAccountState extends State<CreateAccount> {
                                 onPressed: () {
                                   setState(() {
                                     obscureTextConfirmation =
-                                        !obscureTextConfirmation;
+                                    !obscureTextConfirmation;
                                   });
                                 },
                               ),
@@ -199,9 +228,32 @@ class _CreateAccountState extends State<CreateAccount> {
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                  color: Colors.red,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                  color: Colors.red,
+                                ),
+                              ),
                             ),
                           ),
                         ),
+                      ]),
+                  Row(crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.warning_amber,
+                          color: Colors.red,
+                        ),
+                        Text(widget.error,
+                            style: GoogleFonts.montserrat(
+                                color: Colors.red, fontWeight: FontWeight.bold)),
                       ]),
                   SizedBox(
                     height: 20,
@@ -216,7 +268,7 @@ class _CreateAccountState extends State<CreateAccount> {
                                 borderRadius: BorderRadius.circular(5))),
                         alignment: Alignment.center,
                         backgroundColor: MaterialStateColor.resolveWith(
-                            (states) => const Color.fromRGBO(107, 150, 131, 1)),
+                                (states) => const Color.fromRGBO(107, 150, 131, 1)),
                       ),
                       onPressed: () {
                         _handleCriarPressed();

@@ -104,7 +104,7 @@ class _LoginErrorScreenState extends State<LoginErrorScreen> {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(
-                          color: Colors.red, // Cor da borda quando o campo está focado
+                          color: Colors.red,
                         ),
                       ),
                     ),
@@ -149,7 +149,7 @@ class _LoginErrorScreenState extends State<LoginErrorScreen> {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(
-                          color: Colors.red, // Cor da borda quando o campo está focado
+                          color: Colors.red,
                         ),
                       ),
                     ),
