@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'api.dart';
+import 'package:ye_project/api.dart';
 
-class ChangePassword extends StatefulWidget {
-  const ChangePassword({super.key});
+class ChangePasswordError extends StatefulWidget {
+  const ChangePasswordError({super.key});
 
   @override
-  State<ChangePassword> createState() {
-    return _ChangePasswordState();
+  State<ChangePasswordError> createState() {
+    return _ChangePasswordErrorState();
   }
 }
 
-class _ChangePasswordState extends State<ChangePassword> {
+class _ChangePasswordErrorState extends State<ChangePasswordError> {
   bool passwordObscureText = true;
   bool newPasswordObscureText = true;
   final ApiClient apiClient = ApiClient();
@@ -20,30 +20,28 @@ class _ChangePasswordState extends State<ChangePassword> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
 
-
   Future<void> _handleTrocarPressed() async {
     try {
       final ModalRoute? modalRoute = ModalRoute.of(context);
       if (modalRoute != null) {
-        final Map<String, dynamic>? args = modalRoute.settings.arguments as Map<String, dynamic>?;
+        final Map<String, dynamic>? args =
+            modalRoute.settings.arguments as Map<String, dynamic>?;
         if (args != null) {
           final String email = args['email'] as String;
           final String password = passwordController.text;
           final String confirm_password = confirmController.text;
 
-          final http.Response response = await apiClient.post('/change_pass',{
+          final http.Response response = await apiClient.post('/change_pass', {
             'email': email,
             'password': password,
             'confirm_password': confirm_password,
           });
 
           if (response.statusCode == 200) {
-            Navigator.pushNamed(
-              context, 
-              '/login'
-            );
+            Navigator.pushNamed(context, '/login');
           } else {
-            Navigator.pushNamed(context, '/change_password_error', arguments: {'email':email});
+            Navigator.pushNamed(context, '/change_password_error',
+                arguments: {'email': email});
           }
         } else {
           print('No arguments provided.');
@@ -91,7 +89,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                     decoration: InputDecoration(
                       suffixIcon: IconButton(
                         icon: Icon(
-                          passwordObscureText ? Icons.visibility_off : Icons.visibility,
+                          passwordObscureText
+                              ? Icons.visibility_off
+                              : Icons.visibility,
                           color: Colors.grey,
                         ),
                         onPressed: () {
@@ -105,6 +105,18 @@ class _ChangePasswordState extends State<ChangePassword> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -124,7 +136,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                     decoration: InputDecoration(
                       suffixIcon: IconButton(
                         icon: Icon(
-                          newPasswordObscureText ? Icons.visibility_off : Icons.visibility,
+                          newPasswordObscureText
+                              ? Icons.visibility_off
+                              : Icons.visibility,
                           color: Colors.grey,
                         ),
                         onPressed: () {
@@ -138,6 +152,18 @@ class _ChangePasswordState extends State<ChangePassword> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -152,7 +178,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               borderRadius: BorderRadius.circular(5))),
                       alignment: Alignment.center,
                       backgroundColor: MaterialStateColor.resolveWith(
-                              (states) => const Color.fromRGBO(107, 150, 131, 1)),
+                          (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
                     onPressed: () {
                       _handleTrocarPressed();
@@ -162,7 +188,20 @@ class _ChangePasswordState extends State<ChangePassword> {
                       style: GoogleFonts.montserrat(
                           color: Colors.white, fontSize: 25),
                     )),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
+                Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.warning_amber,
+                        color: Colors.red,
+                      ),
+                      Text("As senhas não coincidem",
+                          style: GoogleFonts.montserrat(
+                              color: Colors.red, fontWeight: FontWeight.bold)),
+                    ]),
+                SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/login');
