@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'api.dart';
+import 'package:ye_project/api.dart';
 
-class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
+class ForgotPasswordError extends StatefulWidget {
+  const ForgotPasswordError({super.key});
 
   @override
-  State<ForgotPassword> createState() {
-    return _ForgotPasswordState();
+  State<ForgotPasswordError> createState() {
+    return _ForgotPasswordErrorState();
   }
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
+class _ForgotPasswordErrorState extends State<ForgotPasswordError> {
   final ApiClient apiClient = ApiClient();
   TextEditingController emailController = TextEditingController();
 
@@ -27,7 +27,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
       if (response.statusCode == 200) {
         Navigator.pushNamed(context, '/password_code',
-        arguments: {'email': email});
+            arguments: {'email': email});
       } else {
         Navigator.pushNamed(context, '/forgot_password_error');
       }
@@ -81,10 +81,28 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 50),
+                SizedBox(height: 10,),
+                Row(crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.warning_amber,
+                        color: Colors.red,
+                      ),
+                      Text("Email inválido",
+                          style: GoogleFonts.montserrat(
+                              color: Colors.red, fontWeight: FontWeight.bold)),
+                    ]),
+                const SizedBox(height: 40),
                 FilledButton(
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(
@@ -95,7 +113,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               borderRadius: BorderRadius.circular(5))),
                       alignment: Alignment.center,
                       backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => const Color.fromRGBO(107, 150, 131, 1)),
+                              (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
                     onPressed: () {
                       _handleEnviarCodigoPressed();

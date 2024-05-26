@@ -244,6 +244,7 @@ class _CreateAccountErrorState extends State<CreateAccountError> {
                           ),
                         ),
                       ]),
+                  SizedBox(height: 10,),
                   Row(crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -256,7 +257,7 @@ class _CreateAccountErrorState extends State<CreateAccountError> {
                                 color: Colors.red, fontWeight: FontWeight.bold)),
                       ]),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   FilledButton(
                       style: ButtonStyle(
