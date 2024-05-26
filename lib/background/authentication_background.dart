@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ye_project/ErrorScreens/LoginError.dart';
 import 'package:ye_project/change_password.dart';
 import 'package:ye_project/create_account.dart';
 import 'package:ye_project/forgot_password.dart';
@@ -26,6 +27,10 @@ class _AuthBackgroundState extends State<AuthBackground> {
       case 'login':
         setState(() {
           actualAuthScreen = const LoginScreen();
+        },);
+      case 'login_error':
+        setState(() {
+          actualAuthScreen = const LoginErrorScreen();
         },);
 
         break;

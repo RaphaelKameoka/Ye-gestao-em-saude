@@ -19,6 +19,7 @@ class _YeState extends State<Ye> {
       home: screenWidget,
       routes: {
         '/login': (context) => AuthBackground('login'),
+        '/login_error': (context) => AuthBackground('login_error'),
         '/forgot_password': (context) => AuthBackground('forgot_password'),
         '/create_account': (context) => AuthBackground('create_account'),
         '/password_code': (context) => AuthBackground('password_code'),
