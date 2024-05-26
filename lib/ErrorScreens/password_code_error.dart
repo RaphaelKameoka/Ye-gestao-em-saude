@@ -2,19 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'api.dart';
+import 'package:ye_project/api.dart';
 
-class PasswordCode extends StatefulWidget {
-  const PasswordCode({super.key});
+class PasswordCodeError extends StatefulWidget {
+  const PasswordCodeError({super.key});
 
   @override
-  State<PasswordCode> createState() {
-    return _PasswordCodeState();
+  State<PasswordCodeError> createState() {
+    return _PasswordCodeErrorState();
   }
 }
 
-class _PasswordCodeState extends State<PasswordCode> {
-  
+class _PasswordCodeErrorState extends State<PasswordCodeError> {
+
   bool obscureText = true;
   final ApiClient apiClient = ApiClient();
 
@@ -102,10 +102,28 @@ class _PasswordCodeState extends State<PasswordCode> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
                     ),
                   ),
                 ),
+                Row(crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.warning_amber,
+                        color: Colors.red,
+                      ),
+                      Text("Código inválido",
+                          style: GoogleFonts.montserrat(
+                              color: Colors.red, fontWeight: FontWeight.bold)),
+                    ]),
                 const SizedBox(height: 50),
+
                 FilledButton(
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(
@@ -116,7 +134,7 @@ class _PasswordCodeState extends State<PasswordCode> {
                               borderRadius: BorderRadius.circular(5))),
                       alignment: Alignment.center,
                       backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => const Color.fromRGBO(107, 150, 131, 1)),
+                              (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
                     onPressed: () {
                       _handleEnviarPressed();

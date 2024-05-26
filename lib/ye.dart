@@ -24,6 +24,7 @@ class _YeState extends State<Ye> {
         '/create_account': (context) => AuthBackground('create_account'),
         '/create_account_error': (context) => AuthBackground('create_account_error'),
         '/password_code': (context) => AuthBackground('password_code'),
+        '/password_code_error': (context) => AuthBackground('password_code_error'),
         '/change_password': (context) => AuthBackground('change_password'),
         '/chat_with_ai': (context) => HomeBackground('chat_with_ai'),
         '/exam': (context) => HomeBackground('exam'),
