@@ -81,6 +81,17 @@ class _ExamScreenState extends State<ExamScreen> {
         warning = true;
       }
     }
+    //Verificando valores para glicemia
+    double glicemiaV = double.parse(glicemia);
+    if (glicemiaV !< 70.0){
+      glicemiaClass = Colors.yellow;
+    } else if (glicemiaV >= 70.0 && glicemiaV < 100.0){
+      glicemiaClass = Colors.green;
+    } else if (glicemiaV >= 100.0 && glicemiaV < 125.0){
+      glicemiaClass = Colors.yellow;
+    } else if (glicemiaV >= 125.0){
+      glicemiaClass = Colors.red;
+    }
   }
 
   void _showImageSourceActionSheet(BuildContext context) {
@@ -121,7 +132,6 @@ class _ExamScreenState extends State<ExamScreen> {
       });
 
       if (response.statusCode == 200) {
-        final List<dynamic> responseData = json.decode(response.body);
       } else {
         print('Error: ${response.statusCode}');
       }
