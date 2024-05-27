@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'api.dart';
@@ -31,6 +32,7 @@ class _ExamScreenState extends State<ExamScreen> {
   Color pressaoClass = Colors.transparent;
   Color glicemiaClass = Colors.transparent;
   Color imcClass = Colors.transparent;
+  Color pesoClass = Colors.transparent;
 
   @override
   void initState() {
@@ -84,14 +86,34 @@ class _ExamScreenState extends State<ExamScreen> {
     //Verificando valores para glicemia
     double glicemiaV = double.parse(glicemia);
     if (glicemiaV !< 70.0){
-      glicemiaClass = Colors.yellow;
+      glicemiaClass = Colors.orange;
     } else if (glicemiaV >= 70.0 && glicemiaV < 100.0){
       glicemiaClass = Colors.green;
     } else if (glicemiaV >= 100.0 && glicemiaV < 125.0){
-      glicemiaClass = Colors.yellow;
+      glicemiaClass = Colors.orange;
     } else if (glicemiaV >= 125.0){
       glicemiaClass = Colors.red;
+      warning = true;
     }
+
+    double imcV = double.parse(imc);
+    //Verificando IMC
+    if (imcV < 16){
+      imcClass = Colors.red;
+    }
+    if (imcV < 18.5){
+      imcClass = Colors.orange;
+    }
+    if (imcV < 25){
+      imcClass = Colors.green;
+    }
+    if (imcV < 30){
+      imcClass = Colors.orange;
+    }
+    if (imcV >= 30){
+      imcClass = Colors.red;
+    }
+    pesoClass = Colors.black;
   }
 
   void _showImageSourceActionSheet(BuildContext context) {
@@ -241,6 +263,21 @@ class _ExamScreenState extends State<ExamScreen> {
                   fontSize: 25),
             ),
             SizedBox(height: 40),
+            Visibility(
+              visible: warning,
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.warning_amber,
+                      color: Colors.red,
+                    ),
+                    Text("Recomenda-se a ida ao hospital mais próximo",
+                        style: GoogleFonts.montserrat(
+                            color: Colors.red, fontWeight: FontWeight.bold)),
+                  ]),
+            ),
             Container(
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 162, 162, 0),
@@ -356,7 +393,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                   ),
                                   Text(peso + " kg",
                                       style: GoogleFonts.montserrat(
-                                          color: Colors.black,
+                                          color: pesoClass,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20)),
                                   SizedBox(width: 20)
@@ -384,7 +421,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                   ),
                                   Text(imc,
                                       style: GoogleFonts.montserrat(
-                                          color: Colors.black,
+                                          color: imcClass,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20)),
                                   SizedBox(width: 20)
