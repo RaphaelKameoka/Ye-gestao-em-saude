@@ -27,6 +27,10 @@ class _ExamScreenState extends State<ExamScreen> {
   String pressao = "";
   String glicemia = "";
   String imc = "";
+  bool warning = false;
+  Color pressaoClass = Colors.transparent;
+  Color glicemiaClass = Colors.transparent;
+  Color imcClass = Colors.transparent;
 
   @override
   void initState() {
@@ -34,7 +38,6 @@ class _ExamScreenState extends State<ExamScreen> {
     _avatar = widget.avatar;
     _getExams();
   }
-
 
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -49,6 +52,34 @@ class _ExamScreenState extends State<ExamScreen> {
       });
 
       await _uploadImage(base64Image);
+    }
+  }
+
+  void _referenceValues(String imc, String glicemia, String pressao) {
+    // Verificando o valor da pressão arterial
+    List<String> valoresPressao = pressao.split('/');
+    int? sistolica = int.tryParse(valoresPressao[0]);
+    int? diastolica = int.tryParse(valoresPressao[1]);
+
+    if (sistolica != null && diastolica != null) {
+      sistolica *= 10;
+      diastolica *= 10;
+
+      if (sistolica < 90 || diastolica < 60) {
+        pressaoClass = Colors.yellow;
+      } else if (sistolica <= 120 && diastolica <= 80) {
+        pressaoClass = Colors.green;
+      } else if (sistolica < 130 && diastolica < 80) {
+        pressaoClass = Colors.yellow;
+      } else if (sistolica < 140 || diastolica < 90) {
+        pressaoClass = Colors.orange;
+      } else if (sistolica >= 140 || diastolica >= 90) {
+        pressaoClass = Colors.red;
+        warning = true;
+      } else if (sistolica >= 180 || diastolica >= 120) {
+        pressaoClass = Colors.black;
+        warning = true;
+      }
     }
   }
 
@@ -111,6 +142,9 @@ class _ExamScreenState extends State<ExamScreen> {
         pressao = data['pressao'];
         glicemia = data['glicemia'];
         imc = data['imc'];
+        setState(() {
+          _referenceValues(imc, glicemia, pressao);
+        });
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -174,18 +208,18 @@ class _ExamScreenState extends State<ExamScreen> {
                 backgroundColor: Colors.grey,
                 child: _avatar != null && _avatar!.isNotEmpty
                     ? ClipOval(
-                        child: Image.memory(
-                          base64Decode(_avatar!),
-                          fit: BoxFit.cover,
-                          width: 160,
-                          height: 160,
-                        ),
-                      )
+                  child: Image.memory(
+                    base64Decode(_avatar!),
+                    fit: BoxFit.cover,
+                    width: 160,
+                    height: 160,
+                  ),
+                )
                     : Icon(
-                        Icons.person,
-                        size: 140,
-                        color: Colors.white,
-                      ),
+                  Icons.person,
+                  size: 140,
+                  color: Colors.white,
+                ),
               ),
             ),
             SizedBox(height: 10),
@@ -214,8 +248,7 @@ class _ExamScreenState extends State<ExamScreen> {
                       return CustomExpansionPanel(
                         hasIcon: false,
                         backgroundColor: Color.fromARGB(255, 241, 241, 234),
-                        headerBuilder:
-                            (BuildContext context, bool isExpanded) {
+                        headerBuilder: (BuildContext context, bool isExpanded) {
                           return Column(
                             children: [
                               ListTile(
@@ -226,8 +259,8 @@ class _ExamScreenState extends State<ExamScreen> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22),
                                 ),
-                                leading: Icon(
-                                    isExpanded ? Icons.remove : Icons.add),
+                                leading:
+                                Icon(isExpanded ? Icons.remove : Icons.add),
                                 onTap: _expand,
                               )
                             ],
@@ -256,7 +289,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                   ),
                                   Text(pressao,
                                       style: GoogleFonts.montserrat(
-                                          color: Colors.black,
+                                          color: pressaoClass,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20)),
                                   SizedBox(width: 20)
@@ -284,7 +317,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                   ),
                                   Text(glicemia + " mg/dL",
                                       style: GoogleFonts.montserrat(
-                                          color: Colors.black,
+                                          color: glicemiaClass,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20)),
                                   SizedBox(width: 20)
@@ -298,8 +331,8 @@ class _ExamScreenState extends State<ExamScreen> {
                                 color: const Color.fromARGB(255, 217, 217, 217),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -402,7 +435,7 @@ class Item {
 List<Item> generateItems(int numberOfItems) {
   return List<Item>.generate(numberOfItems, (int index) {
     return Item(
-        headerValue: 'Exames mais recentes',
+        headerValue: 'Últimas aferições',
         pressaoValue: 'Pressão',
         glicemiaValue: "Glicemia",
         pesoValue: 'Peso',
