@@ -191,7 +191,6 @@ class _ExamScreenState extends State<ExamScreen> {
         item.isExpanded = !item.isExpanded;
       });
     });
-    _getExams();
   }
 
   Future<void> _handleAddButtonPressed() async {
@@ -230,6 +229,16 @@ class _ExamScreenState extends State<ExamScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+      Positioned(
+      top: 10,
+      right: 10,
+      child: IconButton(
+        icon: const Icon(Icons.refresh),
+        iconSize: 40.0,
+        onPressed: () {
+          _getExams();
+        },
+      ),),
         Column(
           children: [
             SizedBox(height: 100),
