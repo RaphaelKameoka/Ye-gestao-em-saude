@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ye_project/exam.dart';
 import 'package:ye_project/chat.dart';
+import 'package:ye_project/history.dart';
 
 class HomeBackground extends StatefulWidget {
   HomeBackground(this.nextScreen, {Key? key}) : super(key: key);
@@ -67,6 +68,9 @@ class _HomeBackgroundState extends State<HomeBackground> {
       case "exam":
         actualHomeScreen = ExamScreen(userName: userName, avatar: avatar,);
         break;
+      case "history":
+        actualHomeScreen = HistoryScreen(userName: userName);
+        break;
     }
 
     return Scaffold(
@@ -130,6 +134,9 @@ class _HomeBackgroundState extends State<HomeBackground> {
                         profileCor = Colors.grey[350] ?? Colors.grey;
                         examCor = Colors.transparent;
                         notificationsCor = Colors.transparent;
+                        Future.delayed(const Duration(milliseconds: 50), () {
+                          _navigateTo('/history');
+                        });
                       });
                     },
                     icon: Column(

@@ -30,6 +30,8 @@ class _YeState extends State<Ye> {
         '/change_password_error': (context) => AuthBackground('change_password_error'),
         '/chat_with_ai': (context) => HomeBackground('chat_with_ai'),
         '/exam': (context) => HomeBackground('exam'),
+        '/history': (context) => HomeBackground('history'),
+
       },
     );
   }
