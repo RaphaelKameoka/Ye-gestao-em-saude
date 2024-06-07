@@ -35,6 +35,8 @@ dependencies:
   flutter_dotenv: ^5.0.0 
   geolocator: ^7.6.2
   ffi: ^2.0.0
+  flutter_gif: ^0.0.4
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -70,6 +72,7 @@ flutter:
     - assets/images/ye_logo_with_name.png
     - assets/png/
     - .env
+    - assets/gifs/loading.gif
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
