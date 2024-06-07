@@ -124,16 +124,16 @@ class _ExamScreenState extends State<ExamScreen> {
           child: Wrap(
             children: <Widget>[
               ListTile(
-                leading: Icon(Icons.photo_library),
-                title: Text('Gallery'),
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Gallery'),
                 onTap: () {
                   _pickImage(ImageSource.gallery);
                   Navigator.of(context).pop();
                 },
               ),
               ListTile(
-                leading: Icon(Icons.photo_camera),
-                title: Text('Camera'),
+                leading: const Icon(Icons.photo_camera),
+                title: const Text('Camera'),
                 onTap: () {
                   _pickImage(ImageSource.camera);
                   Navigator.of(context).pop();
@@ -256,14 +256,14 @@ class _ExamScreenState extends State<ExamScreen> {
                     height: 160,
                   ),
                 )
-                    : Icon(
+                    : const Icon(
                   Icons.person,
                   size: 140,
                   color: Colors.white,
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               widget.userName,
               style: GoogleFonts.montserrat(
@@ -271,14 +271,14 @@ class _ExamScreenState extends State<ExamScreen> {
                   fontWeight: FontWeight.bold,
                   fontSize: 25),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Visibility(
               visible: warning,
               child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.warning_amber,
                       color: Colors.red,
                     ),
@@ -288,10 +288,10 @@ class _ExamScreenState extends State<ExamScreen> {
                   ]),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 162, 162, 0),
               ),
-              margin: EdgeInsets.symmetric(horizontal: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
                 child: Container(
                   child: CustomExpansionPanelList(
@@ -325,13 +325,13 @@ class _ExamScreenState extends State<ExamScreen> {
                         body: Column(
                           children: [
                             Container(
-                              margin: EdgeInsets.symmetric(
+                              margin: const EdgeInsets.symmetric(
                                   horizontal: 30, vertical: 5),
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 217, 217, 217),
+                                color: const Color.fromARGB(255, 217, 217, 217),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -348,18 +348,18 @@ class _ExamScreenState extends State<ExamScreen> {
                                           color: pressaoClass,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20)),
-                                  SizedBox(width: 20)
+                                  const SizedBox(width: 20)
                                 ],
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.symmetric(
+                              margin: const EdgeInsets.symmetric(
                                   horizontal: 30, vertical: 5),
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 217, 217, 217),
+                                color: const Color.fromARGB(255, 217, 217, 217),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -381,7 +381,7 @@ class _ExamScreenState extends State<ExamScreen> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.symmetric(
+                              margin: const EdgeInsets.symmetric(
                                   horizontal: 30, vertical: 5),
                               decoration: BoxDecoration(
                                 color: const Color.fromARGB(255, 217, 217, 217),
@@ -410,13 +410,13 @@ class _ExamScreenState extends State<ExamScreen> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.symmetric(
+                              margin: const EdgeInsets.symmetric(
                                   horizontal: 30, vertical: 5),
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 217, 217, 217),
+                                color: const Color.fromARGB(255, 217, 217, 217),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -433,11 +433,11 @@ class _ExamScreenState extends State<ExamScreen> {
                                           color: imcClass,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20)),
-                                  SizedBox(width: 20)
+                                  const SizedBox(width: 20)
                                 ],
                               ),
                             ),
-                            SizedBox(height: 30)
+                            const SizedBox(height: 30)
                           ],
                         ),
                         isExpanded: item.isExpanded,
@@ -456,11 +456,11 @@ class _ExamScreenState extends State<ExamScreen> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
-                color: Color.fromARGB(255, 241, 241, 234),
+                color: const Color.fromARGB(255, 241, 241, 234),
               ),
               child: IconButton(
                 onPressed: _handleAddButtonPressed,
-                icon: Icon(Icons.add, size: 40),
+                icon: const Icon(Icons.add, size: 40),
               ),
             ),
           ),

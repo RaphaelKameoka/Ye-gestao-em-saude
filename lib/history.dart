@@ -2,12 +2,6 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'api.dart';
-import 'custom_expansion_panel.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:io';
 
 List<String> exams = <String>['Pressão', 'Glicemia', 'Peso', 'IMC'];
 
@@ -53,6 +47,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       {'date': '20/05/2024', 'values': '12/8', 'condition': 'Normal'},
       {'date': '10/03/2024', 'values': '11/8', 'condition': 'Normal'},
       {'date': '02/01/2024', 'values': '17/11', 'condition': 'Elevado'},
+      {'date': '02/01/2024', 'values': '11/11', 'condition': 'Elevado'},
     ];
     _data = generateItems(dataList);
   }
