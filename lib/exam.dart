@@ -7,7 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter_gif/flutter_gif.dart';
+import 'dart:ui';
+
 
 class ExamScreen extends StatefulWidget {
   final String userName;
@@ -33,12 +34,25 @@ class _ExamScreenState extends State<ExamScreen> {
   Color glicemiaClass = Colors.transparent;
   Color imcClass = Colors.transparent;
   Color pesoClass = Colors.transparent;
+  bool _showOverlay = false;
 
   @override
   void initState() {
     super.initState();
     _avatar = widget.avatar;
     _getExams();
+    _showGifClick();
+  }
+
+  void _showGifClick(){
+    setState(() {
+      _showOverlay = true;
+    });
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        _showOverlay = false;
+      });
+    });
   }
 
   Future<void> _pickImage(ImageSource source) async {
@@ -237,6 +251,7 @@ class _ExamScreenState extends State<ExamScreen> {
         iconSize: 40.0,
         onPressed: () {
           _getExams();
+          _showGifClick();
         },
       ),),
         Column(
@@ -465,6 +480,16 @@ class _ExamScreenState extends State<ExamScreen> {
             ),
           ),
         ),
+        if (_showOverlay)
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+            child: Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: Image.asset('assets/gifs/loading.gif')
+              ),
+            ),
+          ),
       ],
     );
   }
