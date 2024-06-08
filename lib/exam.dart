@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ye_project/reference_values.dart';
 import 'api.dart';
 import 'custom_expansion_panel.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,7 +9,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
-
 
 class ExamScreen extends StatefulWidget {
   final String userName;
@@ -35,6 +35,7 @@ class _ExamScreenState extends State<ExamScreen> {
   Color imcClass = Colors.transparent;
   Color pesoClass = Colors.transparent;
   bool _showOverlay = false;
+  bool _showNotes = false;
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class _ExamScreenState extends State<ExamScreen> {
     _showGifClick();
   }
 
-  void _showGifClick(){
+  void _showGifClick() {
     setState(() {
       _showOverlay = true;
     });
@@ -99,33 +100,36 @@ class _ExamScreenState extends State<ExamScreen> {
     }
     //Verificando valores para glicemia
     double glicemiaV = double.parse(glicemia);
-    if (glicemiaV !< 70.0){
+    if (glicemiaV < 70.0) {
       glicemiaClass = Colors.orange;
-    } else if (glicemiaV >= 70.0 && glicemiaV < 100.0){
+    } else if (glicemiaV >= 70.0 && glicemiaV < 100.0) {
       glicemiaClass = Colors.green;
-    } else if (glicemiaV >= 100.0 && glicemiaV < 125.0){
+    } else if (glicemiaV >= 100.0 && glicemiaV < 125.0) {
       glicemiaClass = Colors.orange;
-    } else if (glicemiaV >= 125.0){
+    } else if (glicemiaV >= 125.0) {
       glicemiaClass = Colors.red;
       warning = true;
     }
 
     double imcV = double.parse(imc);
     //Verificando IMC
-    if (imcV < 16){
-      imcClass = Colors.red;
-    }
-    if (imcV < 18.5){
+    if (imcV < 18.5) {
       imcClass = Colors.orange;
     }
-    if (imcV < 25){
+    else if (imcV < 25) {
       imcClass = Colors.green;
     }
-    if (imcV < 30){
+    else if (imcV < 30) {
+      imcClass = Colors.yellow;
+    }
+    else if (imcV < 34.6) {
       imcClass = Colors.orange;
     }
-    if (imcV >= 30){
+    else if (imcV < 39.9) {
       imcClass = Colors.red;
+    }
+    else if (imcV >= 40){
+      imcClass = Colors.black;
     }
     pesoClass = Colors.black;
   }
@@ -243,17 +247,30 @@ class _ExamScreenState extends State<ExamScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-      Positioned(
-      top: 10,
-      right: 10,
-      child: IconButton(
-        icon: const Icon(Icons.refresh),
-        iconSize: 40.0,
-        onPressed: () {
-          _getExams();
-          _showGifClick();
-        },
-      ),),
+        Positioned(
+          top: 10,
+          left: 10,
+          child: IconButton(
+              icon: const Icon(Icons.question_mark),
+              iconSize: 40.0,
+              onPressed: () {
+                setState(() {
+                  _showNotes = true;
+                });
+              }),
+        ),
+        Positioned(
+          top: 10,
+          right: 10,
+          child: IconButton(
+            icon: const Icon(Icons.refresh),
+            iconSize: 40.0,
+            onPressed: () {
+              _getExams();
+              _showGifClick();
+            },
+          ),
+        ),
         Column(
           children: [
             SizedBox(height: 100),
@@ -264,18 +281,18 @@ class _ExamScreenState extends State<ExamScreen> {
                 backgroundColor: Colors.grey,
                 child: _avatar != null && _avatar!.isNotEmpty
                     ? ClipOval(
-                  child: Image.memory(
-                    base64Decode(_avatar!),
-                    fit: BoxFit.cover,
-                    width: 160,
-                    height: 160,
-                  ),
-                )
+                        child: Image.memory(
+                          base64Decode(_avatar!),
+                          fit: BoxFit.cover,
+                          width: 160,
+                          height: 160,
+                        ),
+                      )
                     : const Icon(
-                  Icons.person,
-                  size: 140,
-                  color: Colors.white,
-                ),
+                        Icons.person,
+                        size: 140,
+                        color: Colors.white,
+                      ),
               ),
             ),
             const SizedBox(height: 10),
@@ -331,7 +348,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                       fontSize: 22),
                                 ),
                                 leading:
-                                Icon(isExpanded ? Icons.remove : Icons.add),
+                                    Icon(isExpanded ? Icons.remove : Icons.add),
                                 onTap: _expand,
                               )
                             ],
@@ -346,7 +363,8 @@ class _ExamScreenState extends State<ExamScreen> {
                                 color: const Color.fromARGB(255, 217, 217, 217),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -374,7 +392,8 @@ class _ExamScreenState extends State<ExamScreen> {
                                 color: const Color.fromARGB(255, 217, 217, 217),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -403,7 +422,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 10),
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -431,7 +450,8 @@ class _ExamScreenState extends State<ExamScreen> {
                                 color: const Color.fromARGB(255, 217, 217, 217),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -485,11 +505,48 @@ class _ExamScreenState extends State<ExamScreen> {
             filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
             child: Container(
               color: Colors.black.withOpacity(0.5),
-              child: Center(
-                child: Image.asset('assets/gifs/loading.gif')
-              ),
+              child: Center(child: Image.asset('assets/gifs/loading.gif')),
             ),
           ),
+        if (_showNotes)
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 40, horizontal: 40),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 241, 241, 234),
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      iconSize: 40.0,
+                      onPressed: () {
+                        setState(() {
+                          _showNotes = false;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                Container(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    'Valores de referência',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.montserrat(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ReferenceValues()
+              ],
+            ),
+          )
       ],
     );
   }
