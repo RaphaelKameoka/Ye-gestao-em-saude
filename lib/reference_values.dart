@@ -59,6 +59,13 @@ class ReferenceValues extends StatelessWidget {
                   height: 1,
                 ),),
               TextSpan(
+                text: " Emergência: maior do que 18/12 \n\n",
+                style: GoogleFonts.montserrat(
+                  color: Colors.purple,
+                  fontSize: 17,
+                  height: 1,
+                ),),
+              TextSpan(
                   text: "Glicemia em jejum:\n\n",
                   style: GoogleFonts.montserrat(
                     color: Colors.black,
@@ -140,7 +147,7 @@ class ReferenceValues extends StatelessWidget {
               TextSpan(
                 text: " Obesidade grave: acima de 40\n\n",
                 style: GoogleFonts.montserrat(
-                  color: Colors.black,
+                  color: Colors.purple,
                   fontSize: 17,
                   height: 0.6,
                 ),),

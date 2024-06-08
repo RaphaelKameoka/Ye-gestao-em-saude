@@ -94,7 +94,7 @@ class _ExamScreenState extends State<ExamScreen> {
         pressaoClass = Colors.red;
         warning = true;
       } else if (sistolica >= 180 || diastolica >= 120) {
-        pressaoClass = Colors.black;
+        pressaoClass = Colors.purple;
         warning = true;
       }
     }
@@ -129,7 +129,7 @@ class _ExamScreenState extends State<ExamScreen> {
       imcClass = Colors.red;
     }
     else if (imcV >= 40){
-      imcClass = Colors.black;
+      imcClass = Colors.purple;
     }
     pesoClass = Colors.black;
   }
