@@ -29,6 +29,9 @@ class _ExamScreenState extends State<ExamScreen> {
   String pressao = "";
   String glicemia = "";
   String imc = "";
+  String pressao_state = "";
+  String glicemia_state = "";
+  String imc_state = "";
   bool warning = false;
   Color pressaoClass = Colors.transparent;
   Color glicemiaClass = Colors.transparent;
@@ -72,63 +75,56 @@ class _ExamScreenState extends State<ExamScreen> {
     }
   }
 
-  void _referenceValues(String imc, String glicemia, String pressao) {
+  void _referenceValues(String imc_state, String glicemia_state, String pressao_state) {
     // Verificando o valor da pressão arterial
-    List<String> valoresPressao = pressao.split('/');
-    int? sistolica = int.tryParse(valoresPressao[0]);
-    int? diastolica = int.tryParse(valoresPressao[1]);
+    setState(() {
 
-    if (sistolica != null && diastolica != null) {
-      sistolica *= 10;
-      diastolica *= 10;
-
-      if (sistolica < 90 || diastolica < 60) {
+    });
+      if (pressao_state == 'baixo') {
         pressaoClass = Colors.yellow;
-      } else if (sistolica <= 120 && diastolica <= 80) {
+      } else if (pressao_state == 'otimo') {
         pressaoClass = Colors.green;
-      } else if (sistolica < 130 && diastolica < 80) {
+      } else if (pressao_state == 'normal') {
         pressaoClass = Colors.yellow;
-      } else if (sistolica < 140 || diastolica < 90) {
+      } else if (pressao_state == 'elevado') {
         pressaoClass = Colors.orange;
-      } else if (sistolica >= 140 || diastolica >= 90) {
+      } else if (pressao_state == 'muito elevado') {
         pressaoClass = Colors.red;
         warning = true;
-      } else if (sistolica >= 180 || diastolica >= 120) {
+      } else if (pressao_state == 'criticamente elevado') {
         pressaoClass = Colors.purple;
         warning = true;
       }
-    }
+      print(glicemia_state);
     //Verificando valores para glicemia
-    double glicemiaV = double.parse(glicemia);
-    if (glicemiaV < 70.0) {
+    if (glicemia_state == "baixo") {
       glicemiaClass = Colors.orange;
-    } else if (glicemiaV >= 70.0 && glicemiaV < 100.0) {
+    } else if (glicemia_state == "normal") {
       glicemiaClass = Colors.green;
-    } else if (glicemiaV >= 100.0 && glicemiaV < 125.0) {
+    } else if (glicemia_state == "elevado") {
       glicemiaClass = Colors.orange;
-    } else if (glicemiaV >= 125.0) {
+    } else if (glicemia_state == "muito elevado") {
       glicemiaClass = Colors.red;
       warning = true;
     }
 
-    double imcV = double.parse(imc);
     //Verificando IMC
-    if (imcV < 18.5) {
+    if (imc_state == "magro") {
       imcClass = Colors.orange;
     }
-    else if (imcV < 25) {
+    else if (imc_state == "normal") {
       imcClass = Colors.green;
     }
-    else if (imcV < 30) {
+    else if (imc_state == "sobrepeso") {
       imcClass = Colors.yellow;
     }
-    else if (imcV < 34.6) {
+    else if (imc_state == "obesidade I") {
       imcClass = Colors.orange;
     }
-    else if (imcV < 39.9) {
+    else if (imc_state == "obesidade II") {
       imcClass = Colors.red;
     }
-    else if (imcV >= 40){
+    else if (imc_state == "obesidade grave"){
       imcClass = Colors.purple;
     }
     pesoClass = Colors.black;
@@ -192,8 +188,11 @@ class _ExamScreenState extends State<ExamScreen> {
         pressao = data['pressao'];
         glicemia = data['glicemia'];
         imc = data['imc'];
+        pressao_state = data['pressao_state'];
+        glicemia_state = data['glicemia_state'];
+        imc_state = data['imc_state'];
         setState(() {
-          _referenceValues(imc, glicemia, pressao);
+          _referenceValues(imc_state, glicemia_state, pressao_state);
         });
       } else {
         print('Error: ${response.statusCode}');
