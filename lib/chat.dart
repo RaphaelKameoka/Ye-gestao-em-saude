@@ -69,6 +69,7 @@ class _ChatScreenState extends State<ChatScreen> {
         double longitude = position.longitude;
 
         final http.Response response = await apiClient.post('/ask_ai', {
+          'user_name': userName,
           'question': messageText,
           'latitude': latitude,
           'longitude': longitude,
