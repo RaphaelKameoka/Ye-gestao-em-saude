@@ -36,7 +36,6 @@ dependencies:
   geolocator: ^7.6.2
   ffi: ^2.0.0
   flutter_image: ^4.1.11
-  backdrop_filter: ^0.0.2
 
 
 
