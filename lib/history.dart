@@ -1,8 +1,12 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'api.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:ui';
 
-List<String> exams = <String>['Pressão', 'Glicemia', 'Peso', 'IMC'];
+List<String> exams = <String>['Pressao', 'Glicemia', 'Peso', 'IMC'];
 
 class HistoryScreen extends StatefulWidget {
   final String userName;
@@ -25,12 +29,12 @@ class Item {
   String condition;
 }
 
-List<Item> generateItems(List<Map<String, String>> dataList) {
+List<Item> generateItems(List<Map<String, dynamic>> dataList) {
   return List<Item>.generate(dataList.length, (int index) {
     return Item(
-      date: dataList[index]['date'] ?? 'N/A',
-      values: dataList[index]['values'] ?? 'N/A',
-      condition: dataList[index]['condition'] ?? 'N/A',
+      date: dataList[index]['Data'] ?? 'N/A',
+      values: dataList[index]['Valores'] ?? 'N/A',
+      condition: dataList[index]['Estado'] ?? 'N/A',
     );
   });
 }
@@ -38,17 +42,41 @@ List<Item> generateItems(List<Map<String, String>> dataList) {
 class _HistoryScreenState extends State<HistoryScreen> {
   String dropdownValue = exams.first;
   List<Item> _data = [];
+  final ApiClient apiClient = ApiClient();
+  List<Map<String, dynamic>> data = [];
+
+  Future<void> _getHistory() async {
+    try {
+      final http.Response response = await apiClient.post('/get_previous_exams', {
+        'user_name': widget.userName,
+        'filtro': dropdownValue,
+      });
+      // List<Map<String, String>> dataList = [
+      //   {'date': '20/05/2024', 'values': '12/8', 'condition': 'Normal'},
+      //   {'date': '10/03/2024', 'values': '11/8', 'condition': 'Normal'},
+      //   {'date': '02/01/2024', 'values': '17/11', 'condition': 'Elevado'},
+      //   {'date': '02/01/2024', 'values': '11/11', 'condition': 'Elevado'},
+      // ];
+      if (response.statusCode == 200) {
+        setState(() {
+          data = List<Map<String, dynamic>>.from(jsonDecode(response.body));
+          print(data);
+          _data = generateItems(data);
+        });
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
 
   @override
   void initState() {
     super.initState();
-    List<Map<String, String>> dataList = [
-      {'date': '20/05/2024', 'values': '12/8', 'condition': 'Normal'},
-      {'date': '10/03/2024', 'values': '11/8', 'condition': 'Normal'},
-      {'date': '02/01/2024', 'values': '17/11', 'condition': 'Elevado'},
-      {'date': '02/01/2024', 'values': '11/11', 'condition': 'Elevado'},
-    ];
-    _data = generateItems(dataList);
+    _getHistory();
+    _data = generateItems(data);
   }
 
   @override
@@ -85,6 +113,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 items: exams.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
+                    onTap: _getHistory,
                     child: Text(value),
                     alignment: Alignment.center,
                   );
@@ -96,11 +125,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
           Column(
             children: _data.map<Container>((Item item) {
               return Container(
-                padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.02, 12, 0, 12),
+                padding: EdgeInsets.fromLTRB(
+                    MediaQuery.of(context).size.width * 0.04, 12, 0, 12),
                 color: const Color.fromARGB(255, 241, 241, 234),
                 child: Row(
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           item.values,
@@ -120,7 +151,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.5),
+                    Spacer(),
                     Text(
                       item.date,
                       style: GoogleFonts.montserrat(
@@ -129,6 +160,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         fontSize: 20,
                       ),
                     ),
+                    SizedBox(width: 15,)
                   ],
                 ),
               );
