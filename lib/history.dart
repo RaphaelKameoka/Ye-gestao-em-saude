@@ -59,8 +59,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       // ];
       if (response.statusCode == 200) {
         setState(() {
-          data = List<Map<String, dynamic>>.from(jsonDecode(response.body));
-          print(data);
+          data = List<Map<String, dynamic>>.from(jsonDecode(response.body));;
           _data = generateItems(data);
         });
       } else {
@@ -108,12 +107,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 onChanged: (String? value) {
                   setState(() {
                     dropdownValue = value!;
+                    _getHistory();
                   });
                 },
                 items: exams.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    onTap: _getHistory,
                     child: Text(value),
                     alignment: Alignment.center,
                   );
