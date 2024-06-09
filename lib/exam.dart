@@ -78,8 +78,6 @@ class _ExamScreenState extends State<ExamScreen> {
   void _referenceValues(String imc_state, String glicemia_state, String pressao_state) {
     // Verificando o valor da pressão arterial
     setState(() {
-
-    });
       if (pressao_state == 'baixo') {
         pressaoClass = Colors.yellow;
       } else if (pressao_state == 'otimo') {
@@ -94,40 +92,47 @@ class _ExamScreenState extends State<ExamScreen> {
       } else if (pressao_state == 'criticamente elevado') {
         pressaoClass = Colors.purple;
         warning = true;
+      } else {
+        pressaoClass = Colors.black;
       }
-      print(glicemia_state);
-    //Verificando valores para glicemia
-    if (glicemia_state == "baixo") {
-      glicemiaClass = Colors.orange;
-    } else if (glicemia_state == "normal") {
-      glicemiaClass = Colors.green;
-    } else if (glicemia_state == "elevado") {
-      glicemiaClass = Colors.orange;
-    } else if (glicemia_state == "muito elevado") {
-      glicemiaClass = Colors.red;
-      warning = true;
-    }
+      //Verificando valores para glicemia
+      if (glicemia_state == "baixo") {
+        glicemiaClass = Colors.orange;
+      } else if (glicemia_state == "normal") {
+        glicemiaClass = Colors.green;
+      } else if (glicemia_state == "elevado") {
+        glicemiaClass = Colors.orange;
+      } else if (glicemia_state == "muito elevado") {
+        glicemiaClass = Colors.red;
+        warning = true;
+      } else{
+        glicemiaClass = Colors.black;
+      }
 
-    //Verificando IMC
-    if (imc_state == "magro") {
-      imcClass = Colors.orange;
-    }
-    else if (imc_state == "normal") {
-      imcClass = Colors.green;
-    }
-    else if (imc_state == "sobrepeso") {
-      imcClass = Colors.yellow;
-    }
-    else if (imc_state == "obesidade I") {
-      imcClass = Colors.orange;
-    }
-    else if (imc_state == "obesidade II") {
-      imcClass = Colors.red;
-    }
-    else if (imc_state == "obesidade grave"){
-      imcClass = Colors.purple;
-    }
-    pesoClass = Colors.black;
+      //Verificando IMC
+      if (imc_state == "magro") {
+        imcClass = Colors.orange;
+      }
+      else if (imc_state == "normal") {
+        imcClass = Colors.green;
+      }
+      else if (imc_state == "sobrepeso") {
+        imcClass = Colors.yellow;
+      }
+      else if (imc_state == "obesidade I") {
+        imcClass = Colors.orange;
+      }
+      else if (imc_state == "obesidade II") {
+        imcClass = Colors.red;
+      }
+      else if (imc_state == "obesidade grave"){
+        imcClass = Colors.purple;
+      } else {
+        imcClass = Colors.black;
+      }
+      pesoClass = Colors.black;
+    });
+
   }
 
   void _showImageSourceActionSheet(BuildContext context) {
