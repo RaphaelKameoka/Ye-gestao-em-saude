@@ -31,6 +31,8 @@ class _YeState extends State<Ye> {
         '/chat_with_ai': (context) => HomeBackground('chat_with_ai'),
         '/exam': (context) => HomeBackground('exam'),
         '/history': (context) => HomeBackground('history'),
+        '/medication': (context) => HomeBackground('medication'),
+
 
       },
     );

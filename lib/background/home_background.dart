@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ye_project/exam.dart';
 import 'package:ye_project/chat.dart';
 import 'package:ye_project/history.dart';
+import 'package:ye_project/medication.dart';
 
 class HomeBackground extends StatefulWidget {
   HomeBackground(this.nextScreen, {Key? key}) : super(key: key);
@@ -65,15 +66,18 @@ class _HomeBackgroundState extends State<HomeBackground> {
       case 'chat_with_ai':
         actualHomeScreen = ChatScreen();
         break;
-      case "exam":
+      case 'exam':
         actualHomeScreen = ExamScreen(userName: userName, avatar: avatar,);
         break;
-      case "history":
+      case 'history':
         actualHomeScreen = HistoryScreen(userName: userName);
         break;
+      case 'medication':
+        actualHomeScreen = MedicationScreen(userName: userName);
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Center(
@@ -225,7 +229,9 @@ class _HomeBackgroundState extends State<HomeBackground> {
                       setState(() {
                         notificationsCor = Colors.grey[350] ?? Colors.grey;
                         profileCor = Colors.transparent;
-                        examCor = Colors.transparent;
+                        examCor = Colors.transparent;Future.delayed(const Duration(milliseconds: 50), () {
+                          _navigateTo('/medication');
+                        });
                       });
                     },
                     icon: Column(
