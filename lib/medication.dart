@@ -1,7 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -66,7 +65,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
     List<Map<String, String>> dataList = [
       {
         'medication': 'Paracetamol',
-        'period': '28/05 - 10/06',
+        'period': '30/05/2024 - 20/06/2024',
         'interval': '8 horas'
       },
     ];
