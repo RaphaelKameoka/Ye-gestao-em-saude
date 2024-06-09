@@ -1,6 +1,6 @@
 # Projeto Ye
 
-O projeto consiste no desenvolvimento de uma aplicação voltada para área da saúde voltada a pacientes, principalmente.
+O projeto consiste no desenvolvimento de uma aplicação voltada para área da saúde voltada a todos os tipos de pessoas, independente da idade.
 
 <br>
 
