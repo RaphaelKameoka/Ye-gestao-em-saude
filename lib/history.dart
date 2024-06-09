@@ -44,6 +44,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
   List<Item> _data = [];
   final ApiClient apiClient = ApiClient();
   List<Map<String, dynamic>> data = [];
+  bool _showOverlay = false;
+
+  void _showGifClick() {
+    setState(() {
+      _showOverlay = true;
+    });
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        _showOverlay = false;
+      });
+    });
+  }
 
   Future<void> _getHistory() async {
     try {
@@ -76,97 +88,110 @@ class _HistoryScreenState extends State<HistoryScreen> {
     super.initState();
     _getHistory();
     _data = generateItems(data);
+    _showGifClick();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.1,
-            color: const Color.fromARGB(255, 241, 241, 234),
-            child: Container(
-              alignment: Alignment.center,
-              child: DropdownButton<String>(
-                value: dropdownValue,
-                style: GoogleFonts.montserrat(
-                  color: const Color(0xFF6B9683),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                ),
+    return Stack(
+      children: [
+        Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.1,
+              color: const Color.fromARGB(255, 241, 241, 234),
+              child: Container(
                 alignment: Alignment.center,
-                isExpanded: true,
-                dropdownColor: const Color.fromARGB(255, 241, 241, 234),
-                iconEnabledColor: Colors.transparent,
-                icon: null,
-                iconSize: 0,
-                elevation: 1,
-                itemHeight: 65.0,
-                onChanged: (String? value) {
-                  setState(() {
-                    dropdownValue = value!;
-                    _getHistory();
-                  });
-                },
-                items: exams.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                    alignment: Alignment.center,
-                  );
-                }).toList(),
+                child: DropdownButton<String>(
+                  value: dropdownValue,
+                  style: GoogleFonts.montserrat(
+                    color: const Color(0xFF6B9683),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
+                  alignment: Alignment.center,
+                  isExpanded: true,
+                  dropdownColor: const Color.fromARGB(255, 241, 241, 234),
+                  iconEnabledColor: Colors.transparent,
+                  icon: null,
+                  iconSize: 0,
+                  elevation: 1,
+                  itemHeight: 65.0,
+                  onChanged: (String? value) {
+                    setState(() {
+                      dropdownValue = value!;
+                      _getHistory();
+                      _showGifClick();
+                    });
+                  },
+                  items: exams.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                      alignment: Alignment.center,
+                    );
+                  }).toList(),
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 20),
-          Column(
-            children: _data.map<Container>((Item item) {
-              return Container(
-                padding: EdgeInsets.fromLTRB(
-                    MediaQuery.of(context).size.width * 0.04, 12, 0, 12),
-                color: const Color.fromARGB(255, 241, 241, 234),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.values,
-                          style: GoogleFonts.montserrat(
-                            color: const Color(0xFF6B9683),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
+            SizedBox(height: 20),
+            Column(
+              children: _data.map<Container>((Item item) {
+                return Container(
+                  padding: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width * 0.04, 12, 0, 12),
+                  color: const Color.fromARGB(255, 241, 241, 234),
+                  child: Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.values,
+                            style: GoogleFonts.montserrat(
+                              color: const Color(0xFF6B9683),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
                           ),
-                        ),
-                        Text(
-                          item.condition,
-                          style: GoogleFonts.montserrat(
-                            color: const Color(0xFF6B9683),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
+                          Text(
+                            item.condition,
+                            style: GoogleFonts.montserrat(
+                              color: const Color(0xFF6B9683),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    Text(
-                      item.date,
-                      style: GoogleFonts.montserrat(
-                        color: const Color(0xFF6B9683),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        ],
                       ),
-                    ),
-                    SizedBox(width: 15,)
-                  ],
-                ),
-              );
-            }).toList(),
+                      Spacer(),
+                      Text(
+                        item.date,
+                        style: GoogleFonts.montserrat(
+                          color: const Color(0xFF6B9683),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(width: 15,)
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+        if (_showOverlay)
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+            child: Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(child: Image.asset('assets/gifs/loading.gif')),
+            ),
           ),
-        ],
-      ),
+      ]
     );
+
   }
 }
