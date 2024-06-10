@@ -29,12 +29,12 @@ class _ChangePasswordErrorState extends State<ChangePasswordError> {
         if (args != null) {
           final String email = args['email'] as String;
           final String password = passwordController.text;
-          final String confirm_password = confirmController.text;
+          final String confirmPassword = confirmController.text;
 
           final http.Response response = await apiClient.post('/change_pass', {
             'email': email,
             'password': password,
-            'confirm_password': confirm_password,
+            'confirm_password': confirmPassword,
           });
 
           if (response.statusCode == 200) {
@@ -107,13 +107,13 @@ class _ChangePasswordErrorState extends State<ChangePasswordError> {
                           borderSide: BorderSide.none),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.red,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.red,
                         ),
                       ),
@@ -154,13 +154,13 @@ class _ChangePasswordErrorState extends State<ChangePasswordError> {
                           borderSide: BorderSide.none),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.red,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.red,
                         ),
                       ),
@@ -170,14 +170,14 @@ class _ChangePasswordErrorState extends State<ChangePasswordError> {
                 SizedBox(height: 25),
                 FilledButton(
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
+                      padding: WidgetStateProperty.all(
                           EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5))),
                       alignment: Alignment.center,
-                      backgroundColor: MaterialStateColor.resolveWith(
+                      backgroundColor: WidgetStateColor.resolveWith(
                           (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
                     onPressed: () {
@@ -188,12 +188,12 @@ class _ChangePasswordErrorState extends State<ChangePasswordError> {
                       style: GoogleFonts.montserrat(
                           color: Colors.white, fontSize: 25),
                     )),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.warning_amber,
                         color: Colors.red,
                       ),
@@ -207,10 +207,10 @@ class _ChangePasswordErrorState extends State<ChangePasswordError> {
                     Navigator.pushNamed(context, '/login');
                   },
                   style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
+                      padding: WidgetStateProperty.all(
                           EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10)),
-                      backgroundColor: MaterialStateProperty.all(
+                      backgroundColor: WidgetStateProperty.all(
                           Color.fromRGBO(217, 217, 217, 1))),
                   child: Text(
                     "Cancelar",

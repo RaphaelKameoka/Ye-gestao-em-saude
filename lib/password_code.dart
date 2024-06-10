@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -108,14 +107,14 @@ class _PasswordCodeState extends State<PasswordCode> {
                 const SizedBox(height: 50),
                 FilledButton(
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                          EdgeInsetsDirectional.symmetric(
+                      padding: WidgetStateProperty.all(
+                          const EdgeInsetsDirectional.symmetric(
                               horizontal: 20, vertical: 14)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5))),
                       alignment: Alignment.center,
-                      backgroundColor: MaterialStateColor.resolveWith(
+                      backgroundColor: WidgetStateColor.resolveWith(
                           (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
                     onPressed: () {
@@ -126,17 +125,17 @@ class _PasswordCodeState extends State<PasswordCode> {
                       style: GoogleFonts.montserrat(
                           color: Colors.white, fontSize: 25),
                     )),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/login');
                   },
                   style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                          EdgeInsetsDirectional.symmetric(
+                      padding: WidgetStateProperty.all(
+                          const EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10)),
-                      backgroundColor: MaterialStateProperty.all(
-                          Color.fromRGBO(217, 217, 217, 1))),
+                      backgroundColor: WidgetStateProperty.all(
+                          const Color.fromRGBO(217, 217, 217, 1))),
                   child: Text(
                     "Cancelar",
                     style: GoogleFonts.montserrat(

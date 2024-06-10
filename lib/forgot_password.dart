@@ -87,14 +87,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 const SizedBox(height: 50),
                 FilledButton(
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                          EdgeInsetsDirectional.symmetric(
+                      padding: WidgetStateProperty.all(
+                          const EdgeInsetsDirectional.symmetric(
                               horizontal: 20, vertical: 14)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5))),
                       alignment: Alignment.center,
-                      backgroundColor: MaterialStateColor.resolveWith(
+                      backgroundColor: WidgetStateColor.resolveWith(
                           (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
                     onPressed: () {
@@ -111,11 +111,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     Navigator.pushNamed(context, '/login');
                   },
                   style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                          EdgeInsetsDirectional.symmetric(
+                      padding: WidgetStateProperty.all(
+                          const EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10)),
-                      backgroundColor: MaterialStateProperty.all(
-                          Color.fromRGBO(217, 217, 217, 1))),
+                      backgroundColor: WidgetStateProperty.all(
+                          const Color.fromRGBO(217, 217, 217, 1))),
                   child: Text(
                     "Cancelar",
                     style: GoogleFonts.montserrat(

@@ -76,7 +76,7 @@ class _ExamScreenState extends State<ExamScreen> {
     // Verificando o valor da pressão arterial
     List<String> valoresPressao = pressao.split('/');
     int? sistolica = int.tryParse(valoresPressao[0]);
-    int? diastolica = int.tryParse(valoresPressao[1]);
+    int? diastolica = 0;
 
     if (sistolica != null && diastolica != null) {
       sistolica *= 10;
@@ -335,7 +335,7 @@ class _ExamScreenState extends State<ExamScreen> {
                     children: _data.map<CustomExpansionPanel>((Item item) {
                       return CustomExpansionPanel(
                         hasIcon: false,
-                        backgroundColor: Color.fromARGB(255, 241, 241, 234),
+                        backgroundColor: const Color.fromARGB(255, 241, 241, 234),
                         headerBuilder: (BuildContext context, bool isExpanded) {
                           return Column(
                             children: [
@@ -439,7 +439,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                           color: pesoClass,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20)),
-                                  SizedBox(width: 20)
+                                  const SizedBox(width: 20)
                                 ],
                               ),
                             ),
@@ -510,9 +510,9 @@ class _ExamScreenState extends State<ExamScreen> {
           ),
         if (_showNotes)
           Container(
-            margin: EdgeInsets.symmetric(vertical: 40, horizontal: 40),
+            margin: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 241, 241, 234),
+              color: const Color.fromARGB(255, 241, 241, 234),
               borderRadius: BorderRadius.circular(15.0),
             ),
             child: Column(

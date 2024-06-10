@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ye_project/ErrorScreens/Login_error.dart';
 import 'package:ye_project/ErrorScreens/change_password_error.dart';
@@ -14,7 +13,7 @@ import 'package:ye_project/password_code.dart';
 class AuthBackground extends StatefulWidget {
   final String nextScreen;
 
-  const AuthBackground(this.nextScreen, {Key? key}) : super(key: key);
+  const AuthBackground(this.nextScreen, {super.key});
 
   @override
   State<AuthBackground> createState() {

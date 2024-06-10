@@ -28,13 +28,13 @@ class _CreateAccountErrorState extends State<CreateAccountError> {
       final String username = usernameController.text;
       final String email = emailController.text;
       final String senha = senhaController.text;
-      final String confirm_password = confirmController.text;
+      final String confirmPassword = confirmController.text;
 
       final http.Response response = await apiClient.post('/create_user', {
         'user_name': username,
         'email': email,
         'password': senha,
-        'confirm_password': confirm_password
+        'confirm_password': confirmPassword
       });
 
       if (response.statusCode == 200) {
@@ -95,20 +95,20 @@ class _CreateAccountErrorState extends State<CreateAccountError> {
                             borderSide: BorderSide.none),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Colors.red,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Colors.red,
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     "Email",
                     style: GoogleFonts.montserrat(
@@ -128,20 +128,20 @@ class _CreateAccountErrorState extends State<CreateAccountError> {
                             borderSide: BorderSide.none),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Colors.red,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Colors.red,
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -178,13 +178,13 @@ class _CreateAccountErrorState extends State<CreateAccountError> {
                                   borderSide: BorderSide.none),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.red,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.red,
                                 ),
                               ),
@@ -192,7 +192,7 @@ class _CreateAccountErrorState extends State<CreateAccountError> {
                           ),
                         ),
                       ]),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -230,13 +230,13 @@ class _CreateAccountErrorState extends State<CreateAccountError> {
                                   borderSide: BorderSide.none),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.red,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.red,
                                 ),
                               ),
@@ -244,11 +244,11 @@ class _CreateAccountErrorState extends State<CreateAccountError> {
                           ),
                         ),
                       ]),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Row(crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.warning_amber,
                           color: Colors.red,
                         ),
@@ -256,19 +256,19 @@ class _CreateAccountErrorState extends State<CreateAccountError> {
                             style: GoogleFonts.montserrat(
                                 color: Colors.red, fontWeight: FontWeight.bold)),
                       ]),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   FilledButton(
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                            EdgeInsetsDirectional.symmetric(
+                        padding: WidgetStateProperty.all(
+                            const EdgeInsetsDirectional.symmetric(
                                 horizontal: 20, vertical: 14)),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5))),
                         alignment: Alignment.center,
-                        backgroundColor: MaterialStateColor.resolveWith(
+                        backgroundColor: WidgetStateColor.resolveWith(
                                 (states) => const Color.fromRGBO(107, 150, 131, 1)),
                       ),
                       onPressed: () {
@@ -279,14 +279,14 @@ class _CreateAccountErrorState extends State<CreateAccountError> {
                         style: GoogleFonts.montserrat(
                             color: Colors.white, fontSize: 25),
                       )),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/login');
                     },
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                          EdgeInsetsDirectional.symmetric(
+                      padding: WidgetStateProperty.all(
+                          const EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10)),
                     ),
                     child: Text(

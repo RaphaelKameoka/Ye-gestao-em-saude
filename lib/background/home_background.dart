@@ -3,9 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ye_project/exam.dart';
 import 'package:ye_project/chat.dart';
 import 'package:ye_project/history.dart';
+import 'package:ye_project/medication.dart';
 
 class HomeBackground extends StatefulWidget {
-  HomeBackground(this.nextScreen, {Key? key}) : super(key: key);
+  const HomeBackground(this.nextScreen, {super.key});
 
   final String nextScreen;
 
@@ -63,13 +64,16 @@ class _HomeBackgroundState extends State<HomeBackground> {
 
     switch (widget.nextScreen) {
       case 'chat_with_ai':
-        actualHomeScreen = ChatScreen();
+        actualHomeScreen = const ChatScreen();
         break;
       case "exam":
         actualHomeScreen = ExamScreen(userName: userName, avatar: avatar,);
         break;
       case "history":
         actualHomeScreen = HistoryScreen(userName: userName);
+        break;
+      case "alarms":
+        actualHomeScreen = MedicationScreen(userName: userName);
         break;
     }
 
@@ -93,7 +97,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
                 child: Container(
                   width: 70,
                   height: 70,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: Color.fromARGB(255, 46, 100, 180),
                   ),
@@ -162,7 +166,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
                 ),
               ],
             ),
-            SizedBox(width: 17),
+            const SizedBox(width: 17),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -208,7 +212,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
                 ),
               ],
             ),
-            SizedBox(width: 17),
+            const SizedBox(width: 17),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -226,6 +230,9 @@ class _HomeBackgroundState extends State<HomeBackground> {
                         notificationsCor = Colors.grey[350] ?? Colors.grey;
                         profileCor = Colors.transparent;
                         examCor = Colors.transparent;
+                        Future.delayed(const Duration(milliseconds: 50), () {
+                          _navigateTo('/alarms');
+                        });
                       });
                     },
                     icon: Column(

@@ -97,13 +97,13 @@ class _LoginErrorScreenState extends State<LoginErrorScreen> {
                           borderSide: BorderSide.none),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.red,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.red,
                         ),
                       ),
@@ -142,24 +142,24 @@ class _LoginErrorScreenState extends State<LoginErrorScreen> {
                           borderSide: BorderSide.none),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.red,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.red,
                         ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                  Icon(
+                  const Icon(
                     Icons.warning_amber,
                     color: Colors.red,
                   ),
@@ -167,19 +167,19 @@ class _LoginErrorScreenState extends State<LoginErrorScreen> {
                       style: GoogleFonts.montserrat(
                           color: Colors.red, fontWeight: FontWeight.bold)),
                 ]),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 FilledButton(
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                          EdgeInsetsDirectional.symmetric(
+                      padding: WidgetStateProperty.all(
+                          const EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5))),
                       alignment: Alignment.center,
-                      backgroundColor: MaterialStateColor.resolveWith(
+                      backgroundColor: WidgetStateColor.resolveWith(
                           (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
                     onPressed: _handleEntrarPressed,
@@ -188,7 +188,7 @@ class _LoginErrorScreenState extends State<LoginErrorScreen> {
                       style: GoogleFonts.montserrat(
                           color: Colors.white, fontSize: 25),
                     )),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/forgot_password');

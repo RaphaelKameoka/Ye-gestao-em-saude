@@ -220,7 +220,7 @@ class ChatBubble extends StatelessWidget {
               children: [
                 Text(
                   message.username,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -235,7 +235,7 @@ class ChatBubble extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(
+                    constraints: const BoxConstraints(
                       minWidth: 600, 
                     ),
                     child: Text(

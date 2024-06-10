@@ -85,14 +85,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 items: exams.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
                     alignment: Alignment.center,
+                    child: Text(value),
                   );
                 }).toList(),
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Column(
             children: _data.map<Container>((Item item) {
               return Container(

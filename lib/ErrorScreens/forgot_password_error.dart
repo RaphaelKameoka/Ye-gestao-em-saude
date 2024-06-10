@@ -83,18 +83,18 @@ class _ForgotPasswordErrorState extends State<ForgotPasswordError> {
                           borderSide: BorderSide.none),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.red,
                         ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Row(crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.warning_amber,
                         color: Colors.red,
                       ),
@@ -105,14 +105,14 @@ class _ForgotPasswordErrorState extends State<ForgotPasswordError> {
                 const SizedBox(height: 40),
                 FilledButton(
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                          EdgeInsetsDirectional.symmetric(
+                      padding: WidgetStateProperty.all(
+                          const EdgeInsetsDirectional.symmetric(
                               horizontal: 20, vertical: 14)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5))),
                       alignment: Alignment.center,
-                      backgroundColor: MaterialStateColor.resolveWith(
+                      backgroundColor: WidgetStateColor.resolveWith(
                               (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
                     onPressed: () {
@@ -123,17 +123,17 @@ class _ForgotPasswordErrorState extends State<ForgotPasswordError> {
                       style: GoogleFonts.montserrat(
                           color: Colors.white, fontSize: 25),
                     )),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/login');
                   },
                   style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                          EdgeInsetsDirectional.symmetric(
+                      padding: WidgetStateProperty.all(
+                          const EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10)),
-                      backgroundColor: MaterialStateProperty.all(
-                          Color.fromRGBO(217, 217, 217, 1))),
+                      backgroundColor: WidgetStateProperty.all(
+                          const Color.fromRGBO(217, 217, 217, 1))),
                   child: Text(
                     "Cancelar",
                     style: GoogleFonts.montserrat(

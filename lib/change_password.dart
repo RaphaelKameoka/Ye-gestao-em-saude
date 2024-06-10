@@ -29,12 +29,12 @@ class _ChangePasswordState extends State<ChangePassword> {
         if (args != null) {
           final String email = args['email'] as String;
           final String password = passwordController.text;
-          final String confirm_password = confirmController.text;
+          final String confirmPassword = confirmController.text;
 
           final http.Response response = await apiClient.post('/change_pass',{
             'email': email,
             'password': password,
-            'confirm_password': confirm_password,
+            'confirm_password': confirmPassword,
           });
 
           if (response.statusCode == 200) {
@@ -141,17 +141,17 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                   ),
                 ),
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 FilledButton(
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                          EdgeInsetsDirectional.symmetric(
+                      padding: WidgetStateProperty.all(
+                          const EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5))),
                       alignment: Alignment.center,
-                      backgroundColor: MaterialStateColor.resolveWith(
+                      backgroundColor: WidgetStateColor.resolveWith(
                               (states) => const Color.fromRGBO(107, 150, 131, 1)),
                     ),
                     onPressed: () {
@@ -162,17 +162,17 @@ class _ChangePasswordState extends State<ChangePassword> {
                       style: GoogleFonts.montserrat(
                           color: Colors.white, fontSize: 25),
                     )),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/login');
                   },
                   style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                          EdgeInsetsDirectional.symmetric(
+                      padding: WidgetStateProperty.all(
+                          const EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10)),
-                      backgroundColor: MaterialStateProperty.all(
-                          Color.fromRGBO(217, 217, 217, 1))),
+                      backgroundColor: WidgetStateProperty.all(
+                          const Color.fromRGBO(217, 217, 217, 1))),
                   child: Text(
                     "Cancelar",
                     style: GoogleFonts.montserrat(
