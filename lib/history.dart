@@ -99,7 +99,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           children: [
             Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.1,
+              height: MediaQuery.of(context).size.height * 0.12,
               color: const Color.fromARGB(255, 241, 241, 234),
               child: Container(
                 alignment: Alignment.center,
@@ -108,7 +108,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   style: GoogleFonts.montserrat(
                     color: const Color(0xFF6B9683),
                     fontWeight: FontWeight.bold,
-                    fontSize: 30,
+                    fontSize: 27,
                   ),
                   alignment: Alignment.center,
                   isExpanded: true,
@@ -152,7 +152,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             style: GoogleFonts.montserrat(
                               color: const Color(0xFF6B9683),
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: 18,
                             ),
                           ),
                           Text(
@@ -160,7 +160,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             style: GoogleFonts.montserrat(
                               color: const Color(0xFF6B9683),
                               fontWeight: FontWeight.bold,
-                              fontSize: 17,
+                              fontSize: 15,
                             ),
                           ),
                         ],
@@ -171,7 +171,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         style: GoogleFonts.montserrat(
                           color: const Color(0xFF6B9683),
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                       SizedBox(width: 15,)

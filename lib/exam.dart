@@ -252,11 +252,11 @@ class _ExamScreenState extends State<ExamScreen> {
     return Stack(
       children: [
         Positioned(
-          top: 10,
+          top: 20,
           left: 10,
           child: IconButton(
               icon: const Icon(Icons.question_mark),
-              iconSize: 40.0,
+              iconSize: 35.0,
               onPressed: () {
                 setState(() {
                   _showNotes = true;
@@ -264,7 +264,7 @@ class _ExamScreenState extends State<ExamScreen> {
               }),
         ),
         Positioned(
-          top: 10,
+          top: 20,
           right: 10,
           child: IconButton(
             icon: const Icon(Icons.refresh),
@@ -349,7 +349,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                   style: GoogleFonts.montserrat(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 22),
+                                      fontSize: 20),
                                 ),
                                 leading:
                                     Icon(isExpanded ? Icons.remove : Icons.add),

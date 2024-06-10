@@ -80,7 +80,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
         children: [
           Container(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.1,
+            height: MediaQuery.of(context).size.height * 0.12,
             color: const Color.fromARGB(255, 241, 241, 234),
             child: Container(
               alignment: Alignment.center,
@@ -89,12 +89,12 @@ class _MedicationScreenState extends State<MedicationScreen> {
                 style: GoogleFonts.montserrat(
                   color: const Color(0xFF6B9683),
                   fontWeight: FontWeight.bold,
-                  fontSize: 30,
+                  fontSize: 20,
                 ),
               ),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 22),
           Column(
             children: _data.map<Container>((Item item) {
               return Container(
@@ -111,7 +111,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                           style: GoogleFonts.montserrat(
                             color: const Color(0xFF6B9683),
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 18,
                           ),
                         ),
                         Text(
@@ -119,7 +119,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                           style: GoogleFonts.montserrat(
                             color: const Color(0xFF6B9683),
                             fontWeight: FontWeight.bold,
-                            fontSize: 17,
+                            fontSize: 15,
                           ),
                         ),
                       ],
@@ -130,7 +130,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                       style: GoogleFonts.montserrat(
                         color: const Color(0xFF6B9683),
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: 18,
                       ),
                     ),
                     SizedBox(
