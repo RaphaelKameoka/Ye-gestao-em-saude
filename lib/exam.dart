@@ -124,9 +124,11 @@ class _ExamScreenState extends State<ExamScreen> {
       }
       else if (imc_state == "obesidade II") {
         imcClass = Colors.red;
+        warning = true;
       }
       else if (imc_state == "obesidade grave"){
         imcClass = Colors.purple;
+        warning = true;
       } else {
         imcClass = Colors.black;
       }
