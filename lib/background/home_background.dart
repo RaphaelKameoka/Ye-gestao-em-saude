@@ -117,7 +117,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color.fromARGB(255, 241, 241, 234),
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.clockRotateLeft, size: 30),
             label: 'Histórico',

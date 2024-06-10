@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ye_project/history.dart';
 import 'package:ye_project/reference_values.dart';
 import 'api.dart';
 import 'custom_expansion_panel.dart';
@@ -39,7 +40,7 @@ class _ExamScreenState extends State<ExamScreen> {
   Color pesoClass = Colors.transparent;
   bool _showOverlay = false;
   bool _showNotes = false;
-
+  bool _showHistory = false;
   @override
   void initState() {
     super.initState();
@@ -75,7 +76,8 @@ class _ExamScreenState extends State<ExamScreen> {
     }
   }
 
-  void _referenceValues(String imc_state, String glicemia_state, String pressao_state) {
+  void _referenceValues(
+      String imc_state, String glicemia_state, String pressao_state) {
     // Verificando o valor da pressão arterial
     setState(() {
       if (pressao_state == 'baixo') {
@@ -112,7 +114,7 @@ class _ExamScreenState extends State<ExamScreen> {
       } else if (glicemia_state == "muito elevado") {
         glicemiaClass = Colors.red;
         warning = true;
-      } else{
+      } else {
         glicemiaClass = Colors.black;
       }
 
@@ -120,24 +122,19 @@ class _ExamScreenState extends State<ExamScreen> {
       if (imc_state == "magro") {
         warning = true;
         imcClass = Colors.orange;
-      }
-      else if (imc_state == "normal") {
+      } else if (imc_state == "normal") {
         warning = false;
         imcClass = Colors.green;
-      }
-      else if (imc_state == "sobrepeso") {
+      } else if (imc_state == "sobrepeso") {
         warning = true;
         imcClass = Colors.yellow;
-      }
-      else if (imc_state == "obesidade I") {
+      } else if (imc_state == "obesidade I") {
         warning = true;
         imcClass = Colors.orange;
-      }
-      else if (imc_state == "obesidade II") {
+      } else if (imc_state == "obesidade II") {
         imcClass = Colors.red;
         warning = true;
-      }
-      else if (imc_state == "obesidade grave"){
+      } else if (imc_state == "obesidade grave") {
         imcClass = Colors.purple;
         warning = true;
       } else {
@@ -145,7 +142,6 @@ class _ExamScreenState extends State<ExamScreen> {
       }
       pesoClass = Colors.black;
     });
-
   }
 
   void _showImageSourceActionSheet(BuildContext context) {
@@ -499,6 +495,33 @@ class _ExamScreenState extends State<ExamScreen> {
                 ),
               ),
             ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _showHistory = true;
+                });
+              },
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all(
+                  const EdgeInsetsDirectional.symmetric(
+                      horizontal: 88, vertical: 15),
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                ),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  const Color.fromRGBO(251, 245, 252, 1.0)!,
+                ),
+              ),
+              child: Text("Exames anteriores",
+                style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),),
+            ),
           ],
         ),
         Align(
@@ -559,11 +582,11 @@ class _ExamScreenState extends State<ExamScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 ReferenceValues()
               ],
             ),
-          )
+          ),
       ],
     );
   }
