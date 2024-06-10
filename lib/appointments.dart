@@ -41,7 +41,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
   List<Item> _data = [];
   final ApiClient apiClient = ApiClient();
   bool _showOverlay = false;
-  bool _insertMedication = false;
+  bool _insertAppointment = false;
   late DateTime today;
 
   void _showGifClick() {
@@ -152,7 +152,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  _insertMedication = true;
+                  _insertAppointment = true;
                 });
               },
               icon: const Icon(Icons.add, size: 40),
@@ -168,7 +168,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
             child: Center(child: Image.asset('assets/gifs/loading.gif')),
           ),
         ),
-      if (_insertMedication)
+      if (_insertAppointment)
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
           child: Container(
@@ -192,7 +192,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                             iconSize: 35.0,
                             onPressed: () {
                               setState(() {
-                                _insertMedication = false;
+                                _insertAppointment = false;
                               });
                             }),
                       ),
