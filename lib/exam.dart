@@ -79,12 +79,16 @@ class _ExamScreenState extends State<ExamScreen> {
     // Verificando o valor da pressão arterial
     setState(() {
       if (pressao_state == 'baixo') {
+        warning = true;
         pressaoClass = Colors.yellow;
       } else if (pressao_state == 'otimo') {
+        warning = false;
         pressaoClass = Colors.green;
       } else if (pressao_state == 'normal') {
+        warning = false;
         pressaoClass = Colors.yellow;
       } else if (pressao_state == 'elevado') {
+        warning = true;
         pressaoClass = Colors.orange;
       } else if (pressao_state == 'muito elevado') {
         pressaoClass = Colors.red;
@@ -97,10 +101,13 @@ class _ExamScreenState extends State<ExamScreen> {
       }
       //Verificando valores para glicemia
       if (glicemia_state == "baixo") {
+        warning = true;
         glicemiaClass = Colors.orange;
       } else if (glicemia_state == "normal") {
+        warning = false;
         glicemiaClass = Colors.green;
       } else if (glicemia_state == "elevado") {
+        warning = true;
         glicemiaClass = Colors.orange;
       } else if (glicemia_state == "muito elevado") {
         glicemiaClass = Colors.red;
@@ -111,15 +118,19 @@ class _ExamScreenState extends State<ExamScreen> {
 
       //Verificando IMC
       if (imc_state == "magro") {
+        warning = true;
         imcClass = Colors.orange;
       }
       else if (imc_state == "normal") {
+        warning = false;
         imcClass = Colors.green;
       }
       else if (imc_state == "sobrepeso") {
+        warning = true;
         imcClass = Colors.yellow;
       }
       else if (imc_state == "obesidade I") {
+        warning = true;
         imcClass = Colors.orange;
       }
       else if (imc_state == "obesidade II") {
