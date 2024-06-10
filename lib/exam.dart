@@ -339,158 +339,160 @@ class _ExamScreenState extends State<ExamScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
                 child: Container(
-                  child: CustomExpansionPanelList(
-                    expansionCallback: (int index, bool isExpanded) {
-                      setState(() {
-                        _data[index].isExpanded = !isExpanded;
-                      });
-                    },
-                    children: _data.map<CustomExpansionPanel>((Item item) {
-                      return CustomExpansionPanel(
-                        hasIcon: false,
-                        backgroundColor: Color.fromARGB(255, 241, 241, 234),
-                        headerBuilder: (BuildContext context, bool isExpanded) {
-                          return Column(
+                  child: Theme(
+                    data: Theme.of(context).copyWith(cardColor: const Color.fromARGB(255, 241, 241, 234)),
+                    child: CustomExpansionPanelList(
+                      expansionCallback: (int index, bool isExpanded) {
+                        setState(() {
+                          _data[index].isExpanded = !isExpanded;
+                        });
+                      },
+                      children: _data.map<CustomExpansionPanel>((Item item) {
+                        return CustomExpansionPanel(
+                          hasIcon: false,
+                          headerBuilder: (BuildContext context, bool isExpanded) {
+                            return Column(
+                              children: [
+                                ListTile(
+                                  title: Text(
+                                    item.headerValue,
+                                    style: GoogleFonts.montserrat(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  leading:
+                                      Icon(isExpanded ? Icons.remove : Icons.add),
+                                  onTap: _expand,
+                                )
+                              ],
+                            );
+                          },
+                          body: Column(
                             children: [
-                              ListTile(
-                                title: Text(
-                                  item.headerValue,
-                                  style: GoogleFonts.montserrat(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                              Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: const Color.fromARGB(255, 217, 217, 217),
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                leading:
-                                    Icon(isExpanded ? Icons.remove : Icons.add),
-                                onTap: _expand,
-                              )
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: ListTile(
+                                        title: Text(item.pressaoValue,
+                                            style: GoogleFonts.montserrat(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20)),
+                                      ),
+                                    ),
+                                    Text(pressao,
+                                        style: GoogleFonts.montserrat(
+                                            color: pressaoClass,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    const SizedBox(width: 20)
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: const Color.fromARGB(255, 217, 217, 217),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: ListTile(
+                                        title: Text(item.glicemiaValue,
+                                            style: GoogleFonts.montserrat(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20)),
+                                      ),
+                                    ),
+                                    Text(glicemia + " mg/dL",
+                                        style: GoogleFonts.montserrat(
+                                            color: glicemiaClass,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    SizedBox(width: 20)
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: const Color.fromARGB(255, 217, 217, 217),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: ListTile(
+                                        title: Text(item.pesoValue,
+                                            style: GoogleFonts.montserrat(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20)),
+                                      ),
+                                    ),
+                                    Text(peso + " kg",
+                                        style: GoogleFonts.montserrat(
+                                            color: pesoClass,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    SizedBox(width: 20)
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: const Color.fromARGB(255, 217, 217, 217),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: ListTile(
+                                        title: Text(item.imcValue,
+                                            style: GoogleFonts.montserrat(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20)),
+                                      ),
+                                    ),
+                                    Text(imc,
+                                        style: GoogleFonts.montserrat(
+                                            color: imcClass,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    const SizedBox(width: 20)
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 30)
                             ],
-                          );
-                        },
-                        body: Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 5),
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 217, 217, 217),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: ListTile(
-                                      title: Text(item.pressaoValue,
-                                          style: GoogleFonts.montserrat(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20)),
-                                    ),
-                                  ),
-                                  Text(pressao,
-                                      style: GoogleFonts.montserrat(
-                                          color: pressaoClass,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20)),
-                                  const SizedBox(width: 20)
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 5),
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 217, 217, 217),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: ListTile(
-                                      title: Text(item.glicemiaValue,
-                                          style: GoogleFonts.montserrat(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20)),
-                                    ),
-                                  ),
-                                  Text(glicemia + " mg/dL",
-                                      style: GoogleFonts.montserrat(
-                                          color: glicemiaClass,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20)),
-                                  SizedBox(width: 20)
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 5),
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 217, 217, 217),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: ListTile(
-                                      title: Text(item.pesoValue,
-                                          style: GoogleFonts.montserrat(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20)),
-                                    ),
-                                  ),
-                                  Text(peso + " kg",
-                                      style: GoogleFonts.montserrat(
-                                          color: pesoClass,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20)),
-                                  SizedBox(width: 20)
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 5),
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 217, 217, 217),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: ListTile(
-                                      title: Text(item.imcValue,
-                                          style: GoogleFonts.montserrat(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20)),
-                                    ),
-                                  ),
-                                  Text(imc,
-                                      style: GoogleFonts.montserrat(
-                                          color: imcClass,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20)),
-                                  const SizedBox(width: 20)
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 30)
-                          ],
-                        ),
-                        isExpanded: item.isExpanded,
-                      );
-                    }).toList(),
+                          ),
+                          isExpanded: item.isExpanded,
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
               ),

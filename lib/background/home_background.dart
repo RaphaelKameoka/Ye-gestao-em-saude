@@ -114,21 +114,24 @@ class _HomeBackgroundState extends State<HomeBackground> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        // backgroundColor: const Color.fromARGB(255, 241, 241, 234),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+            backgroundColor: const Color.fromARGB(255, 241, 241, 234),
             icon: Icon(FontAwesomeIcons.clockRotateLeft, size: 30),
             label: 'Histórico',
           ),
           BottomNavigationBarItem(
+            backgroundColor: const Color.fromARGB(255, 241, 241, 234),
             icon: Icon(FontAwesomeIcons.briefcaseMedical, size: 30),
             label: 'Exames',
           ),
           BottomNavigationBarItem(
+            backgroundColor: const Color.fromARGB(255, 241, 241, 234),
             icon: Icon(FontAwesomeIcons.pills, size: 30),
             label: 'Medicação',
           ),
           BottomNavigationBarItem(
+            backgroundColor: const Color.fromARGB(255, 241, 241, 234),
             icon: Icon(FontAwesomeIcons.calendar, size: 30),
             label: 'Consultas',
           ),
