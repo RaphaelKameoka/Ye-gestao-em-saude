@@ -495,6 +495,9 @@ class _ExamScreenState extends State<ExamScreen> {
                 ),
               ),
             ),
+            SizedBox(height: 10),
+          ],
+        ),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
