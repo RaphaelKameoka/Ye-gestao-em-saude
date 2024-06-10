@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ye_project/appointments.dart';
 import 'package:ye_project/exam.dart';
 import 'package:ye_project/chat.dart';
 import 'package:ye_project/history.dart';
@@ -84,7 +85,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
               HistoryScreen(userName: userName),
               ExamScreen(userName: userName, avatar: avatar),
               MedicationScreen(userName: userName),
-              // ConsultasScreen(userName: userName)
+              AppointmentsScreen(userName: userName)
             ],
           ),
           Positioned(
