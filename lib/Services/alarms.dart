@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:uuid/uuid.dart';
-import '../notification.dart';
+import 'notification.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../api.dart';
