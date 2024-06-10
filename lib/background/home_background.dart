@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ye_project/exam.dart';
 import 'package:ye_project/chat.dart';
 import 'package:ye_project/history.dart';
 import 'package:ye_project/medication.dart';
-
 
 class HomeBackground extends StatefulWidget {
   final String nextScreen;
@@ -27,8 +25,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
     super.initState();
     userName = '';
     avatar = '';
-    _pageController =
-        PageController(initialPage: 1);
+    _pageController = PageController(initialPage: 1);
   }
 
   @override
@@ -40,8 +37,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
   void _getFromArguments() {
     final ModalRoute? modalRoute = ModalRoute.of(context);
     if (modalRoute != null) {
-      final Map<String, dynamic>? args =
-          modalRoute.settings.arguments as Map<String, dynamic>?;
+      final Map<String, dynamic>? args = modalRoute.settings.arguments as Map<String, dynamic>?;
       if (args != null) {
         setState(() {
           userName = args['user_name'] as String? ?? '';
@@ -68,6 +64,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 241, 241, 234),
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
@@ -87,6 +84,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
               HistoryScreen(userName: userName),
               ExamScreen(userName: userName, avatar: avatar),
               MedicationScreen(userName: userName),
+              // ConsultasScreen(userName: userName)
             ],
           ),
           Positioned(
@@ -116,27 +114,33 @@ class _HomeBackgroundState extends State<HomeBackground> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 241, 241, 234),
+        // backgroundColor: const Color.fromARGB(255, 241, 241, 234),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.clockRotateLeft, size: 30),
             label: 'Histórico',
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.briefcaseMedical, size: 30,),
+            icon: Icon(FontAwesomeIcons.briefcaseMedical, size: 30),
             label: 'Exames',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.pills, size: 30),
             label: 'Medicação',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.calendar, size: 30),
+            label: 'Consultas',
+          ),
         ],
+        showUnselectedLabels: true,
         currentIndex: _selectedIndex,
         selectedItemColor: const Color(0xFF6B9683),
+        unselectedItemColor: Colors.grey,
         selectedLabelStyle: const TextStyle(color: Color(0xFF6B9683)),
+        unselectedLabelStyle: TextStyle(color: Colors.grey),
         onTap: _onItemTapped,
       ),
     );
   }
 }
-

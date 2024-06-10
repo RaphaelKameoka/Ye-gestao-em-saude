@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ye_project/background/home_background.dart';
 import 'package:ye_project/history.dart';
 import 'package:ye_project/reference_values.dart';
 import 'api.dart';
@@ -40,7 +41,6 @@ class _ExamScreenState extends State<ExamScreen> {
   Color pesoClass = Colors.transparent;
   bool _showOverlay = false;
   bool _showNotes = false;
-  bool _showHistory = false;
   @override
   void initState() {
     super.initState();
@@ -495,35 +495,6 @@ class _ExamScreenState extends State<ExamScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _showHistory = true;
-                });
-              },
-              style: ButtonStyle(
-                padding: MaterialStateProperty.all(
-                  const EdgeInsetsDirectional.symmetric(
-                      horizontal: 88, vertical: 15),
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(0),
-                  ),
-                ),
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  const Color.fromRGBO(251, 245, 252, 1.0)!,
-                ),
-              ),
-              child: Text("Exames anteriores",
-                style: GoogleFonts.montserrat(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),),
-            ),
-          ],
-        ),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
