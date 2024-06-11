@@ -19,27 +19,30 @@ class MedicationScreen extends StatefulWidget {
 class Item {
   Item({
     required this.medication,
-    required this.period,
+    required this.from,
+    required this.to,
     required this.interval,
   });
 
   String medication;
-  String period;
+  String from;
+  String to;
   String interval;
 }
 
-List<Item> generateItems(List<Map<String, String>> dataList) {
+
+List<Item> generateItems(List<Map<String, dynamic>> dataList) {
   return List<Item>.generate(dataList.length, (int index) {
     return Item(
-      medication: dataList[index]['medication'] ?? 'N/A',
-      period: dataList[index]['period'] ?? 'N/A',
-      interval: dataList[index]['interval'] ?? 'N/A',
+      medication: dataList[index]['medicacao'] ?? 'N/A',
+      from: dataList[index]['inicio'] ?? 'N/A',
+      to: dataList[index]['fim'] ?? 'N/A',
+      interval: dataList[index]['intervalo'] ?? 'N/A',
     );
   });
 }
 
 class _MedicationScreenState extends State<MedicationScreen> {
-  List<Item> _data = [];
   final ApiClient apiClient = ApiClient();
   bool _showOverlay = false;
   bool _insertMedication = false;
@@ -49,15 +52,43 @@ class _MedicationScreenState extends State<MedicationScreen> {
   TextEditingController medicationController = TextEditingController();
   late String fromInput;
   late String toInput;
+  List<Item> _data = [];
+  List<Map<String, dynamic>> data = [];
 
-  void _showGifClick() {
+  Future<void> _getHistory() async {
+    _showGif();
+    try {
+      final http.Response response = await apiClient.post('/get_medication', {
+        'user_name': widget.userName,
+      });
+      if (response.statusCode == 200) {
+        setState(() {
+          _showOverlay = false;
+          data = List<Map<String, dynamic>>.from(jsonDecode(response.body));;
+          _data = generateItems(data);
+        });
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  String formatDate(String dateTime) {
+    final DateFormat inputFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final DateFormat outputFormat = DateFormat('dd/MM/yyyy');
+
+    DateTime date = inputFormat.parse(dateTime);
+
+    String formattedDate = outputFormat.format(date);
+
+    return formattedDate;
+  }
+
+  void _showGif() {
     setState(() {
       _showOverlay = true;
-    });
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _showOverlay = false;
-      });
     });
   }
 
@@ -78,9 +109,8 @@ class _MedicationScreenState extends State<MedicationScreen> {
           _showOverlay = false;
           _insertMedication = false;
         });
-
+        _getHistory();
       } else {
-        // Navigator.pushNamed(context, '/login_error');
         print("Algo deu errado");
       }
     } catch (e) {
@@ -101,18 +131,11 @@ class _MedicationScreenState extends State<MedicationScreen> {
 
   @override
   void initState() {
+    _getHistory();
     from = DateTime.now();
     to = from.add(Duration(days: 3));
     super.initState();
-    List<Map<String, String>> dataList = [
-      {
-        'medication': 'Paracetamol',
-        'period': '30/05/2024 - 20/06/2024',
-        'interval': '8 horas'
-      },
-    ];
-    _data = generateItems(dataList);
-    _showGifClick();
+    _data = generateItems(data);
   }
 
   @override
@@ -157,7 +180,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                           ),
                         ),
                         Text(
-                          item.period,
+                          '${formatDate(item.from)} - ${formatDate(item.to)}',
                           style: GoogleFonts.montserrat(
                             color: const Color(0xFF6B9683),
                             fontWeight: FontWeight.bold,
@@ -168,7 +191,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                     ),
                     Spacer(),
                     Text(
-                      item.interval,
+                      '${item.interval} horas',
                       style: GoogleFonts.montserrat(
                         color: const Color(0xFF6B9683),
                         fontWeight: FontWeight.bold,
