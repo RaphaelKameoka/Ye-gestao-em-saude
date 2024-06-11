@@ -56,6 +56,29 @@ class _HistoryScreenState extends State<HistoryScreen> {
       });
     });
   }
+  Future<void> _test() async {
+    try {
+      final http.Response response = await apiClient.post('/insert_medication', {
+      });
+      // List<Map<String, String>> dataList = [
+      //   {'date': '20/05/2024', 'values': '12/8', 'condition': 'Normal'},
+      //   {'date': '10/03/2024', 'values': '11/8', 'condition': 'Normal'},
+      //   {'date': '02/01/2024', 'values': '17/11', 'condition': 'Elevado'},
+      //   {'date': '02/01/2024', 'values': '11/11', 'condition': 'Elevado'},
+      // ];
+      if (response.statusCode == 200) {
+        setState(() {
+          // data = List<Map<String, dynamic>>.from(jsonDecode(response.body));;
+          // _data = generateItems(data);
+          print("Funcionouu");
+        });
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   Future<void> _getHistory() async {
     try {
@@ -180,6 +203,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 );
               }).toList(),
             ),
+    ElevatedButton(
+    onPressed: () {_test();},
+    child: Text("Cadastrar medicamento",style: GoogleFonts.montserrat(
+    color: Colors.black, fontWeight: FontWeight.bold)
+    )),
           ],
         ),
         if (_showOverlay)

@@ -1,8 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ye_project/background/home_background.dart';
-import 'package:ye_project/history.dart';
 import 'package:ye_project/reference_values.dart';
 import 'api.dart';
 import 'custom_expansion_panel.dart';

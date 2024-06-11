@@ -5,6 +5,7 @@ import 'api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:ui';
+import 'package:intl/intl.dart';
 
 class MedicationScreen extends StatefulWidget {
   final String userName;
@@ -45,6 +46,9 @@ class _MedicationScreenState extends State<MedicationScreen> {
   late DateTime from;
   late DateTime to;
   int _selectedInterval = 8;
+  TextEditingController medicationController = TextEditingController();
+  late String fromInput;
+  late String toInput;
 
   void _showGifClick() {
     setState(() {
@@ -57,10 +61,48 @@ class _MedicationScreenState extends State<MedicationScreen> {
     });
   }
 
+  Future<void> _handleCadastrarPressed() async {
+    try {
+      setState(() {
+        _showOverlay = true;
+      });
+      final http.Response response = await apiClient.post('/insert_medication', {
+        'medication': medicationController.text,
+        'interval': _selectedInterval,
+        'as_from': transformDateFormat(from.toString()).toString(),
+        'to': transformDateFormat(to.toString()).toString(),
+        'user_name': widget.userName
+      });
+      if (response.statusCode == 200) {
+        setState(() {
+          _showOverlay = false;
+          _insertMedication = false;
+        });
+
+      } else {
+        // Navigator.pushNamed(context, '/login_error');
+        print("Algo deu errado");
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  String transformDateFormat(String inputDate) {
+    DateFormat inputFormat = DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS');
+    DateFormat outputFormat = DateFormat('MM/dd/yy HH:mm:ss');
+
+    DateTime dateTime = inputFormat.parse(inputDate);
+
+    String outputDate = outputFormat.format(dateTime);
+
+    return outputDate;
+  }
+
   @override
   void initState() {
     from = DateTime.now();
-    to = from.add(Duration(days: 30));
+    to = from.add(Duration(days: 3));
     super.initState();
     List<Map<String, String>> dataList = [
       {
@@ -163,14 +205,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
           ),
         ),
       ),
-      if (_showOverlay)
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-          child: Container(
-            color: Colors.black.withOpacity(0.5),
-            child: Center(child: Image.asset('assets/gifs/loading.gif')),
-          ),
-        ),
+
       if (_insertMedication)
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
@@ -212,7 +247,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                         width: MediaQuery.of(context).size.width * 0.5,
                         height: 35,
                         child: TextFormField(
-                          // controller: emailController,
+                          controller: medicationController,
                           textAlign: TextAlign.center,
                           textAlignVertical: TextAlignVertical.top,
                           decoration: InputDecoration(
@@ -276,7 +311,16 @@ class _MedicationScreenState extends State<MedicationScreen> {
                         );
                         if (dateTime != null) {
                           setState(() {
-                            to = dateTime;
+                            to = DateTime(
+                              dateTime.year,
+                              dateTime.month,
+                              dateTime.day,
+                              from.hour,
+                              from.minute,
+                              from.second,
+                              from.millisecond,
+                              from.microsecond,
+                            );
                           });
                         }
                       },
@@ -337,10 +381,13 @@ class _MedicationScreenState extends State<MedicationScreen> {
                       height: 65,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        print(transformDateFormat(from.toString()).toString());
+                        print(transformDateFormat(to.toString()).toString());
+                        _handleCadastrarPressed();
+                        },
                       child: Text("Cadastrar medicamento",style: GoogleFonts.montserrat(
-                          color: Colors.black, fontWeight: FontWeight.bold)
-    ),
+                          color: Colors.black, fontWeight: FontWeight.bold)),
                       style: ButtonStyle(
                         padding: MaterialStateProperty.all(
                           const EdgeInsetsDirectional.symmetric(
@@ -361,6 +408,14 @@ class _MedicationScreenState extends State<MedicationScreen> {
                 ),
               ),
             ),
+          ),
+        ),
+      if (_showOverlay)
+        BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+          child: Container(
+            color: Colors.black.withOpacity(0.5),
+            child: Center(child: Image.asset('assets/gifs/loading.gif')),
           ),
         ),
     ]);
