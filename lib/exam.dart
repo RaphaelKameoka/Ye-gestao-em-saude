@@ -1,8 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ye_project/background/home_background.dart';
-import 'package:ye_project/history.dart';
 import 'package:ye_project/reference_values.dart';
 import 'api.dart';
 import 'custom_expansion_panel.dart';
@@ -84,10 +82,8 @@ class _ExamScreenState extends State<ExamScreen> {
         warning = true;
         pressaoClass = Colors.yellow;
       } else if (pressao_state == 'otimo') {
-        warning = false;
         pressaoClass = Colors.green;
       } else if (pressao_state == 'normal') {
-        warning = false;
         pressaoClass = Colors.yellow;
       } else if (pressao_state == 'elevado') {
         warning = true;
@@ -106,7 +102,6 @@ class _ExamScreenState extends State<ExamScreen> {
         warning = true;
         glicemiaClass = Colors.orange;
       } else if (glicemia_state == "normal") {
-        warning = false;
         glicemiaClass = Colors.green;
       } else if (glicemia_state == "elevado") {
         warning = true;
@@ -123,7 +118,6 @@ class _ExamScreenState extends State<ExamScreen> {
         warning = true;
         imcClass = Colors.orange;
       } else if (imc_state == "normal") {
-        warning = false;
         imcClass = Colors.green;
       } else if (imc_state == "sobrepeso") {
         warning = true;
@@ -199,8 +193,8 @@ class _ExamScreenState extends State<ExamScreen> {
         final Map<String, dynamic> data = jsonDecode(response.body);
         peso = data['peso'];
         altura = data['altura'];
-        pressao = data['pressao'];
-        glicemia = data['glicemia'];
+        pressao = data['pressao'] ;
+        glicemia = data['glicemia'] ?? 'N/A';
         imc = data['imc'];
         pressao_state = data['pressao_state'];
         glicemia_state = data['glicemia_state'];
@@ -269,6 +263,7 @@ class _ExamScreenState extends State<ExamScreen> {
               onPressed: () {
                 setState(() {
                   _showNotes = true;
+                  print(warning);
                 });
               }),
         ),

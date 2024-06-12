@@ -5,6 +5,7 @@ import 'api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:ui';
+import 'package:intl/intl.dart';
 
 class MedicationScreen extends StatefulWidget {
   final String userName;
@@ -18,59 +19,123 @@ class MedicationScreen extends StatefulWidget {
 class Item {
   Item({
     required this.medication,
-    required this.period,
+    required this.from,
+    required this.to,
     required this.interval,
   });
 
   String medication;
-  String period;
+  String from;
+  String to;
   String interval;
 }
 
-List<Item> generateItems(List<Map<String, String>> dataList) {
+
+List<Item> generateItems(List<Map<String, dynamic>> dataList) {
   return List<Item>.generate(dataList.length, (int index) {
     return Item(
-      medication: dataList[index]['medication'] ?? 'N/A',
-      period: dataList[index]['period'] ?? 'N/A',
-      interval: dataList[index]['interval'] ?? 'N/A',
+      medication: dataList[index]['medicacao'] ?? 'N/A',
+      from: dataList[index]['inicio'] ?? 'N/A',
+      to: dataList[index]['fim'] ?? 'N/A',
+      interval: dataList[index]['intervalo'] ?? 'N/A',
     );
   });
 }
 
 class _MedicationScreenState extends State<MedicationScreen> {
-  List<Item> _data = [];
   final ApiClient apiClient = ApiClient();
   bool _showOverlay = false;
   bool _insertMedication = false;
   late DateTime from;
   late DateTime to;
   int _selectedInterval = 8;
+  TextEditingController medicationController = TextEditingController();
+  late String fromInput;
+  late String toInput;
+  List<Item> _data = [];
+  List<Map<String, dynamic>> data = [];
 
-  void _showGifClick() {
+  Future<void> _getHistory() async {
+    _showGif();
+    try {
+      final http.Response response = await apiClient.post('/get_medication', {
+        'user_name': widget.userName,
+      });
+      if (response.statusCode == 200) {
+        setState(() {
+          _showOverlay = false;
+          data = List<Map<String, dynamic>>.from(jsonDecode(response.body));;
+          _data = generateItems(data);
+        });
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  String formatDate(String dateTime) {
+    final DateFormat inputFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final DateFormat outputFormat = DateFormat('dd/MM/yyyy');
+
+    DateTime date = inputFormat.parse(dateTime);
+
+    String formattedDate = outputFormat.format(date);
+
+    return formattedDate;
+  }
+
+  void _showGif() {
     setState(() {
       _showOverlay = true;
     });
-    Future.delayed(const Duration(seconds: 2), () {
+  }
+
+  Future<void> _handleCadastrarPressed() async {
+    try {
       setState(() {
-        _showOverlay = false;
+        _showOverlay = true;
       });
-    });
+      final http.Response response = await apiClient.post('/insert_medication', {
+        'medication': medicationController.text,
+        'interval': _selectedInterval,
+        'as_from': transformDateFormat(from.toString()).toString(),
+        'to': transformDateFormat(to.toString()).toString(),
+        'user_name': widget.userName
+      });
+      if (response.statusCode == 200) {
+        setState(() {
+          _showOverlay = false;
+          _insertMedication = false;
+        });
+        _getHistory();
+      } else {
+        print("Algo deu errado");
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  String transformDateFormat(String inputDate) {
+    DateFormat inputFormat = DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS');
+    DateFormat outputFormat = DateFormat('MM/dd/yy HH:mm:ss');
+
+    DateTime dateTime = inputFormat.parse(inputDate);
+
+    String outputDate = outputFormat.format(dateTime);
+
+    return outputDate;
   }
 
   @override
   void initState() {
+    _getHistory();
     from = DateTime.now();
-    to = from.add(Duration(days: 30));
+    to = from.add(Duration(days: 3));
     super.initState();
-    List<Map<String, String>> dataList = [
-      {
-        'medication': 'Paracetamol',
-        'period': '30/05/2024 - 20/06/2024',
-        'interval': '8 horas'
-      },
-    ];
-    _data = generateItems(dataList);
-    _showGifClick();
+    _data = generateItems(data);
   }
 
   @override
@@ -115,7 +180,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                           ),
                         ),
                         Text(
-                          item.period,
+                          '${formatDate(item.from)} - ${formatDate(item.to)}',
                           style: GoogleFonts.montserrat(
                             color: const Color(0xFF6B9683),
                             fontWeight: FontWeight.bold,
@@ -126,7 +191,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                     ),
                     Spacer(),
                     Text(
-                      item.interval,
+                      '${item.interval} horas',
                       style: GoogleFonts.montserrat(
                         color: const Color(0xFF6B9683),
                         fontWeight: FontWeight.bold,
@@ -163,14 +228,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
           ),
         ),
       ),
-      if (_showOverlay)
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-          child: Container(
-            color: Colors.black.withOpacity(0.5),
-            child: Center(child: Image.asset('assets/gifs/loading.gif')),
-          ),
-        ),
+
       if (_insertMedication)
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
@@ -212,7 +270,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                         width: MediaQuery.of(context).size.width * 0.5,
                         height: 35,
                         child: TextFormField(
-                          // controller: emailController,
+                          controller: medicationController,
                           textAlign: TextAlign.center,
                           textAlignVertical: TextAlignVertical.top,
                           decoration: InputDecoration(
@@ -247,17 +305,17 @@ class _MedicationScreenState extends State<MedicationScreen> {
                       child: Text("${from.day}/${from.month}/${from.year}",
                           style: GoogleFonts.montserrat(color: Colors.black)),
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
+                        padding: WidgetStateProperty.all(
                           EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10),
                         ),
                         shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                            WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                           Colors.grey[350]!,
                         ),
                       ),
@@ -276,29 +334,38 @@ class _MedicationScreenState extends State<MedicationScreen> {
                         );
                         if (dateTime != null) {
                           setState(() {
-                            to = dateTime;
+                            to = DateTime(
+                              dateTime.year,
+                              dateTime.month,
+                              dateTime.day,
+                              from.hour,
+                              from.minute,
+                              from.second,
+                              from.millisecond,
+                              from.microsecond,
+                            );
                           });
                         }
                       },
                       child: Text("${to.day}/${to.month}/${to.year}",
                           style: GoogleFonts.montserrat(color: Colors.black)),
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
+                        padding: WidgetStateProperty.all(
                           EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10),
                         ),
                         shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                            WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                           Colors.grey[350]!,
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Text(
@@ -306,7 +373,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                       style: GoogleFonts.montserrat(
                           color: Colors.grey, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
@@ -337,23 +404,24 @@ class _MedicationScreenState extends State<MedicationScreen> {
                       height: 65,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _handleCadastrarPressed();
+                        },
                       child: Text("Cadastrar medicamento",style: GoogleFonts.montserrat(
-                          color: Colors.black, fontWeight: FontWeight.bold)
-    ),
+                          color: Colors.black, fontWeight: FontWeight.bold)),
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
+                        padding: WidgetStateProperty.all(
                           const EdgeInsetsDirectional.symmetric(
                               horizontal: 20, vertical: 20),
                         ),
                         shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                            WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromRGBO(107, 150, 131, 1)!,
+                        backgroundColor: WidgetStateProperty.all<Color>(
+                          const Color.fromRGBO(107, 150, 131, 1),
                         ),
                       ),
                     ),
@@ -361,6 +429,14 @@ class _MedicationScreenState extends State<MedicationScreen> {
                 ),
               ),
             ),
+          ),
+        ),
+      if (_showOverlay)
+        BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+          child: Container(
+            color: Colors.black.withOpacity(0.5),
+            child: Center(child: Image.asset('assets/gifs/loading.gif')),
           ),
         ),
     ]);

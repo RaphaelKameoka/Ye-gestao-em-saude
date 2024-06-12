@@ -63,12 +63,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
         'user_name': widget.userName,
         'filtro': dropdownValue,
       });
-      // List<Map<String, String>> dataList = [
-      //   {'date': '20/05/2024', 'values': '12/8', 'condition': 'Normal'},
-      //   {'date': '10/03/2024', 'values': '11/8', 'condition': 'Normal'},
-      //   {'date': '02/01/2024', 'values': '17/11', 'condition': 'Elevado'},
-      //   {'date': '02/01/2024', 'values': '11/11', 'condition': 'Elevado'},
-      // ];
       if (response.statusCode == 200) {
         setState(() {
           data = List<Map<String, dynamic>>.from(jsonDecode(response.body));;
