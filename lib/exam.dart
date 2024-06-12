@@ -191,14 +191,14 @@ class _ExamScreenState extends State<ExamScreen> {
       });
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
-        peso = data['peso'];
-        altura = data['altura'];
-        pressao = data['pressao'] ;
+        peso = data['peso'] ?? 'N/A';
+        altura = data['altura'] ?? 'N/A';
+        pressao = data['pressao'] ?? 'N/A';
         glicemia = data['glicemia'] ?? 'N/A';
-        imc = data['imc'];
-        pressao_state = data['pressao_state'];
-        glicemia_state = data['glicemia_state'];
-        imc_state = data['imc_state'];
+        imc = data['imc'] ?? 'N/A';
+        pressao_state = data['pressao_state'] ?? 'N/A';
+        glicemia_state = data['glicemia_state'] ?? 'N/A';
+        imc_state = data['imc_state'] ?? 'N/A';
         setState(() {
           _referenceValues(imc_state, glicemia_state, pressao_state);
         });
