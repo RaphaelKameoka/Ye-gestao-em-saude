@@ -5,6 +5,7 @@ import 'api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:ui';
+import 'package:intl/intl.dart';
 
 class AppointmentsScreen extends StatefulWidget {
   final String userName;
@@ -29,13 +30,13 @@ class Item {
   String time;
 }
 
-List<Item> generateItems(List<Map<String, String>> dataList) {
+List<Item> generateItems(List<Map<String, dynamic>> dataList) {
   return List<Item>.generate(dataList.length, (int index) {
     return Item(
       type: dataList[index]['type'] ?? 'N/A',
       adress: dataList[index]['adress'] ?? 'N/A',
       date: dataList[index]['date'] ?? 'N/A',
-      time: dataList[index]['time'] ?? 'N/A'
+      time: dataList[index]['hour'] ?? 'N/A'
     );
   });
 }
@@ -45,35 +46,88 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
   final ApiClient apiClient = ApiClient();
   bool _showOverlay = false;
   bool _insertAppointment = false;
+  List<Map<String, dynamic>> data = [];
   late DateTime today;
   late TimeOfDay now;
+  TextEditingController adressController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
 
-  void _showGifClick() {
+  Future<void> _getHistory() async {
+    _showGif();
+    try {
+      final http.Response response = await apiClient.post('/get_appointment', {
+        'user_name': widget.userName,
+      });
+      if (response.statusCode == 200) {
+        setState(() {
+          _showOverlay = false;
+          data = List<Map<String, dynamic>>.from(jsonDecode(response.body));;
+          _data = generateItems(data);
+        });
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  Future<void> _handleCadastrarPressed() async {
+    _showGif();
+    try {
+      final http.Response response = await apiClient.post('/insert_appointments', {
+        'adress': adressController.text,
+        'type': typeController.text,
+        'as_from': transformDateFormat(today.toString()).toString(),
+        'hour': formatHours(now.hour, now.minute),
+        'user_name': widget.userName
+      });
+      if (response.statusCode == 200) {
+        setState(() {
+          _showOverlay = false;
+          _insertAppointment = false;
+        });
+        _getHistory();
+      } else {
+        print("Algo deu errado");
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  String formatHours(int hour, int minute) {
+    final now = DateTime.now();
+    final formattedTime = DateTime(now.year, now.month, now.day, hour, minute);
+    final DateFormat formatter = DateFormat('MM/dd/yy HH:mm:ss');
+    return formatter.format(formattedTime);
+  }
+
+
+  String transformDateFormat(String inputDate) {
+    DateFormat inputFormat = DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS');
+    DateFormat outputFormat = DateFormat('MM/dd/yy HH:mm:ss');
+
+    DateTime dateTime = inputFormat.parse(inputDate);
+
+    String outputDate = outputFormat.format(dateTime);
+
+    return outputDate;
+  }
+
+  void _showGif() {
     setState(() {
       _showOverlay = true;
-    });
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _showOverlay = false;
-      });
     });
   }
 
   @override
   void initState() {
+    _getHistory();
     today = DateTime.now();
     now = TimeOfDay.now();
     super.initState();
-    List<Map<String, String>> dataList = [
-      {
-        'type': 'Sangue',
-        'adress': 'Rua Antonio Santos',
-        'date': '20/06/2024',
-        'time': '19:10',
-      },
-    ];
-    _data = generateItems(dataList);
-    _showGifClick();
+    _data = generateItems(data);
   }
 
   @override
@@ -114,7 +168,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                           style: GoogleFonts.montserrat(
                             color: const Color(0xFF6B9683),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                         Text(
@@ -178,14 +232,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
           ),
         ),
       ),
-      if (_showOverlay)
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-          child: Container(
-            color: Colors.black.withOpacity(0.5),
-            child: Center(child: Image.asset('assets/gifs/loading.gif')),
-          ),
-        ),
+
       if (_insertAppointment)
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
@@ -227,8 +274,8 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                         width: MediaQuery.of(context).size.width * 0.5,
                         height: 35,
                         child: TextFormField(
+                          controller: adressController,
                           maxLength: null,
-
                           textAlign: TextAlign.center,
                           textAlignVertical: TextAlignVertical.top,
                           decoration: InputDecoration(
@@ -244,7 +291,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                     const SizedBox(height: 10),
                     Text(
                       textAlign: TextAlign.left,
-                      "Tipo de exame",
+                      "Tipo",
                       style: GoogleFonts.montserrat(
                           color: Colors.grey, fontWeight: FontWeight.bold),
                     ),
@@ -254,7 +301,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                         width: MediaQuery.of(context).size.width * 0.5,
                         height: 35,
                         child: TextFormField(
-                          // controller: emailController,
+                          controller: typeController,
                           textAlign: TextAlign.center,
                           textAlignVertical: TextAlignVertical.top,
                           decoration: InputDecoration(
@@ -289,17 +336,17 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                       child: Text("${today.day}/${today.month}/${today.year}",
                           style: GoogleFonts.montserrat(color: Colors.black)),
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
+                        padding: WidgetStateProperty.all(
                           EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10),
                         ),
                         shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
+                        WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                           Colors.grey[350]!,
                         ),
                       ),
@@ -324,17 +371,17 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                       child: Text("${today.hour}:${today.minute}",
                           style: GoogleFonts.montserrat(color: Colors.black)),
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
+                        padding: WidgetStateProperty.all(
                           const EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10),
                         ),
                         shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
+                        WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                           Colors.grey[350]!,
                         ),
                       ),
@@ -343,23 +390,26 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                       height: 35,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        print(now.toString());
+                        _handleCadastrarPressed();
+                      },
                       child: Text("Cadastrar consulta",style: GoogleFonts.montserrat(
                           color: Colors.black, fontWeight: FontWeight.bold)
                       ),
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
+                        padding: WidgetStateProperty.all(
                           const EdgeInsetsDirectional.symmetric(
                               horizontal: 20, vertical: 20),
                         ),
                         shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
+                        WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromRGBO(107, 150, 131, 1)!,
+                        backgroundColor: WidgetStateProperty.all<Color>(
+                          const Color.fromRGBO(107, 150, 131, 1),
                         ),
                       ),
                     ),
@@ -367,6 +417,14 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                 ),
               ),
             ),
+          ),
+        ),
+      if (_showOverlay)
+        BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+          child: Container(
+            color: Colors.black.withOpacity(0.5),
+            child: Center(child: Image.asset('assets/gifs/loading.gif')),
           ),
         ),
     ]);

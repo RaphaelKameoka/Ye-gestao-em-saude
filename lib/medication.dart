@@ -305,17 +305,17 @@ class _MedicationScreenState extends State<MedicationScreen> {
                       child: Text("${from.day}/${from.month}/${from.year}",
                           style: GoogleFonts.montserrat(color: Colors.black)),
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
+                        padding: WidgetStateProperty.all(
                           EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10),
                         ),
                         shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                            WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                           Colors.grey[350]!,
                         ),
                       ),
@@ -350,17 +350,17 @@ class _MedicationScreenState extends State<MedicationScreen> {
                       child: Text("${to.day}/${to.month}/${to.year}",
                           style: GoogleFonts.montserrat(color: Colors.black)),
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
+                        padding: WidgetStateProperty.all(
                           EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10),
                         ),
                         shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                            WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                           Colors.grey[350]!,
                         ),
                       ),
@@ -405,25 +405,23 @@ class _MedicationScreenState extends State<MedicationScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        print(transformDateFormat(from.toString()).toString());
-                        print(transformDateFormat(to.toString()).toString());
                         _handleCadastrarPressed();
                         },
                       child: Text("Cadastrar medicamento",style: GoogleFonts.montserrat(
                           color: Colors.black, fontWeight: FontWeight.bold)),
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
+                        padding: WidgetStateProperty.all(
                           const EdgeInsetsDirectional.symmetric(
                               horizontal: 20, vertical: 20),
                         ),
                         shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                            WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromRGBO(107, 150, 131, 1)!,
+                        backgroundColor: WidgetStateProperty.all<Color>(
+                          const Color.fromRGBO(107, 150, 131, 1),
                         ),
                       ),
                     ),
