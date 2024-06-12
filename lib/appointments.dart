@@ -20,11 +20,13 @@ class Item {
     required this.type,
     required this.adress,
     required this.date,
+    required this.time
   });
 
   String type;
   String adress;
   String date;
+  String time;
 }
 
 List<Item> generateItems(List<Map<String, String>> dataList) {
@@ -33,6 +35,7 @@ List<Item> generateItems(List<Map<String, String>> dataList) {
       type: dataList[index]['type'] ?? 'N/A',
       adress: dataList[index]['adress'] ?? 'N/A',
       date: dataList[index]['date'] ?? 'N/A',
+      time: dataList[index]['time'] ?? 'N/A'
     );
   });
 }
@@ -43,6 +46,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
   bool _showOverlay = false;
   bool _insertAppointment = false;
   late DateTime today;
+  late TimeOfDay now;
 
   void _showGifClick() {
     setState(() {
@@ -58,12 +62,14 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
   @override
   void initState() {
     today = DateTime.now();
+    now = TimeOfDay.now();
     super.initState();
     List<Map<String, String>> dataList = [
       {
         'type': 'Sangue',
         'adress': 'Rua Antonio Santos',
-        'date': '20/06/2024'
+        'date': '20/06/2024',
+        'time': '19:10',
       },
     ];
     _data = generateItems(dataList);
@@ -108,7 +114,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                           style: GoogleFonts.montserrat(
                             color: const Color(0xFF6B9683),
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
                         ),
                         Text(
@@ -121,16 +127,28 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                         ),
                       ],
                     ),
-                    Spacer(),
-                    Text(
-                      item.date,
-                      style: GoogleFonts.montserrat(
-                        color: const Color(0xFF6B9683),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
+                    const Spacer(),
+                    Column(
+                      children: [
+                        Text(
+                          item.date,
+                          style: GoogleFonts.montserrat(
+                            color: const Color(0xFF6B9683),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          item.time,
+                          style: GoogleFonts.montserrat(
+                            color: const Color(0xFF6B9683),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     )
                   ],
@@ -179,7 +197,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                   color: const Color.fromARGB(255, 241, 241, 234),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                margin: EdgeInsets.symmetric(vertical: 200),
+                margin: const EdgeInsets.symmetric(vertical: 200),
                 child: Column(
                   children: [
                     const SizedBox(height: 5),
@@ -188,7 +206,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                       child: Container(
                         alignment: Alignment.topLeft,
                         child: IconButton(
-                            icon: Icon(Icons.keyboard_backspace,color: Colors.grey,),
+                            icon: const Icon(Icons.keyboard_backspace,color: Colors.grey,),
                             iconSize: 35.0,
                             onPressed: () {
                               setState(() {
@@ -286,8 +304,43 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 100,
+                    Text("Hora",
+                        style: GoogleFonts.montserrat(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    ElevatedButton(
+                      onPressed: () async {
+                        final TimeOfDay? dateTime = await showTimePicker(
+                          initialTime: TimeOfDay.now(),
+                          context: context,
+                        );
+                        if (dateTime != null) {
+                          setState(() {
+                            now = dateTime;
+                          });
+                        }
+                      },
+                      child: Text("${today.hour}:${today.minute}",
+                          style: GoogleFonts.montserrat(color: Colors.black)),
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all(
+                          const EdgeInsetsDirectional.symmetric(
+                              horizontal: 60, vertical: 10),
+                        ),
+                        shape:
+                        MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.grey[350]!,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 35,
                     ),
                     ElevatedButton(
                       onPressed: () {},

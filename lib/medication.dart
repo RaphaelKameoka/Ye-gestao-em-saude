@@ -365,7 +365,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Text(
@@ -373,7 +373,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                       style: GoogleFonts.montserrat(
                           color: Colors.grey, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
