@@ -336,17 +336,17 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                       child: Text("${today.day}/${today.month}/${today.year}",
                           style: GoogleFonts.montserrat(color: Colors.black)),
                       style: ButtonStyle(
-                        padding: WidgetStateProperty.all(
+                        padding: MaterialStateProperty.all(
                           EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10),
                         ),
                         shape:
-                        WidgetStateProperty.all<RoundedRectangleBorder>(
+                        MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        backgroundColor: WidgetStateProperty.all<Color>(
+                        backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.grey[350]!,
                         ),
                       ),
@@ -371,17 +371,17 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                       child: Text("${today.hour}:${today.minute}",
                           style: GoogleFonts.montserrat(color: Colors.black)),
                       style: ButtonStyle(
-                        padding: WidgetStateProperty.all(
+                        padding: MaterialStateProperty.all(
                           const EdgeInsetsDirectional.symmetric(
                               horizontal: 60, vertical: 10),
                         ),
                         shape:
-                        WidgetStateProperty.all<RoundedRectangleBorder>(
+                        MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        backgroundColor: WidgetStateProperty.all<Color>(
+                        backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.grey[350]!,
                         ),
                       ),
@@ -398,17 +398,17 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                           color: Colors.black, fontWeight: FontWeight.bold)
                       ),
                       style: ButtonStyle(
-                        padding: WidgetStateProperty.all(
+                        padding: MaterialStateProperty.all(
                           const EdgeInsetsDirectional.symmetric(
                               horizontal: 20, vertical: 20),
                         ),
                         shape:
-                        WidgetStateProperty.all<RoundedRectangleBorder>(
+                        MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        backgroundColor: WidgetStateProperty.all<Color>(
+                        backgroundColor: MaterialStateProperty.all<Color>(
                           const Color.fromRGBO(107, 150, 131, 1),
                         ),
                       ),
