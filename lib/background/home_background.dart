@@ -21,6 +21,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
   int _selectedIndex = 1;
   late PageController _pageController;
 
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +38,11 @@ class _HomeBackgroundState extends State<HomeBackground> {
 
   void _getFromArguments() {
     final ModalRoute? modalRoute = ModalRoute.of(context);
+    // if (widget.nextScreen == "chat_with_ai"){
+    //   setState(() {
+    //
+    //   });
+    // }
     if (modalRoute != null) {
       final Map<String, dynamic>? args = modalRoute.settings.arguments as Map<String, dynamic>?;
       if (args != null) {
@@ -85,7 +91,8 @@ class _HomeBackgroundState extends State<HomeBackground> {
               HistoryScreen(userName: userName),
               ExamScreen(userName: userName, avatar: avatar),
               MedicationScreen(userName: userName),
-              AppointmentsScreen(userName: userName)
+              AppointmentsScreen(userName: userName),
+              ChatScreen()
             ],
           ),
           Positioned(
@@ -93,7 +100,10 @@ class _HomeBackgroundState extends State<HomeBackground> {
             right: 20,
             child: GestureDetector(
               onTap: () {
-                _navigateTo('/chat_with_ai');
+                Navigator.pushNamed(context, '/chat_with_ai', arguments: {
+                  'user_name': userName,
+                  'avatar': avatar
+                });
               },
               child: Container(
                 width: 70,

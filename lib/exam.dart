@@ -44,17 +44,11 @@ class _ExamScreenState extends State<ExamScreen> {
     super.initState();
     _avatar = widget.avatar;
     _getExams();
-    _showGifClick();
   }
 
-  void _showGifClick() {
+  void _showGif() {
     setState(() {
       _showOverlay = true;
-    });
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _showOverlay = false;
-      });
     });
   }
 
@@ -86,7 +80,6 @@ class _ExamScreenState extends State<ExamScreen> {
       } else if (pressao_state == 'normal') {
         pressaoClass = Colors.yellow;
       } else if (pressao_state == 'elevado') {
-        warning = true;
         pressaoClass = Colors.orange;
       } else if (pressao_state == 'muito elevado') {
         pressaoClass = Colors.red;
@@ -149,7 +142,9 @@ class _ExamScreenState extends State<ExamScreen> {
                 leading: const Icon(Icons.photo_library),
                 title: const Text('Gallery'),
                 onTap: () {
-                  _pickImage(ImageSource.gallery);
+                  setState(() {
+                    _pickImage(ImageSource.gallery);
+                  });
                   Navigator.of(context).pop();
                 },
               ),
@@ -157,7 +152,9 @@ class _ExamScreenState extends State<ExamScreen> {
                 leading: const Icon(Icons.photo_camera),
                 title: const Text('Camera'),
                 onTap: () {
-                  _pickImage(ImageSource.camera);
+                  setState(() {
+                    _pickImage(ImageSource.camera);
+                  });
                   Navigator.of(context).pop();
                 },
               ),
@@ -185,21 +182,23 @@ class _ExamScreenState extends State<ExamScreen> {
   }
 
   Future<void> _getExams() async {
+    _showGif();
     try {
       final http.Response response = await apiClient.post('/get_exams', {
         'user_name': widget.userName,
       });
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 404) {
         final Map<String, dynamic> data = jsonDecode(response.body);
-        peso = data['peso'];
-        altura = data['altura'];
-        pressao = data['pressao'] ;
+        peso = data['peso'] ?? 'N/A';
+        altura = data['altura'] ?? 'N/A';
+        pressao = data['pressao']  ?? 'N/A';
         glicemia = data['glicemia'] ?? 'N/A';
-        imc = data['imc'];
-        pressao_state = data['pressao_state'];
-        glicemia_state = data['glicemia_state'];
-        imc_state = data['imc_state'];
+        imc = data['imc'] ?? 'N/A';
+        pressao_state = data['pressao_state'] ?? 'N/A';
+        glicemia_state = data['glicemia_state']?? 'N/A';
+        imc_state = data['imc_state']?? 'N/A';
         setState(() {
+          _showOverlay = false;
           _referenceValues(imc_state, glicemia_state, pressao_state);
         });
       } else {
@@ -234,7 +233,19 @@ class _ExamScreenState extends State<ExamScreen> {
     }
   }
 
+  void _showGifClick() {
+    setState(() {
+      _showOverlay = true;
+    });
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        _showOverlay = false;
+      });
+    });
+  }
+
   Future<void> _sendImageForText(String base64Image) async {
+    _showGif();
     try {
       final http.Response response = await apiClient.post('/get_text', {
         'user_name': widget.userName,
@@ -242,6 +253,9 @@ class _ExamScreenState extends State<ExamScreen> {
       });
 
       if (response.statusCode == 200) {
+        setState(() {
+          _showOverlay = false;
+        });
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -414,7 +428,9 @@ class _ExamScreenState extends State<ExamScreen> {
                                                 fontSize: 20)),
                                       ),
                                     ),
-                                    Text(glicemia + " mg/dL",
+                                    Text(
+                                      glicemia != "N/A" ?
+                                        glicemia + " mg/dL" : glicemia,
                                         style: GoogleFonts.montserrat(
                                             color: glicemiaClass,
                                             fontWeight: FontWeight.bold,
@@ -443,7 +459,8 @@ class _ExamScreenState extends State<ExamScreen> {
                                                 fontSize: 20)),
                                       ),
                                     ),
-                                    Text(peso + " kg",
+                                    Text(peso != "N/A" ?
+                                        peso + " kg" : peso,
                                         style: GoogleFonts.montserrat(
                                             color: pesoClass,
                                             fontWeight: FontWeight.bold,
